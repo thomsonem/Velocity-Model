@@ -11,7 +11,11 @@
 #include <math.h>
 #include <string.h>
 #include <assert.h>
+<<<<<<< HEAD
 #include "constants.h" //Transfer
+=======
+#include "constants.h"
+>>>>>>> branch 'master' of ssh://git@github.com/thomsonem/Velocity-Model.git
 #include "structs.h"
 #include "functions.h"
 
