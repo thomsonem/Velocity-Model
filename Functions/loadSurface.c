@@ -28,6 +28,9 @@ surfRead *loadSurface(char *fileName)
 {
     FILE *file;
     file = fopen(fileName, "r");
+    if (file == NULL) {
+    	perror("Error");
+    }
     surfRead *surfData;
     surfData = malloc(sizeof(surfRead));
     

@@ -42,7 +42,7 @@ int main(void)
 	printf("Generating model version %f.\n", modelVersion.version);
 
     int profileRequired = 0; // set as 1 if a velocity profile is requires at this location, else set to 0
-    int modelInterrogation = 0; // set as 1 if a velocity slice extraction is required from the generated model
+    int modelInterrogation = 1; // set as 1 if a velocity slice extraction is required from the generated model
     int figureGeneration = 1; // set as 1 if high resolution figure is to be generated
     
     globalDataValues *globDataVals = NULL;
@@ -54,11 +54,11 @@ int main(void)
     {
         generateProfile(modelOrigin);
     }
-	else if (modelInterrogation == 1)
+	else if (modelInterrogation == 0)
     {
 		// generate the model grid
 		location = generateModelGrid(modelOrigin, modelExtent);
-		printf("%lf %lf %lf %lf\n", location->maxLat, location->minLat, location->maxLon, location->minLon);
+		// printf("%lf %lf %lf %lf\n", location->maxLat, location->minLat, location->maxLon, location->minLon);
 
         // obtain surface filenames based off version number
         surfNames surfSubModNames;
@@ -71,7 +71,7 @@ int main(void)
         globDataVals = assignValues(modelVersion, location, surfSubModNames, surfDepsGlob);
         
         // write data to file
-        //writeCVMData(location, globDataVals);
+        writeCVMData(location, globDataVals);
         
 
         // slice extent struct

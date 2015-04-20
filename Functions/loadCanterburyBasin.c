@@ -32,8 +32,8 @@ void loadCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData
     basinData->nSurf[basinNum] = 12;
     
     
-    // basin boundaries must be completly encompassed within higher level boundaries
-    // ie basin [0] must be completely within basin [0] in order to enforce the depths properley
+    // basin boundaries must be completely encompassed within higher level boundaries
+    // ie basin [0] must be completely within basin [0] in order to enforce the depths properly
     
     basinData->nBoundaries[basinNum] = 2;
     basinData->boundaryFileName[basinNum][0] = "QuaternarySurfacesBoundary.txt";

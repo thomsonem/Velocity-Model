@@ -1,0 +1,4 @@
+export PATH=$PATH:~/Data/1D_Velocity_Model:~/Data/Canterbury_Basin:~/Data/Tomo
+echo "$PATH"
+gcc -Wall -g -std=c99 -o CVM *.c -lm -I /home/ethan/workspace/Velocity-Model/Headers
+valgrind ./CVM
