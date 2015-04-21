@@ -37,55 +37,55 @@ void loadBasinSurfaces(gridStruct *location, int basinNum, globalBasinData *basi
     {
         if(strcmp(basinData->surf[basinNum][i], "DEM")==0)
         {
-            fileName = "DEM.in";
+            fileName = "Data/DEM/DEM.in";
         }
         else if(strcmp(basinData->surf[basinNum][i], "RiccartonTop")==0)
         {
-            fileName = "RiccartonTop.in";
+            fileName = "Data/Canterbury_Basin/Quaternary/RiccartonTop.in";
         }
         else if(strcmp(basinData->surf[basinNum][i], "BromleyTop") == 0)
         {
-            fileName = "RiccartonGravelsBottom.in";
+            fileName = "Data/Canterbury_Basin/Quaternary/RiccartonGravelsBottom.in";
         }
         else if(strcmp(basinData->surf[basinNum][i], "BromleyTop") == 0)
         {
-            fileName = "BromleyTop.in";
+            fileName = "Data/Canterbury_Basin/Quaternary/BromleyTop.in";
         }
         else if(strcmp(basinData->surf[basinNum][i], "LinwoodTop") == 0)
         {
-            fileName = "LinwoodTop.in";
+            fileName = "Data/Canterbury_Basin/Quaternary/LinwoodTop.in";
         }
         else if(strcmp(basinData->surf[basinNum][i], "HeathcoteTop") == 0)
         {
-            fileName = "HeathcoteTop.in";
+            fileName = "Data/Canterbury_Basin/Quaternary/HeathcoteTop.in";
         }
         else if(strcmp(basinData->surf[basinNum][i], "BurwoodTop") == 0)
         {
-            fileName = "BurwoodTop.in";
+            fileName = "Data/Canterbury_Basin/Quaternary/BurwoodTop.in";
         }
         else if(strcmp(basinData->surf[basinNum][i], "ShirleyTop") == 0)
         {
-            fileName = "ShirleyTop.in";
+            fileName = "Data/Canterbury_Basin/Quaternary/ShirleyTop.in";
         }
         else if(strcmp(basinData->surf[basinNum][i], "PlioceneTop") == 0)
         {
-            fileName = "PlioceneTop.in";
+            fileName = "Data/Canterbury_Basin/Pre_Quaternary/PlioceneTop.in";
         }
         else if(strcmp(basinData->surf[basinNum][i], "MioceneTop") == 0)
         {
-            fileName = "MioceneTop.in";
+            fileName = "Data/Canterbury_Basin/Pre_Quaternary/MioceneTop.in";
         }
         else if(strcmp(basinData->surf[basinNum][i], "PaloegeneTop") == 0)
         {
-            fileName = "PaloegeneTop.in";
+            fileName = "Data/Canterbury_Basin/Pre_Quaternary/PaloegeneTop.in";
         }
         else if(strcmp(basinData->surf[basinNum][i], "CretaceousTop") == 0)
         {
-            fileName = "CretaceousTop.in";
+            fileName = "Data/Canterbury_Basin/Pre_Quaternary/CretaceousTop.in";
         }
         else if(strcmp(basinData->surf[basinNum][i], "BasementTop") == 0)
         {
-            fileName = "BasementTop.in";
+            fileName = "Data/Canterbury_Basin/Pre_Quaternary/BasementTop.in";
         }
         else
         {

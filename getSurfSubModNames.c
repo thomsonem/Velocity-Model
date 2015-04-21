@@ -28,8 +28,8 @@ surfNames getSurfSubModNames(modVersion modelVersion)
 {
     surfNames surfSubModNames;
     
-    // Model Version 1.0
-    if(modelVersion.version == 1.0)
+    // Model Version 0.1, 1D velocity sub Model
+    if(modelVersion.version == 0.1)
     {
         // define the number of surfaces and sub models
         surfSubModNames.nSurf = 2;
@@ -45,8 +45,26 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         surfSubModNames.nBasin = 0;
         
     }
-    //  Model Version 1.1  w/ CHCH BASIN and tomography
-    else if(modelVersion.version == 1.1)
+    // Model Version 0.2, EP Tomography
+    if(modelVersion.version == 0.2)
+    {
+        // define the number of surfaces and sub models
+        surfSubModNames.nSurf = 2;
+        surfSubModNames.nVeloSubMod = 1;
+
+        // insert surface surface keywords
+        surfSubModNames.surf[0] = "posInfSurf";
+        surfSubModNames.surf[1] = "negInfSurf";
+
+        // insert velocity submodel names
+        surfSubModNames.veloSubMod[0] = "EPtomo2010subMod";
+
+        surfSubModNames.nBasin = 0;
+
+    }
+
+    //  Model Version 0.3  CHCH BASIN
+    else if(modelVersion.version ==0.3)
     {
         // define the number of surfaces and sub models
         surfSubModNames.nSurf = 3;
@@ -59,15 +77,36 @@ surfNames getSurfSubModNames(modVersion modelVersion)
 
         // insert velocity submodel names
         surfSubModNames.veloSubMod[0] = "NaNsubMod";
-        surfSubModNames.veloSubMod[1] = "EPtomo2010subMod";
+        surfSubModNames.veloSubMod[1] = "NaNsubMod";
         
         // insert basin name / number
         surfSubModNames.basin[0] = "CANTERBURY_BASIN";
         surfSubModNames.nBasin = 1;
 
     }
-    //  Model Version 1.2  w/ CHCH BASIN and 1D velocity model
-    else if(modelVersion.version == 1.2)
+    //  Model Version 0.4  w/ CHCH BASIN and 1D velocity model
+    else if(modelVersion.version == 0.4)
+    {
+        // define the number of surfaces and sub models
+        surfSubModNames.nSurf = 3;
+        surfSubModNames.nVeloSubMod = 2;
+
+        // insert surface surface keywords
+        surfSubModNames.surf[0] = "posInfSurf";
+        surfSubModNames.surf[1] = "demSurf";
+        surfSubModNames.surf[2] = "negInfSurf";
+
+        // insert velocity submodel names
+        surfSubModNames.veloSubMod[0] = "NaNsubMod";
+        surfSubModNames.veloSubMod[1] = "v1DsubMod";
+
+        // insert basin name / number
+        surfSubModNames.basin[0] = "CANTERBURY_BASIN";
+        surfSubModNames.nBasin = 1;
+
+    }
+    //  Model Version 0.5  w/ CHCH BASIN and 1D velocity model
+    else if(modelVersion.version == 0.5)
     {
         // define the number of surfaces and sub models
         surfSubModNames.nSurf = 3;
@@ -87,7 +126,6 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         surfSubModNames.nBasin = 1;
         
     }
-
     assert(surfSubModNames.nSurf==(surfSubModNames.nVeloSubMod+1));
     printf("Surface Submodel Names Successfully Obtained.\n");
     return surfSubModNames;

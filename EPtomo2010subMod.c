@@ -87,7 +87,7 @@ depInterpVals *loadEPtomo2010subMod(gridStruct *location)
         surfDepVals->deps[i] = elev[i];
         for(int j = 0; j < 3; j++)
         {
-            sprintf(baseFilename,"surf_tomography_%s_elev%i.in",varNames[j],elev[i]);
+            sprintf(baseFilename,"Data/Tomography/surf_tomography_%s_elev%i.in",varNames[j],elev[i]);
             // read the surface
             tempSurf = loadSurface(baseFilename);
             // write a surface vector (for IDW)
@@ -119,5 +119,6 @@ depInterpVals *loadEPtomo2010subMod(gridStruct *location)
         printf("Completed Read of EP2010 Tomo Data surface %i of %i.\n", i+1, nElev);
     }
 return surfDepVals;
+
 }
 

@@ -49,7 +49,7 @@ surfaceDepthsGlobal *getSurfaceValues(gridStruct *location, surfNames surfSubMod
         else if(strcmp(surfSubModNames.surf[i], "demSurf") == 0)
         {
             char *fileName;
-            fileName = "DEM.in";
+            fileName = "Data/DEM/DEM.in";
             surfDeps = determineSurfaceDepths(location, fileName);
         }
         else

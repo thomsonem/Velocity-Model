@@ -15,7 +15,7 @@
 #include "structs.h"
 #include "functions.h"
 
-void writeCVMData(gridStruct *location, globalDataValues *globDataVals)
+void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *outputDirectory)
 /*
  Purpose:   write the full velocity model to file
  
@@ -29,18 +29,34 @@ void writeCVMData(gridStruct *location, globalDataValues *globDataVals)
 {
     FILE *fp, *fvp, *fvs, *frho;
 	FILE *fvpdebug, *fvsdebug, *frhodebug;
-    char vp3dfile[] = "e:\\vp3dfile.p";
-	char vs3dfile[] = "e:\\vs3dfile.s";
-	char rho3dfile[] = "e:\\rho3dfile.d";
-    char vpdebug3dfile[] = "e:\\vpdebug3dfile.txt";
-    char vsdebug3dfile[] = "e:\\vsdebug3dfile.txt";
-    char rhodebug3dfile[] = "e:\\rhodebug3dfile.txt";
+    char vp3dfile[32];
+    sprintf(vp3dfile,"%svp3dfile.p",outputDirectory);
+
+    char vs3dfile[32];
+    sprintf(vs3dfile,"%svs3dfile.p",outputDirectory);
+
+	char rho3dfile[32];
+    sprintf(rho3dfile,"%srho3dfile.p",outputDirectory);
+
+    char vpdebug3dfile[32];
+    sprintf(vpdebug3dfile,"%svpdebug3dfile.p",outputDirectory);
+
+    char vsdebug3dfile[32];
+    sprintf(vsdebug3dfile,"%svsdebug3dfile.p",outputDirectory);
+
+    char rhodebug3dfile[32];
+    sprintf(rhodebug3dfile,"%srhodebug3dfile.p",outputDirectory);
+
     float *vp, *vs, *rho;
     int bsize, ip;
     
-	fvp = fopen(vp3dfile,"wb");
-	fvs = fopen(vs3dfile,"wb");
-	frho = fopen(rho3dfile,"wb");
+	fvp = fopen(vp3dfile,"w");
+	if (fvp == NULL)
+	{
+		perror("Error");
+	}
+	fvs = fopen(vs3dfile,"w");
+	frho = fopen(rho3dfile,"w");
     fvpdebug = fopen(vpdebug3dfile,"w");
     fvsdebug = fopen(vsdebug3dfile,"w");
     frhodebug = fopen(rhodebug3dfile,"w");

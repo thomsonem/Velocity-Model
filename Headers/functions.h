@@ -28,7 +28,7 @@ extern surfNames getSurfSubModNames(modVersion modelVersion);
 extern surfaceDepthsGlobal *getSurfaceValues(gridStruct *location, surfNames surfSubModNames);
 extern gridStruct *generateModelGrid(modOrigin modelOrigin, modExtent modelExtent);
 extern globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, surfNames surfSubModNames, surfaceDepthsGlobal *surfDepsGlob);
-extern void writeCVMData(gridStruct *location, globalDataValues *globDataVals);
+extern void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *outputDirectory);
 extern gridStruct *generateLatLonForPlotting(modOrigin modelOrigin, modExtent modelExtent, double latPts[], double lonPts[], int nPts);
 extern void writeLatLonData(gridStruct *location, globalDataValues *globDataVals);
 

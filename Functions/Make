@@ -1,4 +1,0 @@
-export PATH=$PATH:/home/ethan/workspace/Velocity-Model/Data/1D_Velocity_Model:/home/ethan/workspace/Velocity-Model/Data/Canterbury_Basin/PreQ:/home/ethan/workspace/Velocity-Model/Data/Canterbury_Basin/Q:/home/ethan/workspace/Velocity-Model/Data/Tomo
-echo "$PATH"
-gcc -Wall -g -std=c99 -o CVM *.c -lm -I /home/ethan/workspace/Velocity-Model/Headers
-valgrind ./CVM

@@ -36,8 +36,8 @@ void loadCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData
     // ie basin [0] must be completely within basin [0] in order to enforce the depths properly
     
     basinData->nBoundaries[basinNum] = 2;
-    basinData->boundaryFileName[basinNum][0] = "QuaternarySurfacesBoundary.txt";
-    basinData->boundaryFileName[basinNum][1] = "CanterburyBasinBoundary.txt";
+    basinData->boundaryFileName[basinNum][0] = "Data/Boundaries/QuaternarySurfacesBoundary.txt";
+    basinData->boundaryFileName[basinNum][1] = "Data/Boundaries/CanterburyBasinBoundary.txt";
     
     basinData->boundaryType[basinNum][0] = 1; // dem utilizes the largest boundary
     basinData->boundaryType[basinNum][1] = 0;
