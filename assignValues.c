@@ -18,7 +18,7 @@
 #include "functions.h"
 
 
-globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, surfNames surfSubModNames, surfaceDepthsGlobal *surfDepsGlob)
+globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, surfNames surfSubModNames, surfaceDepthsGlobal *surfDepsGlob, char *outputDirectory)
 /*
  Purpose:   obtain vp vs and rho for all points within the model grid
  
@@ -108,11 +108,11 @@ globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, su
     if((location->nX == 1)&&(location->nY==1))
        // if grid only contains a single point save the surface depths to a text file
        {
-           writeBasinSurfaceDepths(basinData, location);
+           writeBasinSurfaceDepths(basinData, location, outputDirectory);
        }
 	if (modelVersion.saveSurfaceDepths == 1)
 	{
-		writeAllBasinSurfaceDepths(basinData, location);
+		writeAllBasinSurfaceDepths(basinData, location, outputDirectory);
 	}
 
     free(basinData);

@@ -15,7 +15,7 @@
 #include "structs.h"
 #include "functions.h"
 
-void generateProfile(modOrigin modelOrigin)
+void generateProfile(modOrigin modelOrigin, modVersion modelVersion, char *outputDirectory)
 {
     // Model extent struct
     modExtent modelExtent;
@@ -26,10 +26,6 @@ void generateProfile(modOrigin modelOrigin)
     modelExtent.hDep = .01;
     modelExtent.hLatLon = 1;
     
-    
-    // Model version struct
-    modVersion modelVersion;
-    modelVersion.version = 1.2;
     printf("Generating model version %f.\n", modelVersion.version);
     
     // generate the model grid
@@ -46,10 +42,10 @@ void generateProfile(modOrigin modelOrigin)
     
     // assign values
     globalDataValues *globDataVals = NULL;
-    globDataVals = assignValues(modelVersion, location, surfSubModNames, surfDepsGlob);
+    globDataVals = assignValues(modelVersion, location, surfSubModNames, surfDepsGlob, outputDirectory);
     
     // write profile to file
-    writeIndividualProfile(globDataVals, location);
+    writeIndividualProfile(globDataVals, location, outputDirectory);
     
     // free allocated memory
     free(surfDepsGlob);
@@ -60,11 +56,13 @@ void generateProfile(modOrigin modelOrigin)
     
 }
 
-void writeBasinSurfaceDepths(globalBasinData *basinData, gridStruct *location)
+void writeBasinSurfaceDepths(globalBasinData *basinData, gridStruct *location, char *outputDirectory)
 {
     FILE *fp;
+    char fName[64];
+    sprintf(fName,"%s/SurfacesAtIndividualLocation.txt",outputDirectory);
+    fp = fopen(fName, "w");
     
-    fp = fopen("SurfacesAtIndividualLocation.txt", "wb");
     fprintf(fp,"Basin Surface Depths at Lat: %lf Lon: %lf\n",location->Lat[0][0], location->Lon[0][0]);
     
     for(int i = 0; i < basinData->nSurf[0]; i++)
@@ -79,11 +77,12 @@ void writeBasinSurfaceDepths(globalBasinData *basinData, gridStruct *location)
 
 }
 
-void writeAllBasinSurfaceDepths(globalBasinData *basinData, gridStruct *location)
+void writeAllBasinSurfaceDepths(globalBasinData *basinData, gridStruct *location, char *outputDirectory)
 {
 	FILE *fp;
-
-	fp = fopen("/home/ethan/share/veloModelSliceSurfaceDepths.txt", "w");
+    char fName[64];
+    sprintf(fName,"%s/veloModelSliceSurfaceDepths.txt",outputDirectory);
+    fp = fopen(fName, "w");
 
 	for (int i = 0; i < location->nX; i++)
 	{
@@ -102,11 +101,12 @@ void writeAllBasinSurfaceDepths(globalBasinData *basinData, gridStruct *location
 
 
 
-void writeIndividualProfile(globalDataValues *globalValues, gridStruct *location)
+void writeIndividualProfile(globalDataValues *globalValues, gridStruct *location, char outputDirectory[])
 {
     FILE *fp;
-    
-    fp = fopen("ProfileAtIndividualLocation.txt", "wb");
+    char fName[64];
+    sprintf(fName,"%s/ProfileAtIndividualLocation.txt",outputDirectory);
+    fp = fopen(fName, "w");
     fprintf(fp,"Properties at Lat: %lf Lon: %lf\n",location->Lat[0][0], location->Lon[0][0]);
     fprintf(fp,"Depth \t Vp \t Vs \t Rho\n");
 

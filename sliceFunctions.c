@@ -16,7 +16,7 @@
 #include "functions.h"
 
 
-void generateSlice(modOrigin modelOrigin, modExtent modelExtent, sliceExtent sliceBounds, modVersion modelVersion)
+void generateSlice(modOrigin modelOrigin, modExtent modelExtent, sliceExtent sliceBounds, modVersion modelVersion, char *outputDirectory)
 {
     globalDataValues *globDataVals = NULL;
     surfaceDepthsGlobal *surfDepsGlob = NULL;
@@ -58,7 +58,7 @@ void generateSlice(modOrigin modelOrigin, modExtent modelExtent, sliceExtent sli
     surfDepsGlob = getSurfaceValues(location, surfSubModNames);
     
     // assign values
-    globDataVals = assignValues(modelVersion, location, surfSubModNames, surfDepsGlob);
+    globDataVals = assignValues(modelVersion, location, surfSubModNames, surfDepsGlob, outputDirectory);
     
     
     

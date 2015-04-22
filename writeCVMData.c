@@ -27,34 +27,30 @@ void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *ou
  N/A.
  */
 {
-    FILE *fp, *fvp, *fvs, *frho;
+    FILE *fvp, *fvs, *frho; //*fp
 	FILE *fvpdebug, *fvsdebug, *frhodebug;
     char vp3dfile[32];
-    sprintf(vp3dfile,"%svp3dfile.p",outputDirectory);
+    sprintf(vp3dfile,"%s/vp3dfile.bin",outputDirectory);
 
     char vs3dfile[32];
-    sprintf(vs3dfile,"%svs3dfile.p",outputDirectory);
+    sprintf(vs3dfile,"%s/vs3dfile.bin",outputDirectory);
 
 	char rho3dfile[32];
-    sprintf(rho3dfile,"%srho3dfile.p",outputDirectory);
+    sprintf(rho3dfile,"%s/rho3dfile.bin",outputDirectory);
 
     char vpdebug3dfile[32];
-    sprintf(vpdebug3dfile,"%svpdebug3dfile.p",outputDirectory);
+    sprintf(vpdebug3dfile,"%s/vpdebug3dfile.txt",outputDirectory);
 
     char vsdebug3dfile[32];
-    sprintf(vsdebug3dfile,"%svsdebug3dfile.p",outputDirectory);
+    sprintf(vsdebug3dfile,"%s/vsdebug3dfile.txt",outputDirectory);
 
     char rhodebug3dfile[32];
-    sprintf(rhodebug3dfile,"%srhodebug3dfile.p",outputDirectory);
+    sprintf(rhodebug3dfile,"%s/rhodebug3dfile.txt",outputDirectory);
 
     float *vp, *vs, *rho;
     int bsize, ip;
     
 	fvp = fopen(vp3dfile,"w");
-	if (fvp == NULL)
-	{
-		perror("Error");
-	}
 	fvs = fopen(vs3dfile,"w");
 	frho = fopen(rho3dfile,"w");
     fvpdebug = fopen(vpdebug3dfile,"w");
@@ -63,6 +59,7 @@ void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *ou
     
 	//determine the number of x,y,z layers
     printf("Starting binary file write.\n");
+    printf("Number of grid points, ");
 	printf("nx: %d ",location->nX);
 	printf("ny: %d ",location->nY);
 	printf("nz: %d ",location->nZ);
@@ -103,6 +100,7 @@ void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *ou
 	fclose(frho);
     printf("Binary file write complete.\n");
     
+    /*
     // generate file for writing
     fp = fopen("E:\\veloModel.txt","w");
 //    fprintf(fp, "Longitude Depth Latitude Vp Vs Rho\n");
@@ -156,7 +154,7 @@ void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *ou
     }
   
      fclose(fp);
-    /*
+    
 
      printf("Completed writing data to file.\n");
      

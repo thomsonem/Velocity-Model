@@ -13,6 +13,10 @@
 #include <math.h>
 #include <string.h>
 #include <assert.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 
 
 #include "constants.h"
@@ -41,11 +45,19 @@ int main(void)
 	modelVersion.version = 0.1;
 	printf("Generating velocity model version %f.\n", modelVersion.version);
 
-    int profileRequired = 0; // set as 1 if a velocity profile is requires at this location, else set to 0
+    int profileRequired = 1; // set as 1 if a velocity profile is requires at this location, else set to 0
     int modelInterrogation = 0; // set as 1 if a velocity slice extraction is required from the generated model
     int figureGeneration = 0; // set as 1 if high resolution figure is to be generated
     char *outputDirectory;
-    outputDirectory = "Output/";
+    
+    // create directory to output files to
+    outputDirectory = "Output";
+    struct stat st = {0};
+    
+    if (stat(outputDirectory, &st) == -1)
+    {
+        mkdir(outputDirectory, 0700);
+    }
     
     globalDataValues *globDataVals = NULL;
     surfaceDepthsGlobal *surfDepsGlob = NULL;
@@ -54,7 +66,7 @@ int main(void)
 
     if(profileRequired == 1)
     {
-        generateProfile(modelOrigin);
+        generateProfile(modelOrigin, modelVersion, outputDirectory);
     }
 	else
     {
@@ -70,7 +82,7 @@ int main(void)
         surfDepsGlob = getSurfaceValues(location, surfSubModNames);
         
         // assign values
-        globDataVals = assignValues(modelVersion, location, surfSubModNames, surfDepsGlob);
+        globDataVals = assignValues(modelVersion, location, surfSubModNames, surfDepsGlob, outputDirectory);
         
         // write data to file
         writeCVMData(location, globDataVals, outputDirectory);
@@ -107,7 +119,7 @@ int main(void)
         sliceBounds.latPtsSlice[0] = -43.4;
         sliceBounds.latPtsSlice[1] = -43.9;
 
-        generateSlice(modelOrigin, modelExtent, sliceBounds, modelVersion);
+        generateSlice(modelOrigin, modelExtent, sliceBounds, modelVersion, outputDirectory);
     }
     
     // free allocated memory
