@@ -77,8 +77,11 @@ void generateSlice(modOrigin modelOrigin, modExtent modelExtent, sliceExtent sli
     
     // generate file for writing
     FILE *fp2;
-	double currRho, currVp, currVs; 
-	fp2 = fopen("/home/ethan/share/veloModelSliceGenerated.txt", "w");
+	double currRho, currVp, currVs;
+    
+    char fName[64];
+    sprintf(fName,"%s/veloModelSliceGenerated.txt",outputDirectory);
+    fp2 = fopen(fName, "w");
 
     for(int i = 0; i < sliceData->nPts; i++)
     {
@@ -104,13 +107,14 @@ void generateSlice(modOrigin modelOrigin, modExtent modelExtent, sliceExtent sli
         }
         
     }
+    printf("High resolution velocity model slice file save complete.\n");
    
 	fclose(fp2);
 	//free(location);
 	//free(sliceData);
 }
 
-void extractSlice(gridStruct *location, modOrigin modelOrigin, modExtent modelExtent, sliceExtent sliceBounds)
+void extractSlice(gridStruct *location, modOrigin modelOrigin, modExtent modelExtent, sliceExtent sliceBounds, char *outputDirectory)
 {
     
     sliceExtractData *sliceData;
@@ -118,7 +122,7 @@ void extractSlice(gridStruct *location, modOrigin modelOrigin, modExtent modelEx
     generateSliceXYpoints(sliceData, modelOrigin, modelExtent, sliceBounds);
     
     globalDataValues *globDataVals;
-    globDataVals = loadCvmDataAll(location);
+    globDataVals = loadCvmDataAll(location, outputDirectory);
     
     // loop over points
     int xInd = 0;
@@ -196,8 +200,9 @@ void extractSlice(gridStruct *location, modOrigin modelOrigin, modExtent modelEx
     // generate file for writing
     FILE *fp2;
     double currRho, currVp, currVs;
-    fp2 = fopen("E:\veloModelSliceExtracted.txt","w");
-	printf("File opened for writing.\n");
+    char fName[64];
+    sprintf(fName,"%s/veloModelSliceExtracted.txt",outputDirectory);
+    fp2 = fopen(fName,"w");
     for(int i = 0; i < sliceData->nPts; i++)
     {
         for(int m = 0; m < location->nZ; m++)
@@ -213,20 +218,26 @@ void extractSlice(gridStruct *location, modOrigin modelOrigin, modExtent modelEx
     }
     
     fclose(fp2);
+    printf("Extracted slice data save complete.\n");
     
 }
 
 
 
 
-globalDataValues* loadCvmDataAll(gridStruct *location)
+globalDataValues* loadCvmDataAll(gridStruct *location, char *outputDirectory)
 {
     globalDataValues *globDataVals;
     globDataVals = malloc(sizeof(globalDataValues));
     FILE *fvp, *fvs, *frho;
-    char vp3dfile[] = "E:\\vp3dfile.p";
-    char vs3dfile[] = "E:\\vs3dfile.s";
-    char rho3dfile[] = "E:\\rho3dfile.d";
+    char vp3dfile[64];
+    sprintf(vp3dfile,"%s/vp3dfile.bin",outputDirectory);
+    
+    char vs3dfile[64];
+    sprintf(vs3dfile,"%s/vs3dfile.bin",outputDirectory);
+    
+    char rho3dfile[64];
+    sprintf(rho3dfile,"%s/rho3dfile.bin",outputDirectory);
     float *vp, *vs, *rho;
     int bsize, ip;
     
@@ -239,6 +250,7 @@ globalDataValues* loadCvmDataAll(gridStruct *location)
     vs = (float*) malloc(bsize);
     rho = (float*) malloc(bsize);
     
+    printf("Reading binary files.\n");
     for(int iy = 0; iy < location->nY; iy++)
     {
         //increment a counter
@@ -262,7 +274,7 @@ globalDataValues* loadCvmDataAll(gridStruct *location)
     fclose(fvp);
     fclose(fvs);
     fclose(frho);
-    
+    printf("Binary file read complete.\n");
     return globDataVals;
 }
 

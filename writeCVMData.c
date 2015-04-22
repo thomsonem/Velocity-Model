@@ -29,22 +29,22 @@ void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *ou
 {
     FILE *fvp, *fvs, *frho; //*fp
 	FILE *fvpdebug, *fvsdebug, *frhodebug;
-    char vp3dfile[32];
+    char vp3dfile[64];
     sprintf(vp3dfile,"%s/vp3dfile.bin",outputDirectory);
 
-    char vs3dfile[32];
+    char vs3dfile[64];
     sprintf(vs3dfile,"%s/vs3dfile.bin",outputDirectory);
 
-	char rho3dfile[32];
+	char rho3dfile[64];
     sprintf(rho3dfile,"%s/rho3dfile.bin",outputDirectory);
 
-    char vpdebug3dfile[32];
+    char vpdebug3dfile[64];
     sprintf(vpdebug3dfile,"%s/vpdebug3dfile.txt",outputDirectory);
 
-    char vsdebug3dfile[32];
+    char vsdebug3dfile[64];
     sprintf(vsdebug3dfile,"%s/vsdebug3dfile.txt",outputDirectory);
 
-    char rhodebug3dfile[32];
+    char rhodebug3dfile[64];
     sprintf(rhodebug3dfile,"%s/rhodebug3dfile.txt",outputDirectory);
 
     float *vp, *vs, *rho;

@@ -14,7 +14,7 @@
 #include "constants.h"
 #include "structs.h"
 
-void writeLatLonData(gridStruct *location, globalDataValues *globDataVals)
+void writeLatLonData(gridStruct *location, globalDataValues *globDataVals, char *outputDirectory)
 /*
  Purpose:   write the velocity profile for the previously specified lat lon points
  
@@ -27,10 +27,18 @@ void writeLatLonData(gridStruct *location, globalDataValues *globDataVals)
 {
     // generate files for writing
     FILE *fRho, *fVp, *fVs;
-
-    fRho = fopen("E:\veloProfilesRho.xy","w");
-    fVp = fopen("E:\veloProfilesVp.xy","w");
-    fVs = fopen("E:\veloProfilesVs.xy","w");
+    
+    char fNameRho[64];
+    sprintf(fNameRho,"%s/veloProfilesRho.xy",outputDirectory);
+    fRho = fopen(fNameRho,"w");
+    
+    char fNameVp[64];
+    sprintf(fNameVp,"%s/veloProfilesVp.xy",outputDirectory);
+    fVp = fopen(fNameVp,"w");
+    
+    char fNameVs[64];
+    sprintf(fNameVs,"%s/veloProfilesVs.xy",outputDirectory);
+    fVs = fopen(fNameVs,"w");
     
     double currRho, currVp, currVs;
     for(int i = 0; i < location->nY; i++)
@@ -59,6 +67,6 @@ void writeLatLonData(gridStruct *location, globalDataValues *globDataVals)
     fclose(fVp);
     fclose(fVs);
     fclose(fRho);
-    //printf("Completed writing data to file.\n");
+    printf("Completed writing profiles file.\n");
     
 }

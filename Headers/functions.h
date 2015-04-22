@@ -10,16 +10,16 @@
 #define functions_h
 
 // extraction and file I/O
-extern void generateProfile(modOrigin modelOrigin, modVersion modelVersion, char *outputDirectory);
+extern void generateProfile(modOrigin modelOrigin, modVersion modelVersion, modExtent modelExtent, char *outputDirectory);
 extern void writeAllBasinSurfaceDepths(globalBasinData *basinData, gridStruct *location, char *outputDirectory);
 extern void writeBasinSurfaceDepths(globalBasinData *basinData, gridStruct *location, char *outputDirectory);
 extern void writeIndividualProfile(globalDataValues *globalValues, gridStruct *location, char *outputDirectory);
 
 // slice functions
 extern void generateSlice(modOrigin modelOrigin, modExtent modelExtent, sliceExtent sliceBounds, modVersion modelVersion,  char *outputDirectory);
-extern void extractSlice(gridStruct *location, modOrigin modelOrigin, modExtent modelExtent, sliceExtent sliceBounds);
+extern void extractSlice(gridStruct *location, modOrigin modelOrigin, modExtent modelExtent, sliceExtent sliceBounds, char *outputDirectory);
 extern void generateSliceXYpoints(sliceExtractData *sliceData, modOrigin modelOrigin, modExtent modelExtent, sliceExtent sliceBounds);
-extern globalDataValues* loadCvmDataAll(gridStruct *location);
+extern globalDataValues* loadCvmDataAll(gridStruct *location, char *outputDirectory);
 
 
 
@@ -30,7 +30,7 @@ extern gridStruct *generateModelGrid(modOrigin modelOrigin, modExtent modelExten
 extern globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, surfNames surfSubModNames, surfaceDepthsGlobal *surfDepsGlob, char *outputDirectory);
 extern void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *outputDirectory);
 extern gridStruct *generateLatLonForPlotting(modOrigin modelOrigin, modExtent modelExtent, double latPts[], double lonPts[], int nPts);
-extern void writeLatLonData(gridStruct *location, globalDataValues *globDataVals);
+extern void writeLatLonData(gridStruct *location, globalDataValues *globDataVals, char *outputDirectory);
 
 
 

@@ -45,13 +45,13 @@ int main(void)
 	modelVersion.version = 0.1;
 	printf("Generating velocity model version %f.\n", modelVersion.version);
 
-    int profileRequired = 1; // set as 1 if a velocity profile is requires at this location, else set to 0
+    int profileRequired = 0; // set as 1 if a velocity profile is requires at this location, else set to 0
     int modelInterrogation = 0; // set as 1 if a velocity slice extraction is required from the generated model
     int figureGeneration = 0; // set as 1 if high resolution figure is to be generated
-    char *outputDirectory;
     
     // create directory to output files to
-    outputDirectory = "Output";
+    char *outputDirectory;
+    outputDirectory = "New";
     struct stat st = {0};
     
     if (stat(outputDirectory, &st) == -1)
@@ -66,7 +66,16 @@ int main(void)
 
     if(profileRequired == 1)
     {
-        generateProfile(modelOrigin, modelVersion, outputDirectory);
+        // Model extent struct
+        modExtent modelExtent;
+        modelExtent.Ymax = 0.5;
+        modelExtent.Xmax = 0.5;
+        modelExtent.Zmax = 10; // max depth (km)
+        modelExtent.Zmin = -0.0;
+        modelExtent.hDep = .01;
+        modelExtent.hLatLon = 1;
+        
+        generateProfile(modelOrigin, modelVersion, modelExtent, outputDirectory);
     }
 	else
     {
@@ -101,7 +110,7 @@ int main(void)
         sliceBounds.latPtsSlice[0] = -43.4;
         sliceBounds.latPtsSlice[1] = -43.9;
         
-        extractSlice(location, modelOrigin, modelExtent, sliceBounds);
+        extractSlice(location, modelOrigin, modelExtent, sliceBounds, outputDirectory);
 
     }
     if( figureGeneration == 1)

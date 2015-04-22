@@ -15,17 +15,8 @@
 #include "structs.h"
 #include "functions.h"
 
-void generateProfile(modOrigin modelOrigin, modVersion modelVersion, char *outputDirectory)
+void generateProfile(modOrigin modelOrigin, modVersion modelVersion, modExtent modelExtent, char *outputDirectory)
 {
-    // Model extent struct
-    modExtent modelExtent;
-    modelExtent.Ymax = 0.5;
-    modelExtent.Xmax = 0.5;
-    modelExtent.Zmax = 10; // max depth (km)
-    modelExtent.Zmin = -0.0;
-    modelExtent.hDep = .01;
-    modelExtent.hLatLon = 1;
-    
     printf("Generating model version %f.\n", modelVersion.version);
     
     // generate the model grid
@@ -73,7 +64,7 @@ void writeBasinSurfaceDepths(globalBasinData *basinData, gridStruct *location, c
         }
     }
     fclose(fp);
-    printf("Completed write of surface depths at the location\n");
+    printf("Completed write of surface depths at the location.\n");
 
 }
 
