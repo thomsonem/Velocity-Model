@@ -27,6 +27,8 @@ int main(int argc, char *argv[])
 {
     char *generateType = argv[1];
     
+    printf("%i\n",argc);
+    
     modOrigin modelOrigin;
     modVersion modelVersion;
     char *outputDirectory;
