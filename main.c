@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     // Generate velocity model "GENERATE_VELO_MOD" or "EXTRACT_VELOCITY_SLICE"
      
     //=============================================================
-    if (strcmp(generateType, "GENERATE_VELO_MOD") == 0 || strcmp(generateType,"EXTRACT_VELOCITY_SLICE"))
+    if ((strcmp(generateType, "GENERATE_VELO_MOD") == 0) || (strcmp(generateType,"EXTRACT_VELOCITY_SLICE")== 0))
     {
         printf("Entered\n");
         if (strcmp(generateType, "GENERATE_VELO_MOD") == 0 && argc != 13)
