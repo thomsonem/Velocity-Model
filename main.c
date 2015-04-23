@@ -23,35 +23,56 @@
 #include "structs.h"
 #include "functions.h"
 
-int main(void)
+int main(int argc, char *argv[])
 {
-    // Model origin struct
-    modOrigin modelOrigin;
-    modelOrigin.mlat = -43.65;
-    modelOrigin.mlon = 172.6;
-    modelOrigin.mrot = 1.0;
-    modVersion modelVersion;
-
-	// Model extent struct
-	modExtent modelExtent;
-	modelExtent.Ymax = 30;
-	modelExtent.Xmax = 20;
-	modelExtent.Zmax = 0.20; // max depth (positive downwards)
-	modelExtent.Zmin = -0.10; //
-	modelExtent.hDep = .1; // can assign different grid spacing in z to that in the horizontal plane
-	modelExtent.hLatLon = 10;
+    char *generateType = argv[1];
     
-	// Model version struct
-	modelVersion.version = 0.1;
-	printf("Generating velocity model version %f.\n", modelVersion.version);
+    modOrigin modelOrigin;
+    modVersion modelVersion;
+    char *outputDirectory;
+    modExtent modelExtent;
+
+
+    if (strcmp(generateType, "GENERATE_VELO_MOD") == 0)
+    {
+        // Model Version
+        modelVersion.version = atof(argv[2]);
+
+        // Model origin struct
+        modelOrigin.mlat = atof(argv[3]);
+        modelOrigin.mlon = atof(argv[4]);
+        modelOrigin.mrot = atof(argv[5]);
+        outputDirectory = argv[6];
+        
+        // Model extent struct
+        modelExtent.Xmax = atoi(argv[7]);
+        modelExtent.Ymax = atoi(argv[8]);
+        modelExtent.Zmax = atof(argv[9]); // max depth (positive downwards)
+        modelExtent.Zmin = atof(argv[10]);
+        modelExtent.hDep = atof(argv[11]);
+        modelExtent.hLatLon = atof(argv[12]);
+        
+    }
+    else if (strcmp(generateType, "GENERATE_INDIVIDUAL_PROFILE") == 0)
+    {
+        
+    }
+    else if (strcmp(generateType, "EXTRACT_VELOCITY_SLICE") == 0)
+    {
+        
+    }
+    else if (strcmp(generateType, "GENERATE_VELOCITY_SLICE") == 0)
+    {
+        
+    }
+
+    printf("Generating velocity model version %f.\n", modelVersion.version);
 
     int profileRequired = 0; // set as 1 if a velocity profile is requires at this location, else set to 0
     int modelInterrogation = 0; // set as 1 if a velocity slice extraction is required from the generated model
     int figureGeneration = 0; // set as 1 if high resolution figure is to be generated
     
     // create directory to output files to
-    char *outputDirectory;
-    outputDirectory = "New";
     struct stat st = {0};
     
     if (stat(outputDirectory, &st) == -1)
