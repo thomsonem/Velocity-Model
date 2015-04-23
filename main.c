@@ -25,7 +25,6 @@
 
 int main(int argc, char *argv[])
 {
-    printf("%i.\n",argc);
     char *generateType = argv[1];
     
     modOrigin modelOrigin;
@@ -47,7 +46,7 @@ int main(int argc, char *argv[])
     {
         if (argc != 12)
         {
-            printf("Incorrect number of inputs: Recieved %i should be 11.\n",argc);
+            printf("Incorrect number of inputs: Recieved %i, require 11.\n",argc);
             exit(0);
         }
         
@@ -113,7 +112,7 @@ int main(int argc, char *argv[])
     {
         if (argc != 8)
         {
-            printf("Incorrect number of inputs: Recieved %i should be 7.\n",argc);
+            printf("Incorrect number of inputs: Recieved %i, require 7.\n",argc);
             exit(0);
         }
         
@@ -162,7 +161,7 @@ int main(int argc, char *argv[])
     {
         if (argc != 17)
         {
-            printf("Incorrect number of inputs: Recieved %i should be 16.\n",argc);
+            printf("Incorrect number of inputs: Recieved %i, require 16.\n",argc);
             exit(0);
         }
 
@@ -241,7 +240,7 @@ int main(int argc, char *argv[])
     {
         if (argc != 11)
         {
-            printf("Incorrect number of inputs: Recieved %i should be 10.\n",argc);
+            printf("Incorrect number of inputs: Recieved %i, require 10.\n",argc);
             exit(0);
         }
         
