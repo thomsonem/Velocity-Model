@@ -44,9 +44,9 @@ int main(int argc, char *argv[])
     //=============================================================
     if (strcmp(generateType, "GENERATE_VELO_MOD") == 0)
     {
-        if (argc != 12)
+        if (argc != 13)
         {
-            printf("Incorrect number of inputs: Recieved %i, require 11.\n",argc);
+            printf("Incorrect number of inputs: Recieved %i, require 12.\n",argc-1);
             exit(0);
         }
         
@@ -110,9 +110,9 @@ int main(int argc, char *argv[])
     //=============================================================
     else if (strcmp(generateType, "GENERATE_INDIVIDUAL_PROFILE") == 0)
     {
-        if (argc != 8)
+        if (argc != 9)
         {
-            printf("Incorrect number of inputs: Recieved %i, require 7.\n",argc);
+            printf("Incorrect number of inputs: Recieved %i, require 8.\n",argc-1);
             exit(0);
         }
         
@@ -159,9 +159,9 @@ int main(int argc, char *argv[])
     //=============================================================
     else if (strcmp(generateType, "EXTRACT_VELOCITY_SLICE") == 0)
     {
-        if (argc != 17)
+        if (argc != 18)
         {
-            printf("Incorrect number of inputs: Recieved %i, require 16.\n",argc);
+            printf("Incorrect number of inputs: Recieved %i, require 17.\n",argc-1);
             exit(0);
         }
 
@@ -238,9 +238,9 @@ int main(int argc, char *argv[])
     //=============================================================
     else if (strcmp(generateType, "GENERATE_VELOCITY_SLICE") == 0)
     {
-        if (argc != 11)
+        if (argc != 12)
         {
-            printf("Incorrect number of inputs: Recieved %i, require 10.\n",argc);
+            printf("Incorrect number of inputs: Recieved %i, require 11.\n",argc-1);
             exit(0);
         }
         
