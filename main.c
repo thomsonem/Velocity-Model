@@ -25,6 +25,28 @@
 
 int main(int argc, char *argv[])
 {
+    /*
+    int argc = 18;
+    char *argv[18];
+    argv[1] = "EXTRACT_VELOCITY_SLICE";
+    argv[2] = "0.2";
+    argv[3] = "ExtractedSliceV0.2";
+    argv[4] = "-43.5";
+    argv[5] = "172.5";
+    argv[6] = "0";
+    argv[7] = "20";
+    argv[8] = "15";
+    argv[9] = "2";
+    argv[10] = "-.1";
+    argv[11] = "0.01";
+    argv[12] = ".25";
+    argv[13] = "250";
+    argv[14] = "-43.75";
+    argv[15] = "-43.5";
+    argv[16] = "171.5";
+    argv[17] = "173.0";
+    */
+    
     char *generateType = argv[1];
         
     modOrigin modelOrigin;

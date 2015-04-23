@@ -74,7 +74,7 @@ depInterpVals *loadEPtomo2010subMod(gridStruct *location)
     varNames[0] = "vp", varNames[1] = "vs", varNames[2] = "rho";
     int nElev = 11;
     int elev[11] = { 1, -3, -8, -15, -23, -30, -38, -48, -65, -85, -105 };
-    char baseFilename[35];
+    char baseFilename[128];
     
     depInterpVals *surfDepVals = NULL;
     surfDepVals = malloc(sizeof(depInterpVals));
