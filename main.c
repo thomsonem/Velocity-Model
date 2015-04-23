@@ -37,22 +37,6 @@ int main(int argc, char *argv[])
     surfaceDepthsGlobal *surfDepsGlob = NULL;
     gridStruct *location = NULL;
     
-    // Model Version
-    modelVersion.version = atof(argv[2]);
-    printf("Generating velocity model version %f.\n", modelVersion.version);
-    
-    // create directory to output files to
-    outputDirectory = argv[3];
-    struct stat st = {0};
-    if (stat(outputDirectory, &st) == -1)
-    {
-        mkdir(outputDirectory, 0700);
-        printf("Output directory created.\n");
-    }
-    else
-    {
-        printf("Output directory already exists.\n");
-    }
 
     //=============================================================
     
@@ -65,6 +49,23 @@ int main(int argc, char *argv[])
         {
             printf("Incorrect number of inputs: Recieved %i should be 11.\n",argc);
             exit(0);
+        }
+        
+        // Model Version
+        modelVersion.version = atof(argv[2]);
+        printf("Generating velocity model version %f.\n", modelVersion.version);
+        
+        // create directory to output files to
+        outputDirectory = argv[3];
+        struct stat st = {0};
+        if (stat(outputDirectory, &st) == -1)
+        {
+            mkdir(outputDirectory, 0700);
+            printf("Output directory created.\n");
+        }
+        else
+        {
+            printf("Output directory already exists.\n");
         }
 
         // Model origin struct
@@ -116,6 +117,23 @@ int main(int argc, char *argv[])
             exit(0);
         }
         
+        // Model Version
+        modelVersion.version = atof(argv[2]);
+        printf("Generating velocity model version %f.\n", modelVersion.version);
+        
+        // create directory to output files to
+        outputDirectory = argv[3];
+        struct stat st = {0};
+        if (stat(outputDirectory, &st) == -1)
+        {
+            mkdir(outputDirectory, 0700);
+            printf("Output directory created.\n");
+        }
+        else
+        {
+            printf("Output directory already exists.\n");
+        }
+        
         // Model origin struct - used as the point where the profile is desired
         modelOrigin.mlat = atof(argv[4]);
         modelOrigin.mlon = atof(argv[5]);
@@ -148,6 +166,22 @@ int main(int argc, char *argv[])
             exit(0);
         }
 
+        // Model Version
+        modelVersion.version = atof(argv[2]);
+        printf("Generating velocity model version %f.\n", modelVersion.version);
+        
+        // create directory to output files to
+        outputDirectory = argv[3];
+        struct stat st = {0};
+        if (stat(outputDirectory, &st) == -1)
+        {
+            mkdir(outputDirectory, 0700);
+            printf("Output directory created.\n");
+        }
+        else
+        {
+            printf("Output directory already exists.\n");
+        }
         
         // Model origin struct
         modelOrigin.mlat = atof(argv[4]);
@@ -209,6 +243,23 @@ int main(int argc, char *argv[])
         {
             printf("Incorrect number of inputs: Recieved %i should be 10.\n",argc);
             exit(0);
+        }
+        
+        // Model Version
+        modelVersion.version = atof(argv[2]);
+        printf("Generating velocity model version %f.\n", modelVersion.version);
+        
+        // create directory to output files to
+        outputDirectory = argv[3];
+        struct stat st = {0};
+        if (stat(outputDirectory, &st) == -1)
+        {
+            mkdir(outputDirectory, 0700);
+            printf("Output directory created.\n");
+        }
+        else
+        {
+            printf("Output directory already exists.\n");
         }
         
         modelVersion.saveSurfaceDepths = 1;
