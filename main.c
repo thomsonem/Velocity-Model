@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
     //=============================================================
     if (strcmp(generateType, "GENERATE_VELO_MOD") == 0 || strcmp(generateType,"EXTRACT_VELOCITY_SLICE"))
     {
+        printf("Entered\n");
         if (strcmp(generateType, "GENERATE_VELO_MOD") == 0 && argc != 13)
         {
             printf("Incorrect number of inputs: Recieved %i, require 12.\n",argc-1);
@@ -110,9 +111,9 @@ int main(int argc, char *argv[])
             sliceBounds.nSections = 1; // can do arbitary transects, restricted here to 1 slice between 2 points.
             sliceBounds.resXY = atoi(argv[13]);
             sliceBounds.latPtsSlice[0] = atof(argv[14]);
-            sliceBounds.latPtsSlice[1] = atof(argv[16]);
-            sliceBounds.lonPtsSlice[0] = atof(argv[17]);
-            sliceBounds.lonPtsSlice[1] = atof(argv[15]);
+            sliceBounds.latPtsSlice[1] = atof(argv[15]);
+            sliceBounds.lonPtsSlice[0] = atof(argv[16]);
+            sliceBounds.lonPtsSlice[1] = atof(argv[17]);
             
             // extract slice from data
             extractSlice(location, modelOrigin, sliceBounds, outputDirectory);
