@@ -105,7 +105,7 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         surfSubModNames.nBasin = 1;
 
     }
-    //  Model Version 0.5  w/ CHCH BASIN and 1D velocity model
+    //  Model Version 0.5  w/ CHCH BASIN and EP Tomo
     else if(modelVersion.version == 0.5)
     {
         // define the number of surfaces and sub models
