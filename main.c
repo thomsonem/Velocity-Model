@@ -63,6 +63,7 @@ int main(int argc, char *argv[])
         if (argc != 12)
         {
             printf("Incorrect number of inputs: Recieved %i should be 11.\n",argc);
+            exit(0);
         }
 
         // Model origin struct
@@ -111,6 +112,7 @@ int main(int argc, char *argv[])
         if (argc != 8)
         {
             printf("Incorrect number of inputs: Recieved %i should be 7.\n",argc);
+            exit(0);
         }
         
         // Model origin struct - used as the point where the profile is desired
@@ -142,6 +144,7 @@ int main(int argc, char *argv[])
         if (argc != 17)
         {
             printf("Incorrect number of inputs: Recieved %i should be 16.\n",argc);
+            exit(0);
         }
 
         
@@ -204,6 +207,7 @@ int main(int argc, char *argv[])
         if (argc != 11)
         {
             printf("Incorrect number of inputs: Recieved %i should be 10.\n",argc);
+            exit(0);
         }
         
         modelVersion.saveSurfaceDepths = 1;
