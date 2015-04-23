@@ -26,9 +26,7 @@
 int main(int argc, char *argv[])
 {
     char *generateType = argv[1];
-    
-    printf("%i\n",argc);
-    
+        
     modOrigin modelOrigin;
     modVersion modelVersion;
     char *outputDirectory;
@@ -124,6 +122,7 @@ int main(int argc, char *argv[])
         {
             printf("GENERATE_VELO_MOD routine complete.\n");
         }
+        
         
         // free allocated memory
         free(surfDepsGlob);
