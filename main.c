@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
         // write data to file
         writeCVMData(location, globDataVals, outputDirectory);
         
-        if (strcmp(generateType,"EXTRACT_VELOCITY_SLICE"))
+        if (strcmp(generateType,"EXTRACT_VELOCITY_SLICE") == 0)
         {
             // slice extent struct
             sliceBounds.nSections = 1; // can do arbitary transects, restricted here to 1 slice between 2 points.
@@ -117,12 +117,19 @@ int main(int argc, char *argv[])
             
             // extract slice from data
             extractSlice(location, modelOrigin, sliceBounds, outputDirectory);
+            printf("EXTRACT_VELOCITY_SLICE routine complete.\n");
+
+        }
+        else
+        {
+            printf("GENERATE_VELO_MOD routine complete.\n");
         }
         
         // free allocated memory
         free(surfDepsGlob);
         free(globDataVals);
         free(location);
+        
         
     }
     
@@ -171,6 +178,9 @@ int main(int argc, char *argv[])
         
         // Generate profile
         generateProfile(modelOrigin, modelVersion, modelExtent, outputDirectory);
+        
+        printf("GENERATE_INDIVIDUAL_PROFILE routine complete.\n");
+
     }
     
     
@@ -222,6 +232,8 @@ int main(int argc, char *argv[])
         modelOrigin.mrot = 0;
         
         generateSlice(modelOrigin, sliceBounds, modelVersion, outputDirectory);
+        
+        printf("GENERATE_VELOCITY_SLICE routine complete.\n");
 
     }
 }
