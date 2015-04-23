@@ -16,9 +16,9 @@ extern void writeBasinSurfaceDepths(globalBasinData *basinData, gridStruct *loca
 extern void writeIndividualProfile(globalDataValues *globalValues, gridStruct *location, char *outputDirectory);
 
 // slice functions
-extern void generateSlice(modOrigin modelOrigin, modExtent modelExtent, sliceExtent sliceBounds, modVersion modelVersion,  char *outputDirectory);
-extern void extractSlice(gridStruct *location, modOrigin modelOrigin, modExtent modelExtent, sliceExtent sliceBounds, char *outputDirectory);
-extern void generateSliceXYpoints(sliceExtractData *sliceData, modOrigin modelOrigin, modExtent modelExtent, sliceExtent sliceBounds);
+extern void generateSlice(modOrigin modelOrigin, sliceExtent sliceBounds, modVersion modelVersion,  char *outputDirectory);
+extern void extractSlice(gridStruct *location, modOrigin modelOrigin, sliceExtent sliceBounds, char *outputDirectory);
+extern void generateSliceXYpoints(sliceExtractData *sliceData, modOrigin modelOrigin, sliceExtent sliceBounds);
 extern globalDataValues* loadCvmDataAll(gridStruct *location, char *outputDirectory);
 
 

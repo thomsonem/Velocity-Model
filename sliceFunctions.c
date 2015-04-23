@@ -16,13 +16,13 @@
 #include "functions.h"
 
 
-void generateSlice(modOrigin modelOrigin, modExtent modelExtent, sliceExtent sliceBounds, modVersion modelVersion, char *outputDirectory)
+void generateSlice(modOrigin modelOrigin, sliceExtent sliceBounds, modVersion modelVersion, char *outputDirectory)
 {
     globalDataValues *globDataVals = NULL;
     surfaceDepthsGlobal *surfDepsGlob = NULL;
     sliceExtractData *sliceData;
     sliceData = malloc(sizeof(sliceExtractData));
-    generateSliceXYpoints(sliceData, modelOrigin, modelExtent, sliceBounds);
+    generateSliceXYpoints(sliceData, modelOrigin, sliceBounds);
     
     
     // generate the model grid
@@ -114,12 +114,12 @@ void generateSlice(modOrigin modelOrigin, modExtent modelExtent, sliceExtent sli
 	//free(sliceData);
 }
 
-void extractSlice(gridStruct *location, modOrigin modelOrigin, modExtent modelExtent, sliceExtent sliceBounds, char *outputDirectory)
+void extractSlice(gridStruct *location, modOrigin modelOrigin, sliceExtent sliceBounds, char *outputDirectory)
 {
     
     sliceExtractData *sliceData;
     sliceData = malloc(sizeof(sliceExtractData));
-    generateSliceXYpoints(sliceData, modelOrigin, modelExtent, sliceBounds);
+    generateSliceXYpoints(sliceData, modelOrigin, sliceBounds);
     
     globalDataValues *globDataVals;
     globDataVals = loadCvmDataAll(location, outputDirectory);
@@ -282,7 +282,7 @@ globalDataValues* loadCvmDataAll(gridStruct *location, char *outputDirectory)
 
 
 
-void generateSliceXYpoints(sliceExtractData *sliceData, modOrigin modelOrigin, modExtent modelExtent, sliceExtent sliceBounds)
+void generateSliceXYpoints(sliceExtractData *sliceData, modOrigin modelOrigin, sliceExtent sliceBounds)
 {
     int nBranches = sliceBounds.nSections;
     int nGrdPts;
