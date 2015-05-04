@@ -12,7 +12,7 @@
 #define SURF_IN_DIM_MAX 515 // maximum dimension of surface input files (used in main and here)
 #define LON_GRID_DIM_MAX 250 // X
 #define LAT_GRID_DIM_MAX 250 // Y
-#define DEP_GRID_DIM_MAX 250 // Z
+#define DEP_GRID_DIM_MAX 1400 // Z
 #define NUM_SURF_DIM_MAX 15 // the maximum number of surfaces
 #define SURF_VEC_DIM_MAX 8442 // maximum length of surface vector // obsolete
 #define SUB_MOD_DIM_MAX 50 // maximum number of entries in the 1d sub model arrays

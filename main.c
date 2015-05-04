@@ -47,6 +47,7 @@ int main(void)//(int argc, char *argv[])
     argv[17] = "173.0";
     */
     
+    /*
     int argc = 12;
     char *argv[12];
     argv[1] = "GENERATE_VELOCITY_SLICE";
@@ -60,6 +61,19 @@ int main(void)//(int argc, char *argv[])
     argv[9] = "-43.9";
     argv[10] = "172.75";
     argv[11] = "172.75";
+    */
+    
+    int argc = 9;
+    char *argv[12];
+    argv[1] = "GENERATE_INDIVIDUAL_PROFILE";
+    argv[2] = "0.3";
+    argv[3] = "GeneratedProfileV0.3";
+    argv[4] = "-43.7471";
+    argv[5] = "171.765";
+    argv[6] = "1";
+    argv[7] = "-0.3";
+    argv[8] = "0.001";
+
     
     
     char *generateType = argv[1];
