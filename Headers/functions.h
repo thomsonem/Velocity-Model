@@ -35,6 +35,7 @@ extern void writeLatLonData(gridStruct *location, globalDataValues *globDataVals
 
 
 // secondary functions
+extern void writeVeloModLogFile(int argc, char *argv[]);
 extern surfRead *loadSurface(char *fileName);
 extern indexStruct calculateSurfaceLatLonIndex(surfRead currentSurface, double x, double y);
 extern double IDW(surfVec *depVec, double x, double y, double power, double radius);

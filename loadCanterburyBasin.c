@@ -27,9 +27,8 @@ void loadCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData
     basinData->surf[basinNum][7] = "PlioceneTop";
     basinData->surf[basinNum][8] = "MioceneTop";
     basinData->surf[basinNum][9] = "PaloegeneTop";
-    basinData->surf[basinNum][10] = "CretaceousTop";
-    basinData->surf[basinNum][11] = "BasementTop";
-    basinData->nSurf[basinNum] = 12;
+    basinData->surf[basinNum][10] = "BasementTop";
+    basinData->nSurf[basinNum] = 11;
     
     
     // basin boundaries must be completely encompassed within higher level boundaries
@@ -50,7 +49,6 @@ void loadCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData
     basinData->boundaryType[basinNum][8] = 1;
     basinData->boundaryType[basinNum][9] = 1;
     basinData->boundaryType[basinNum][10] = 1;
-    basinData->boundaryType[basinNum][11] = 1;
     
     // load the basin data
     loadBasin(location, basinNum, basinData);

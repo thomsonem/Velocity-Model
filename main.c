@@ -23,7 +23,7 @@
 #include "structs.h"
 #include "functions.h"
 
-int main(int argc, char *argv[])
+int main(void)//(int argc, char *argv[])
 {
     /*
     int argc = 18;
@@ -47,6 +47,21 @@ int main(int argc, char *argv[])
     argv[17] = "173.0";
     */
     
+    int argc = 12;
+    char *argv[12];
+    argv[1] = "GENERATE_VELOCITY_SLICE";
+    argv[2] = "0.3";
+    argv[3] = "GeneratedSliceV0.3";
+    argv[4] = "1";
+    argv[5] = "-.01";
+    argv[6] = "0.005";
+    argv[7] = "10";
+    argv[8] = "-43.3";
+    argv[9] = "-43.9";
+    argv[10] = "172.75";
+    argv[11] = "172.75";
+    
+    
     char *generateType = argv[1];
         
     modOrigin modelOrigin;
@@ -61,13 +76,13 @@ int main(int argc, char *argv[])
 
     //=============================================================
     
-    // Generate velocity model "GENERATE_VELO_MOD" or "EXTRACT_VELOCITY_SLICE"
+    // Generate velocity model "GENERATE_VELOCITY_MOD" or "EXTRACT_VELOCITY_SLICE"
      
     //=============================================================
-    if ((strcmp(generateType, "GENERATE_VELO_MOD") == 0) || (strcmp(generateType,"EXTRACT_VELOCITY_SLICE")== 0))
+    if ((strcmp(generateType, "GENERATE_VELOCITY_MOD") == 0) || (strcmp(generateType,"EXTRACT_VELOCITY_SLICE")== 0))
     {
         printf("Entered\n");
-        if (strcmp(generateType, "GENERATE_VELO_MOD") == 0 && argc != 13)
+        if (strcmp(generateType, "GENERATE_VELOITY_MOD") == 0 && argc != 13)
         {
             printf("Incorrect number of inputs: Recieved %i, require 12.\n",argc-1);
             exit(0);
@@ -145,6 +160,8 @@ int main(int argc, char *argv[])
             printf("GENERATE_VELO_MOD routine complete.\n");
         }
         
+        // write log file
+        writeVeloModLogFile(argc, argv);
         
         // free allocated memory
         free(surfDepsGlob);
@@ -201,6 +218,9 @@ int main(int argc, char *argv[])
         generateProfile(modelOrigin, modelVersion, modelExtent, outputDirectory);
         
         printf("GENERATE_INDIVIDUAL_PROFILE routine complete.\n");
+        
+        // write log file
+        writeVeloModLogFile(argc, argv);
 
     }
     
@@ -255,6 +275,9 @@ int main(int argc, char *argv[])
         generateSlice(modelOrigin, sliceBounds, modelVersion, outputDirectory);
         
         printf("GENERATE_VELOCITY_SLICE routine complete.\n");
+        
+        // write log file
+        writeVeloModLogFile(argc, argv);
 
     }
 }

@@ -82,6 +82,9 @@ surfDepValues *determineSurfaceDepthsBasin(globalBasinData *basinData ,gridStruc
             {
                 // find adjacent points
                 points = findAdjacentPoints(currentSurface, location->Lat[i][j], location->Lon[i][j]);
+                printf("%lf %lf\n",location->Lat[i][j], location->Lon[i][j]);
+                printf("%i\n",basinData->inBasinLatLon[basinNum][basinData->boundaryType[basinNum][surfNum]][i][j]);
+
                 
                 // interpolate
                 surfDep->dep[i][j] = biLinearInterpolation( currentSurface->loni[points.lonInd[0]], currentSurface->loni[points.lonInd[1]], currentSurface->lati[points.latInd[0]], currentSurface->lati[points.latInd[1]], currentSurface->raster[points.lonInd[0]][points.latInd[0]], currentSurface->raster[points.lonInd[0]][points.latInd[1]], currentSurface->raster[points.lonInd[1]][points.latInd[0]], currentSurface->raster[points.lonInd[1]][points.latInd[1]], location->Lon[i][j], location->Lat[i][j]);

@@ -13,7 +13,6 @@
 #include <assert.h>
 
 #include "constants.h"
-#include "constants.h"
 #include "structs.h"
 #include "functions.h"
 

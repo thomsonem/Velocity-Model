@@ -75,7 +75,7 @@ adjacentPointsStruct findAdjacentPoints(surfRead *surface, double lat, double lo
                 points.lonInd[0] = j;
                 points.lonInd[1] = j+1;
                 lonAssignedFlag = 1;
-                printf("%lf %lf %lf\n",surface->loni[points.lonInd[0]],lon,surface->loni[points.lonInd[1]]);
+//                printf("%lf %lf %lf\n",surface->loni[points.lonInd[0]],lon,surface->loni[points.lonInd[1]]);
                 break;
             }
         }

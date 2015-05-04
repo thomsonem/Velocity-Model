@@ -79,10 +79,6 @@ void loadBasinSurfaces(gridStruct *location, int basinNum, globalBasinData *basi
         {
             fileName = "Data/Canterbury_Basin/Pre_Quaternary/PaloegeneTop.in";
         }
-        else if(strcmp(basinData->surf[basinNum][i], "CretaceousTop") == 0)
-        {
-            fileName = "Data/Canterbury_Basin/Pre_Quaternary/CretaceousTop.in";
-        }
         else if(strcmp(basinData->surf[basinNum][i], "BasementTop") == 0)
         {
             fileName = "Data/Canterbury_Basin/Pre_Quaternary/BasementTop.in";
@@ -189,13 +185,9 @@ void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd
     {
         values = mioceneSubModel(location, xInd, yInd, zInd);
     }
-    else if((strcmp(upperSurfName, "PaloegeneTop") == 0) && strcmp(lowerSurfName, "CretaceousTop") == 0)
+    else if((strcmp(upperSurfName, "PaloegeneTop") == 0) && strcmp(lowerSurfName, "BasementTop") == 0)
     {
         values = paloegeneSubMod(location, xInd, yInd, zInd);
-    }
-    else if((strcmp(upperSurfName, "CretaceousTop") == 0) && strcmp(lowerSurfName, "BasementTop") == 0)
-    {
-        values = cretaceousSubMod(location, xInd, yInd, zInd);
     }
     else
     {

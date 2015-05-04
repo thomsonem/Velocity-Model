@@ -31,7 +31,7 @@ int findSubVeloModelInd(gridStruct *location, int lonInd, int latInd, int depInd
  nVeloInd   - the indice of the sub velocity model the point lies within
  */
 {
-    int nVeloInd;
+    int nVeloInd = NAN;
     
     for(int j = 0; j < nVeloSubMod; j++)
     {
@@ -40,6 +40,11 @@ int findSubVeloModelInd(gridStruct *location, int lonInd, int latInd, int depInd
             nVeloInd = j;
             break;
         }
+    }
+    
+    if(isnan(nVeloInd) != 0)
+    {
+        printf("Error.\n"); 
     }
     
     return nVeloInd;

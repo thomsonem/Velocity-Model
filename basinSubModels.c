@@ -34,9 +34,9 @@ valStructLocal *riccartonSubModel(gridStruct *location, int xInd, int yInd, int 
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
-    values->Rho = 2;
-    values->Vp = 2;
-    values->Vs = 2;
+    values->Rho = 1.6971;
+    values->Vp = 1.6;
+    values->Vs = 0.4;
     
     return values;
 }
@@ -47,9 +47,9 @@ valStructLocal *bromleySubModel(gridStruct *location, int xInd, int yInd, int zI
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
-    values->Rho = 3;
-    values->Vp = 3;
-    values->Vs = 3;
+    values->Rho = 1.6971;
+    values->Vp = 1.6;
+    values->Vs = 0.3;
     
     return values;
 }
@@ -60,9 +60,9 @@ valStructLocal*linwoodSubModel(gridStruct *location, int xInd, int yInd, int zIn
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
-    values->Rho = 4;
-    values->Vp = 4;
-    values->Vs = 4;
+    values->Rho = 1.6971;
+    values->Vp = 1.6;
+    values->Vs = 0.5;
     
     return values;
 }
@@ -73,9 +73,9 @@ valStructLocal *heathcoteSubModel(gridStruct *location, int xInd, int yInd, int 
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
-    values->Rho = 5;
-    values->Vp = 5;
-    values->Vs = 5;
+    values->Rho = 1.6971;
+    values->Vp = 1.6;
+    values->Vs = 0.4;
     
     return values;
 }
@@ -86,9 +86,9 @@ valStructLocal *burwoodSubModel(gridStruct *location, int xInd, int yInd, int zI
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
-    values->Rho = 6;
-    values->Vp = 6;
-    values->Vs = 6;
+    values->Rho = 1.6971;
+    values->Vp = 1.6;
+    values->Vs = 0.6;
     
     return values;
 }
@@ -99,9 +99,9 @@ valStructLocal *shirleySubModel(gridStruct *location, int xInd, int yInd, int zI
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
-    values->Rho = 7;
-    values->Vp = 7;
-    values->Vs = 7;
+    values->Rho = 1.6971;
+    values->Vp = 1.6;
+    values->Vs = 0.4;
     
     return values;
 }
@@ -112,9 +112,9 @@ valStructLocal *DEMtoPlioceneSubModel(gridStruct *location, int xInd, int yInd, 
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
-    values->Rho = 7.5;
-    values->Vp = 7.5;
-    values->Vs = 7.5;
+    values->Rho = 1.6971;
+    values->Vp = 1.6;
+    values->Vs = 1;
     
     return values;
 }
@@ -125,9 +125,9 @@ valStructLocal *plioceneSubModel(gridStruct *location, int xInd, int yInd, int z
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
-    values->Rho = 8;
-    values->Vp = 8;
-    values->Vs = 8;
+    values->Rho = 1.905;
+    values->Vp = 2;
+    values->Vs = 0.6086;
     
     return values;
 }
@@ -138,9 +138,9 @@ valStructLocal *mioceneSubModel(gridStruct *location, int xInd, int yInd, int zI
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
-    values->Rho = 9;
-    values->Vp = 9;
-    values->Vs = 9;
+    values->Rho = 2.0931;
+    values->Vp = 2.5;
+    values->Vs = 0.98355;
     
     return values;
 }
@@ -151,24 +151,13 @@ valStructLocal *paloegeneSubMod(gridStruct *location, int xInd, int yInd, int zI
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
-    values->Rho = 10;
-    values->Vp = 10;
-    values->Vs = 10;
+    values->Rho = 2.151;
+    values->Vp = 2.7;
+    values->Vs = 1.1511;
     
     return values;
 }
 
-// Cretaceous sub-model
-valStructLocal *cretaceousSubMod(gridStruct *location, int xInd, int yInd, int zInd)
-{
-	valStructLocal *values = NULL;
-    values = malloc(sizeof(valStructLocal));
-    
-    values->Rho = 11;
-    values->Vp = 11;
-    values->Vs = 11;
-    
-    return values;
-}
+
 
 
