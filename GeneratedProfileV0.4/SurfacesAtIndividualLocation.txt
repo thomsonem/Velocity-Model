@@ -1,0 +1,12 @@
+Basin Surface Depths at Lat: -43.500000 Lon: 172.500000
+DEM 	 45.531672
+RiccartonTop 	 30.101078
+BromleyTop 	 -2.698631
+LinwoodTop 	 -47.997810
+HeathcoteTop 	 -53.094887
+BurwoodTop 	 -75.656570
+ShirleyTop 	 -82.908112
+PlioceneTop 	 -300.000000
+MioceneTop 	 -550.000000
+PaloegeneTop 	 -900.000000
+BasementTop 	 -1300.000000

@@ -23,7 +23,7 @@
 #include "structs.h"
 #include "functions.h"
 
-int main(void)//(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     /*
     int argc = 18;
@@ -63,6 +63,7 @@ int main(void)//(int argc, char *argv[])
     argv[11] = "172.75";
     */
     
+    /*
     int argc = 9;
     char *argv[12];
     argv[1] = "GENERATE_INDIVIDUAL_PROFILE";
@@ -73,7 +74,7 @@ int main(void)//(int argc, char *argv[])
     argv[6] = "1";
     argv[7] = "-0.3";
     argv[8] = "0.001";
-
+    */
     
     
     char *generateType = argv[1];

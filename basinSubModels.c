@@ -21,9 +21,9 @@ valStructLocal *christchurchSubModel(gridStruct *location, int xInd, int yInd, i
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
-    values->Rho = 1; // in kg/m3
-    values->Vp = 1; // in km/s
-    values->Vs = 1; // in km/s
+    values->Rho = 1.6971; // in kg/m3
+    values->Vp = 1.6; // in km/s
+    values->Vs = 0.17; // in km/s
     
     return values;
 }
@@ -114,7 +114,7 @@ valStructLocal *DEMtoPlioceneSubModel(gridStruct *location, int xInd, int yInd, 
     
     values->Rho = 1.6971;
     values->Vp = 1.6;
-    values->Vs = 1;
+    values->Vs = 0.4;
     
     return values;
 }
