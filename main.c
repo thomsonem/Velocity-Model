@@ -29,38 +29,41 @@ int main(int argc, char *argv[])
     int argc = 18;
     char *argv[18];
     argv[1] = "EXTRACT_VELOCITY_SLICE";
-    argv[2] = "0.2";
-    argv[3] = "ExtractedSliceV0.2";
-    argv[4] = "-43.5";
-    argv[5] = "172.5";
-    argv[6] = "0";
-    argv[7] = "20";
-    argv[8] = "15";
-    argv[9] = "2";
-    argv[10] = "-.1";
-    argv[11] = "0.01";
-    argv[12] = ".25";
+    argv[2] = "1.2";
+    argv[3] = "ExtractedSliceV1.3";
+    argv[4] = "-43.6";
+    argv[5] = "172.3";
+    argv[6] = "-10.00";
+    argv[7] = "70";
+    argv[8] = "60";
+    argv[9] = "40";
+    argv[10] = "0";
+    argv[11] = "10";
+    argv[12] = "10";
     argv[13] = "250";
-    argv[14] = "-43.75";
-    argv[15] = "-43.5";
-    argv[16] = "171.5";
+    argv[14] = "-43.0";
+    argv[15] = "-43.0";
+    argv[16] = "171.0";
     argv[17] = "173.0";
     */
+
+    
     
     /*
-    int argc = 12;
-    char *argv[12];
-    argv[1] = "GENERATE_VELOCITY_SLICE";
-    argv[2] = "0.3";
-    argv[3] = "GeneratedSliceV0.3";
-    argv[4] = "1";
-    argv[5] = "-.01";
-    argv[6] = "0.005";
-    argv[7] = "10";
-    argv[8] = "-43.3";
-    argv[9] = "-43.9";
-    argv[10] = "172.75";
-    argv[11] = "172.75";
+    int argc = 13;
+    char *argv[13];
+    argv[1] = "GENERATE_VELOCITY_MOD";
+    argv[2] = "1.2";
+    argv[3] = "ExtractedSliceV1.3";
+    argv[4] = "-43.6";
+    argv[5] = "172.3";
+    argv[6] = "-10.00";
+    argv[7] = "70";
+    argv[8] = "60";
+    argv[9] = "46";
+    argv[10] = "0";
+    argv[11] = ".25";
+    argv[12] = ".25";
     */
     
     /*
@@ -96,13 +99,13 @@ int main(int argc, char *argv[])
     //=============================================================
     if ((strcmp(generateType, "GENERATE_VELOCITY_MOD") == 0) || (strcmp(generateType,"EXTRACT_VELOCITY_SLICE")== 0))
     {
-        printf("Entered\n");
+        printf("Entered.\n");
         if (strcmp(generateType, "GENERATE_VELOITY_MOD") == 0 && argc != 13)
         {
             printf("Incorrect number of inputs: Recieved %i, require 12.\n",argc-1);
             exit(0);
         }
-        if (strcmp(generateType,"EXTRACT_VELOCITY_SLICE") && argc != 18)
+        if (strcmp(generateType,"EXTRACT_VELOCITY_SLICE") == 0 && argc != 18)
         {
             printf("Incorrect number of inputs: Recieved %i, require 17.\n",argc-1);
             exit(0);
@@ -141,6 +144,7 @@ int main(int argc, char *argv[])
         
         // generate the model grid
         location = generateModelGrid(modelOrigin, modelExtent);
+//        writeGridPoints(location, outputDirectory);
         
         // obtain surface filenames based off version number
         surfNames surfSubModNames;

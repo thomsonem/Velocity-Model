@@ -28,7 +28,7 @@ void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *ou
  */
 {
     FILE *fvp, *fvs, *frho; //*fp
-	FILE *fvpdebug, *fvsdebug, *frhodebug;
+//	FILE *fvpdebug, *fvsdebug, *frhodebug;
     char vp3dfile[64];
     sprintf(vp3dfile,"%s/vp3dfile.bin",outputDirectory);
 
@@ -38,14 +38,14 @@ void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *ou
 	char rho3dfile[64];
     sprintf(rho3dfile,"%s/rho3dfile.bin",outputDirectory);
 
-    char vpdebug3dfile[64];
-    sprintf(vpdebug3dfile,"%s/vpdebug3dfile.txt",outputDirectory);
-
-    char vsdebug3dfile[64];
-    sprintf(vsdebug3dfile,"%s/vsdebug3dfile.txt",outputDirectory);
-
-    char rhodebug3dfile[64];
-    sprintf(rhodebug3dfile,"%s/rhodebug3dfile.txt",outputDirectory);
+//    char vpdebug3dfile[64];
+//    sprintf(vpdebug3dfile,"%s/vpdebug3dfile.txt",outputDirectory);
+//
+//    char vsdebug3dfile[64];
+//    sprintf(vsdebug3dfile,"%s/vsdebug3dfile.txt",outputDirectory);
+//
+//    char rhodebug3dfile[64];
+//    sprintf(rhodebug3dfile,"%s/rhodebug3dfile.txt",outputDirectory);
 
     float *vp, *vs, *rho;
     int bsize, ip;
@@ -53,9 +53,9 @@ void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *ou
 	fvp = fopen(vp3dfile,"w");
 	fvs = fopen(vs3dfile,"w");
 	frho = fopen(rho3dfile,"w");
-    fvpdebug = fopen(vpdebug3dfile,"w");
-    fvsdebug = fopen(vsdebug3dfile,"w");
-    frhodebug = fopen(rhodebug3dfile,"w");
+//    fvpdebug = fopen(vpdebug3dfile,"w");
+//    fvsdebug = fopen(vsdebug3dfile,"w");
+//    frhodebug = fopen(rhodebug3dfile,"w");
     
 	//determine the number of x,y,z layers
     printf("Starting binary file write.\n");
@@ -82,9 +82,9 @@ void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *ou
 				rho[ip] = globDataVals->Rho[ix][iy][iz];
                 
 				//now write the obtained file to text - this is for debugging purposes
-                fprintf(fvpdebug," %f \n",vp[ip]);
-                fprintf(fvsdebug," %f \n",vs[ip]);
-                fprintf(frhodebug," %f \n",rho[ip]);
+//                fprintf(fvpdebug," %f \n",vp[ip]);
+//                fprintf(fvsdebug," %f \n",vs[ip]);
+//                fprintf(frhodebug," %f \n",rho[ip]);
 			}
 		}
 		//increment a counter

@@ -33,7 +33,7 @@ gridStruct *generateModelGrid(modOrigin modelOrigin, modExtent modelExtent)
     // determine number of points in each orthogonal direction
 	int nX = 2*modelExtent.Xmax/modelExtent.hLatLon;
 	int nY = 2*modelExtent.Ymax/modelExtent.hLatLon;
-	int nZ = (modelExtent.Zmax-modelExtent.Zmin)/modelExtent.hDep + 1;
+	int nZ = (modelExtent.Zmax-modelExtent.Zmin)/modelExtent.hDep;
     gridPtsStruct->maxLat = -180;
     gridPtsStruct->minLat = 0;
     gridPtsStruct->maxLon = 0;

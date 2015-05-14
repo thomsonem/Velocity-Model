@@ -126,6 +126,56 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         surfSubModNames.nBasin = 1;
         
     }
+    //  Model Version 1.1  w/ 1D velo mod (Cant. 1D)
+    else if(modelVersion.version == 1.1)
+    {
+        // define the number of surfaces and sub models
+        surfSubModNames.nSurf = 2;
+        surfSubModNames.nVeloSubMod = 1;
+        
+        // insert surface surface keywords
+        surfSubModNames.surf[0] = "posInfSurf";
+        surfSubModNames.surf[1] = "negInfSurf";
+        
+        // insert velocity submodel names
+        surfSubModNames.veloSubMod[0] = "v1DsubMod";
+        
+        surfSubModNames.nBasin = 0;
+
+    }
+    //  Model Version 1.2  w/ Tomography
+    else if(modelVersion.version == 1.2)
+    {
+        // define the number of surfaces and sub models
+        surfSubModNames.nSurf = 2;
+        surfSubModNames.nVeloSubMod = 1;
+        
+        // insert surface surface keywords
+        surfSubModNames.surf[0] = "posInfSurf";
+        surfSubModNames.surf[1] = "negInfSurf";
+        
+        // insert velocity submodel names
+        surfSubModNames.veloSubMod[0] = "EPtomo2010subMod";
+        
+        surfSubModNames.nBasin = 0;
+    }
+    //  Model Version 1.3  w/ 1D + basement w/ Tomography
+    else if(modelVersion.version == 1.3)
+    {
+        // define the number of surfaces and sub models
+        surfSubModNames.nSurf = 3;
+        surfSubModNames.nVeloSubMod = 2;
+        
+        // insert surface surface keywords
+        surfSubModNames.surf[0] = "posInfSurf";
+        surfSubModNames.surf[1] = "basementRockSurf";
+        surfSubModNames.surf[2] = "negInfSurf";
+
+        // insert velocity submodel names
+        surfSubModNames.veloSubMod[0] = "v1DsubMod";
+        surfSubModNames.veloSubMod[1] = "EPtomo2010subMod";
+    }
+    
     assert(surfSubModNames.nSurf==(surfSubModNames.nVeloSubMod+1));
     printf("Surface Submodel Names Successfully Obtained.\n");
     return surfSubModNames;

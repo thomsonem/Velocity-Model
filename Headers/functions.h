@@ -31,6 +31,8 @@ extern globalDataValues *assignValues(modVersion modelVersion, gridStruct *locat
 extern void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *outputDirectory);
 extern gridStruct *generateLatLonForPlotting(modOrigin modelOrigin, modExtent modelExtent, double latPts[], double lonPts[], int nPts);
 extern void writeLatLonData(gridStruct *location, globalDataValues *globDataVals, char *outputDirectory);
+extern void writeGridPoints(gridStruct *location, char *outputDirectory);
+
 
 
 

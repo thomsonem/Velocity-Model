@@ -72,15 +72,19 @@ depInterpVals *loadEPtomo2010subMod(gridStruct *location)
 {
     const char *varNames[3];
     varNames[0] = "vp", varNames[1] = "vs", varNames[2] = "rho";
-    int nElev = 11;
-    int elev[11] = { 1, -3, -8, -15, -23, -30, -38, -48, -65, -85, -105 };
-    char baseFilename[128];
+    int nElev = 15; // only read first 15 for efficiency 
+//    int elev[11] = { 1, -3, -8, -15, -23, -30, -38, -48, -65, -85, -105 }; using the old tomography
+    int elev[21] = {15, 1, -3, -5, -8, -11, -15, -23, -30, -38, -48, -65, -85, -105, -130, -155, -185, -225, -275, -370, -630};
+    char baseFilename[256];
     
     depInterpVals *surfDepVals = NULL;
     surfDepVals = malloc(sizeof(depInterpVals));
     surfDepVals->numSurf = nElev;
     surfRead *tempSurf;
     adjacentPointsStruct points;
+    
+    double X1, X2, Y1, Y2, Q11, Q12, Q22, Q21, X, Y, interpVal;
+
 
     for(int i = 0; i < nElev; i++)
     {
@@ -96,21 +100,29 @@ depInterpVals *loadEPtomo2010subMod(gridStruct *location)
                 for(int n = 0; n < location->nY; n++)
                 {
                     points = findAdjacentPoints(tempSurf, location->Lat[k][n], location->Lon[k][n]); // a little inefficient as process is repeated for each of Vp Vs and Rho!
-                    //printf("%i %i %i %i\n", points.latInd[0],points.latInd[1],points.lonInd[0],points.lonInd[1]);
+                    X1 = tempSurf->loni[points.lonInd[0]];
+                    X2 = tempSurf->loni[points.lonInd[1]];
+                    Y1 = tempSurf->lati[points.latInd[0]];
+                    Y2 = tempSurf->lati[points.latInd[1]];
+                    X = location->Lon[k][n];
+                    Y = location->Lat[k][n];
+                    Q11 = tempSurf->raster[points.lonInd[0]][points.latInd[0]];
+                    Q12 = tempSurf->raster[points.lonInd[0]][points.latInd[1]];
+                    Q21 = tempSurf->raster[points.lonInd[1]][points.latInd[0]];
+                    Q22 = tempSurf->raster[points.lonInd[1]][points.latInd[1]];
+                    
+                    interpVal = biLinearInterpolation(X1, X2, Y1, Y2, Q11, Q12, Q21, Q22, X, Y);
                     if(j == 0)
                     {
-                        surfDepVals->Vp[i][k][n] = biLinearInterpolation( tempSurf->loni[points.lonInd[0]], tempSurf->loni[points.lonInd[1]], tempSurf->lati[points.latInd[0]], tempSurf->lati[points.latInd[1]], tempSurf->raster[points.lonInd[0]][points.latInd[0]], tempSurf->raster[points.lonInd[0]][points.latInd[1]], tempSurf->raster[points.lonInd[1]][points.latInd[0]], tempSurf->raster[points.lonInd[1]][points.latInd[1]], location->Lon[k][n], location->Lat[k][n]);
-                        //printf("%lf\n",surfDepVals->Vp[i][k][n]);
+                        surfDepVals->Vp[i][k][n] = interpVal;
                     }
                     else if(j == 1)
                     {
-                        surfDepVals->Vs[i][k][n] = biLinearInterpolation( tempSurf->loni[points.lonInd[0]], tempSurf->loni[points.lonInd[1]], tempSurf->lati[points.latInd[0]], tempSurf->lati[points.latInd[1]], tempSurf->raster[points.lonInd[0]][points.latInd[0]], tempSurf->raster[points.lonInd[0]][points.latInd[1]], tempSurf->raster[points.lonInd[1]][points.latInd[0]], tempSurf->raster[points.lonInd[1]][points.latInd[1]], location->Lon[k][n], location->Lat[k][n]);
-                        //printf("%lf\n",surfDepVals->Vs[i][k][n]);
+                        surfDepVals->Vs[i][k][n] = interpVal;
                     }
                     else if(j ==2)
                     {
-                        surfDepVals->Rho[i][k][n] = biLinearInterpolation( tempSurf->loni[points.lonInd[0]], tempSurf->loni[points.lonInd[1]], tempSurf->lati[points.latInd[0]], tempSurf->lati[points.latInd[1]], tempSurf->raster[points.lonInd[0]][points.latInd[0]], tempSurf->raster[points.lonInd[0]][points.latInd[1]], tempSurf->raster[points.lonInd[1]][points.latInd[0]], tempSurf->raster[points.lonInd[1]][points.latInd[1]], location->Lon[k][n], location->Lat[k][n]);
-                        //printf("%lf\n", surfDepVals->Rho[i][k][n]);
+                        surfDepVals->Rho[i][k][n] = interpVal;
                     }
                 }
             }

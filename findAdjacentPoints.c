@@ -68,8 +68,10 @@ adjacentPointsStruct findAdjacentPoints(surfRead *surface, double lat, double lo
     }
     if (lonAssignedFlag == 0)
     {
-        for( int j = surface->nLon-1; j > surface->nLon; j--)
+//        printf("%i\n",surface->nLon-1);
+        for( int j = surface->nLon-1; j < surface->nLon; j--)
         {
+//            printf("%lf\n",surface->loni[j]);
             if(surface->loni[j] >= lon)
             {
                 points.lonInd[0] = j;
@@ -83,8 +85,32 @@ adjacentPointsStruct findAdjacentPoints(surfRead *surface, double lat, double lo
     
     if((points.lonInd[0]==-1)||(points.latInd[0]==-1)||(latAssignedFlag != 1)||(lonAssignedFlag !=1))
     {
+        printf("%lf %lf\n",lat,lon);
         printf("Error, lat lon point outside the bounds of the surface file\n");
     }
+    
+//    if((surface->loni[points.lonInd[0]] >= lon) && (surface->loni[points.lonInd[1]] <= lon))
+//    {
+//        
+//    }
+//    else if((surface->loni[points.lonInd[1]] >= lon) && (surface->loni[points.lonInd[0]] <= lon))
+//    {
+//        
+//    }
+//    else if((surface->lati[points.latInd[1]] >= lat) && (surface->lati[points.latInd[0]] <= lat))
+//    {
+//        
+//    }
+//    else if((surface->lati[points.latInd[0]] >= lat) && (surface->lati[points.latInd[1]] <= lat))
+//    {
+//        
+//    }
+//    else
+//    {
+//        printf("Error, adjacent points incorrect\n");
+//    }
+    
+
     return points;
 }
 

@@ -44,7 +44,7 @@ surfaceDepthsGlobal *getSurfaceValues(gridStruct *location, surfNames surfSubMod
         }
         else if(strcmp(surfSubModNames.surf[i], "basementRockSurf") == 0)
         {
-            surfDeps = basementRockSurf(location); // currently reads placeholder values of -10km
+            surfDeps = basementRockSurf(location); 
         }
         else if(strcmp(surfSubModNames.surf[i], "demSurf") == 0)
         {
