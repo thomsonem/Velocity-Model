@@ -73,8 +73,8 @@ depInterpVals *loadEPtomo2010subMod(gridStruct *location)
     const char *varNames[3];
     varNames[0] = "vp", varNames[1] = "vs", varNames[2] = "rho";
     int nElev = 15; // only read first 15 for efficiency 
-//    int elev[11] = { 1, -3, -8, -15, -23, -30, -38, -48, -65, -85, -105 }; using the old tomography
-    int elev[21] = {15, 1, -3, -5, -8, -11, -15, -23, -30, -38, -48, -65, -85, -105, -130, -155, -185, -225, -275, -370, -630};
+    int elev[17] = {15, 1, -3, -8, -15, -23, -30, -38, -48, -65, -85, -105, -130, -155, -185, -225, -275 };
+//    int elev[21] = {15, 1, -3, -5, -8, -11, -15, -23, -30, -38, -48, -65, -85, -105, -130, -155, -185, -225, -275, -370, -630};
     char baseFilename[256];
     
     depInterpVals *surfDepVals = NULL;

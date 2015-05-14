@@ -18,7 +18,6 @@
 #include <unistd.h>
 
 
-
 #include "constants.h"
 #include "structs.h"
 #include "functions.h"
@@ -30,16 +29,16 @@ int main(int argc, char *argv[])
     char *argv[18];
     argv[1] = "EXTRACT_VELOCITY_SLICE";
     argv[2] = "1.2";
-    argv[3] = "ExtractedSliceV1.3";
+    argv[3] = "ExtractedSliceV1.2";
     argv[4] = "-43.6";
     argv[5] = "172.3";
     argv[6] = "-10.00";
     argv[7] = "70";
     argv[8] = "60";
-    argv[9] = "40";
+    argv[9] = "46";
     argv[10] = "0";
-    argv[11] = "10";
-    argv[12] = "10";
+    argv[11] = "0.1";
+    argv[12] = "0.1";
     argv[13] = "250";
     argv[14] = "-43.0";
     argv[15] = "-43.0";

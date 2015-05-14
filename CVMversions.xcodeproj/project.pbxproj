@@ -40,6 +40,9 @@
 		8C30C1171AE71DCE0008C943 /* v1DsubMod.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0F61AE71DCE0008C943 /* v1DsubMod.c */; };
 		8C30C1181AE71DCE0008C943 /* writeCVMData.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0F71AE71DCE0008C943 /* writeCVMData.c */; };
 		8C30C1191AE71DCE0008C943 /* writeLatLonData.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0F81AE71DCE0008C943 /* writeLatLonData.c */; };
+		8C30C1261AE8C6FC0008C943 /* BrocherCorrelations.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C1251AE8C6FC0008C943 /* BrocherCorrelations.c */; };
+		8C30C12B1AE9D83F0008C943 /* writeVeloModLogFile.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C12A1AE9D83F0008C943 /* writeVeloModLogFile.c */; };
+		8CCF2F7E1B005DB700ED990E /* writeGridPoints.c in Sources */ = {isa = PBXBuildFile; fileRef = 8CCF2F7D1B005DB700ED990E /* writeGridPoints.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -92,6 +95,12 @@
 		8C30C11A1AE71DF30008C943 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = constants.h; path = Headers/constants.h; sourceTree = "<group>"; };
 		8C30C11B1AE71DF30008C943 /* functions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = functions.h; path = Headers/functions.h; sourceTree = "<group>"; };
 		8C30C11C1AE71DF30008C943 /* structs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = structs.h; path = Headers/structs.h; sourceTree = "<group>"; };
+		8C30C1251AE8C6FC0008C943 /* BrocherCorrelations.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BrocherCorrelations.c; sourceTree = "<group>"; };
+		8C30C1271AE8DE330008C943 /* Holder */ = {isa = PBXFileReference; lastKnownFileType = text; path = Holder; sourceTree = "<group>"; };
+		8C30C1281AE8DE330008C943 /* Make */ = {isa = PBXFileReference; lastKnownFileType = text; path = Make; sourceTree = "<group>"; };
+		8C30C1291AE9B9810008C943 /* Build */ = {isa = PBXFileReference; lastKnownFileType = text; path = Build; sourceTree = "<group>"; };
+		8C30C12A1AE9D83F0008C943 /* writeVeloModLogFile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = writeVeloModLogFile.c; sourceTree = "<group>"; };
+		8CCF2F7D1B005DB700ED990E /* writeGridPoints.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = writeGridPoints.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +126,9 @@
 				8C30C11E1AE733C40008C943 /* File I/O */,
 				8C30C11D1AE71E000008C943 /* Headers */,
 				8C1F22631952831A00D51835 /* Products */,
+				8C30C1271AE8DE330008C943 /* Holder */,
+				8C30C1281AE8DE330008C943 /* Make */,
+				8C30C1291AE9B9810008C943 /* Build */,
 			);
 			sourceTree = "<group>";
 		};
@@ -141,9 +153,9 @@
 		8C30C11E1AE733C40008C943 /* File I/O */ = {
 			isa = PBXGroup;
 			children = (
-				8C30C0F51AE71DCE0008C943 /* sliceFunctions.c */,
 				8C30C0F71AE71DCE0008C943 /* writeCVMData.c */,
 				8C30C0F81AE71DCE0008C943 /* writeLatLonData.c */,
+				8CCF2F7D1B005DB700ED990E /* writeGridPoints.c */,
 			);
 			name = "File I/O";
 			sourceTree = "<group>";
@@ -162,6 +174,7 @@
 		8C30C1201AE735EC0008C943 /* Extraction and Plotting */ = {
 			isa = PBXGroup;
 			children = (
+				8C30C0F51AE71DCE0008C943 /* sliceFunctions.c */,
 				8C30C0F21AE71DCE0008C943 /* plotExtracts.c */,
 				8C30C0E41AE71DCE0008C943 /* generateProfile.c */,
 				8C30C0E21AE71DCE0008C943 /* generateLatLonForPlotting.c */,
@@ -194,7 +207,9 @@
 		8C30C1231AE736C00008C943 /* General */ = {
 			isa = PBXGroup;
 			children = (
+				8C30C12A1AE9D83F0008C943 /* writeVeloModLogFile.c */,
 				8C30C0E61AE71DCE0008C943 /* getSurfaceValues.c */,
+				8C30C1251AE8C6FC0008C943 /* BrocherCorrelations.c */,
 				8C30C0E51AE71DCE0008C943 /* generateSurfaceVectors.c */,
 				8C30C0E31AE71DCE0008C943 /* generateModelGrid.c */,
 				8C30C0E11AE71DCE0008C943 /* findSubVeloModelInd.c */,
@@ -271,6 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CCF2F7E1B005DB700ED990E /* writeGridPoints.c in Sources */,
 				8C30C0F91AE71DCE0008C943 /* assignValues.c in Sources */,
 				8C30C1151AE71DCE0008C943 /* posInfSurf.c in Sources */,
 				8C30C10A1AE71DCE0008C943 /* load1dVeloSubModel.c in Sources */,
@@ -286,6 +302,7 @@
 				8C30C1161AE71DCE0008C943 /* sliceFunctions.c in Sources */,
 				8C30C1081AE71DCE0008C943 /* getSurfSubModNames.c in Sources */,
 				8C30C0FD1AE71DCE0008C943 /* determineIfWithinBasinLatLon.c in Sources */,
+				8C30C1261AE8C6FC0008C943 /* BrocherCorrelations.c in Sources */,
 				8C30C1171AE71DCE0008C943 /* v1DsubMod.c in Sources */,
 				8C30C0FA1AE71DCE0008C943 /* basementRockSurf.c in Sources */,
 				8C30C10B1AE71DCE0008C943 /* loadBasins.c in Sources */,
@@ -294,6 +311,7 @@
 				8C30C1131AE71DCE0008C943 /* plotExtracts.c in Sources */,
 				8C30C1091AE71DCE0008C943 /* linearInterpolation.c in Sources */,
 				8C30C1031AE71DCE0008C943 /* generateLatLonForPlotting.c in Sources */,
+				8C30C12B1AE9D83F0008C943 /* writeVeloModLogFile.c in Sources */,
 				8C30C0FC1AE71DCE0008C943 /* calculateSurfaceLatLonIndex.c in Sources */,
 				8C30C1111AE71DCE0008C943 /* NaNsubMod.c in Sources */,
 				8C30C0FF1AE71DCE0008C943 /* enforceSurfaceDepths.c in Sources */,
