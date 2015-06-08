@@ -15,7 +15,7 @@
 #include "structs.h"
 #include "functions.h"
 
-surfaceDepthsGlobal *getSurfaceValues(gridStruct *location, surfNames surfSubModNames)
+surfaceDepthsGlobal *getSurfaceValues(gridStruct *location, surfNames surfSubModNames, char *outputDirectory)
 /*
  Purpose:   obtain the depths for all lat lon points for all desired surfaces
  
@@ -44,7 +44,8 @@ surfaceDepthsGlobal *getSurfaceValues(gridStruct *location, surfNames surfSubMod
         }
         else if(strcmp(surfSubModNames.surf[i], "basementRockSurf") == 0)
         {
-            surfDeps = basementRockSurf(location); 
+            surfDeps = basementRockSurf(location);
+            writeAllSurfaceDepths(location, surfDeps, outputDirectory);
         }
         else if(strcmp(surfSubModNames.surf[i], "demSurf") == 0)
         {

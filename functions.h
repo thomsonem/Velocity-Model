@@ -25,7 +25,7 @@ extern globalDataValues* loadCvmDataAll(gridStruct *location, char *outputDirect
 
 // primary functions
 extern surfNames getSurfSubModNames(modVersion modelVersion);
-extern surfaceDepthsGlobal *getSurfaceValues(gridStruct *location, surfNames surfSubModNames);
+extern surfaceDepthsGlobal *getSurfaceValues(gridStruct *location, surfNames surfSubModNames,char *outputDirectory);
 extern gridStruct *generateModelGrid(modOrigin modelOrigin, modExtent modelExtent);
 extern globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, surfNames surfSubModNames, surfaceDepthsGlobal *surfDepsGlob, char *outputDirectory);
 extern void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *outputDirectory);
@@ -49,7 +49,10 @@ extern depInterpVals generateSurfaceValuesAllDepths(surfVecGlobal *vector, gridS
 extern void loadBoundary(globalBasinData *basinData, int basinNum);
 extern int pointInPoly(globalBasinData *basinData, int basinNum, int boundaryNum, double xLoc, double yLoc);
 extern void plotExtracts(void);
-extern adjacentPointsStruct findAdjacentPoints(surfRead *surface, double lat, double lon);
+extern adjacentPointsStruct *findAdjacentPoints(surfRead *surface, double lat, double lon);
+extern void findCornerInds(surfRead *surface, double latPt, double lonPt, adjacentPointsStruct *points);
+extern void findEdgeInds(surfRead *surface, adjacentPointsStruct *points, int edgeType);
+extern void writeAllSurfaceDepths(gridStruct *location, surfDepValues *surfDep, char *outputDirectory);
 extern void determineIfWithinBasinLatLon(gridStruct *location, int basinNum, globalBasinData *basinData);
 
 

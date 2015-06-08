@@ -27,6 +27,7 @@ typedef struct{
 typedef struct{
     int nLat;
     int nLon;
+    double maxLat, minLat, maxLon, minLon;
     double lati[SURF_IN_DIM_MAX];
     double loni[SURF_IN_DIM_MAX];
     double raster[SURF_IN_DIM_MAX][SURF_IN_DIM_MAX];
@@ -205,8 +206,21 @@ typedef struct{
 
 // struct to house the indices of adjacent points for bilinear interpolation
 typedef struct{
+    int inSurfaceBounds;
     int latInd[2];
     int lonInd[2];
+    
+    int inLatExtensionZone;
+    int latExtensionType;
+    int lonEdgeInd;
+    
+    int inLonExtensionZone;
+    int lonExtensionType;
+    int latEdgeInd;
+    
+    int inCornerZone;
+    int cornerLatInd;
+    int cornerLonInd;
 }adjacentPointsStruct;
 
 

@@ -34,7 +34,10 @@ surfDepValues *determineSurfaceDepths(gridStruct *location, char *fileName)
     
     surfDepValues *surfDep;
     surfDep = malloc(sizeof(surfDepValues));
-    adjacentPointsStruct points;
+    adjacentPointsStruct *points;
+    
+    double p1, p2, p3, v1, v2, v3;
+
     
     // loop over values and find the depth of the surface at all points (2D interpolation)
     for(int i = 0; i < location->nX; i++)
@@ -44,12 +47,53 @@ surfDepValues *determineSurfaceDepths(gridStruct *location, char *fileName)
             // find adjacent points
             points = findAdjacentPoints(currentSurface, location->Lat[i][j], location->Lon[i][j]);
             
+            if (points->inSurfaceBounds == 1)
+            {
             // interpolate
-            surfDep->dep[i][j] = biLinearInterpolation( currentSurface->loni[points.lonInd[0]], currentSurface->loni[points.lonInd[1]], currentSurface->lati[points.latInd[0]], currentSurface->lati[points.latInd[1]], currentSurface->raster[points.lonInd[0]][points.latInd[0]], currentSurface->raster[points.lonInd[0]][points.latInd[1]], currentSurface->raster[points.lonInd[1]][points.latInd[0]], currentSurface->raster[points.lonInd[1]][points.latInd[1]], location->Lon[i][j], location->Lat[i][j]);
+            surfDep->dep[i][j] = biLinearInterpolation( currentSurface->loni[points->lonInd[0]], currentSurface->loni[points->lonInd[1]], currentSurface->lati[points->latInd[0]], currentSurface->lati[points->latInd[1]], currentSurface->raster[points->lonInd[0]][points->latInd[0]], currentSurface->raster[points->lonInd[0]][points->latInd[1]], currentSurface->raster[points->lonInd[1]][points->latInd[0]], currentSurface->raster[points->lonInd[1]][points->latInd[1]], location->Lon[i][j], location->Lat[i][j]);
+            }
+            else if (points->inLatExtensionZone == 1)
+            {
+                p1 = currentSurface->loni[points->lonInd[0]];
+                p2 = currentSurface->loni[points->lonInd[1]];
+                v1 = currentSurface->raster[points->lonInd[0]][points->latEdgeInd];
+                v2 = currentSurface->raster[points->lonInd[1]][points->latEdgeInd];
+                p3 = location->Lon[i][j];
+                v3 = linearInterpolation(p1, p2, v1, v2, p3);
+                printf("%i %i %i %i\n", points->lonInd[0], points->lonInd[1], points->inLatExtensionZone, points->latEdgeInd);
+                printf("%lf %lf %lf %lf %lf %lf\n",p1, p2, p3, v1, v2, v3);
+                
+                surfDep->dep[i][j] = v3;
+            }
+            else if (points->inLonExtensionZone == 1)
+            {
+                p1 = currentSurface->lati[points->latInd[0]];
+                p2 = currentSurface->lati[points->latInd[1]];
+                v1 = currentSurface->raster[points->lonEdgeInd][points->latInd[0]];
+                v2 = currentSurface->raster[points->lonEdgeInd][points->latInd[1]];
+                p3 = location->Lat[i][j];
+                v3 = linearInterpolation(p1, p2, v1, v2, p3);
+                printf("%lf %lf %lf %lf %lf %lf\n",p1, p2, p3, v1, v2, v3);
+                if ( v3>v2 && v3>v1)
+                {
+                    int hh = 1;
+                }
+                else if( v3<v2 && v3<v1)
+                {
+                    int kk = 1;
+                }
+                surfDep->dep[i][j] = v3;
+            }
+            else if (points->inCornerZone == 1)
+            {
+                surfDep->dep[i][j] = currentSurface->raster[points->cornerLonInd][points->cornerLatInd];
+                //printf("%i %i %lf.\n", points->cornerLatInd, points->cornerLonInd,surfDep->dep[i][j]);
+            }
+            free(points);
         }
     }
     free(currentSurface);
-    
+        
     return surfDep;
 }
 
@@ -71,7 +115,7 @@ surfDepValues *determineSurfaceDepthsBasin(globalBasinData *basinData ,gridStruc
     
     surfDepValues *surfDep;
     surfDep = malloc(sizeof(surfDepValues));
-    adjacentPointsStruct points;
+    adjacentPointsStruct *points;
     
     // loop over values and find the depth of the surface at all points (2D interpolation)
     for(int i = 0; i < location->nX; i++)
@@ -82,12 +126,15 @@ surfDepValues *determineSurfaceDepthsBasin(globalBasinData *basinData ,gridStruc
             {
                 // find adjacent points
                 points = findAdjacentPoints(currentSurface, location->Lat[i][j], location->Lon[i][j]);
-//                printf("%lf %lf\n",location->Lat[i][j], location->Lon[i][j]);
-//                printf("%i\n",basinData->inBasinLatLon[basinNum][basinData->boundaryType[basinNum][surfNum]][i][j]);
-
+                //                printf("%lf %lf\n",location->Lat[i][j], location->Lon[i][j]);
+                //                printf("%i\n",basinData->inBasinLatLon[basinNum][basinData->boundaryType[basinNum][surfNum]][i][j]);
                 
-                // interpolate
-                surfDep->dep[i][j] = biLinearInterpolation( currentSurface->loni[points.lonInd[0]], currentSurface->loni[points.lonInd[1]], currentSurface->lati[points.latInd[0]], currentSurface->lati[points.latInd[1]], currentSurface->raster[points.lonInd[0]][points.latInd[0]], currentSurface->raster[points.lonInd[0]][points.latInd[1]], currentSurface->raster[points.lonInd[1]][points.latInd[0]], currentSurface->raster[points.lonInd[1]][points.latInd[1]], location->Lon[i][j], location->Lat[i][j]);
+                if (points->inSurfaceBounds == 1)
+                {
+                    // interpolate
+                    surfDep->dep[i][j] = biLinearInterpolation( currentSurface->loni[points->lonInd[0]], currentSurface->loni[points->lonInd[1]], currentSurface->lati[points->latInd[0]], currentSurface->lati[points->latInd[1]], currentSurface->raster[points->lonInd[0]][points->latInd[0]], currentSurface->raster[points->lonInd[0]][points->latInd[1]], currentSurface->raster[points->lonInd[1]][points->latInd[0]], currentSurface->raster[points->lonInd[1]][points->latInd[1]], location->Lon[i][j], location->Lat[i][j]);
+                    free(points);
+                }
             }
             else
             {

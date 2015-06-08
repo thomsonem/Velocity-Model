@@ -28,16 +28,18 @@ void generateSlice(modOrigin modelOrigin, sliceExtent sliceBounds, modVersion mo
     // generate the model grid
     gridStruct *location;
     location = malloc(sizeof(gridStruct));
-    int nZ = (sliceBounds.zMax-sliceBounds.zMin)/sliceBounds.resZ + 1;
+    int nZ = (sliceBounds.zMax-sliceBounds.zMin)/sliceBounds.resZ;
     
     location->nX = sliceData->nPts;
     location->nY = 1;
     location->nZ = nZ;
     
     // ensure the number of points does not exceed that of the struct preallocation
+    printf("nx: %i, ny: %i, nz: %i.\n", location->nX, location->nY, location->nZ);
     assert(location->nX<=LON_GRID_DIM_MAX);
     assert(location->nY<=LAT_GRID_DIM_MAX);
     assert(location->nZ<=DEP_GRID_DIM_MAX);
+    
     for(int i = 0; i < sliceData->nPts; i++)
     {
         location->Lat[i][0] = sliceData->latPts[i];
@@ -55,7 +57,7 @@ void generateSlice(modOrigin modelOrigin, sliceExtent sliceBounds, modVersion mo
     
     // determine the depths of each surface for each lat lon point
     
-    surfDepsGlob = getSurfaceValues(location, surfSubModNames);
+    surfDepsGlob = getSurfaceValues(location, surfSubModNames, outputDirectory);
     
     // assign values
     globDataVals = assignValues(modelVersion, location, surfSubModNames, surfDepsGlob, outputDirectory);

@@ -26,6 +26,10 @@ surfRead *loadSurface(char *fileName)
  surfRead  - (malloc'd) pointer to loaded surface data
  */
 {
+    double firstLat;
+    double firstLon;
+    double lastLat;
+    double lastLon;
     FILE *file;
     file = fopen(fileName, "r");
     if (file == NULL) {
@@ -64,6 +68,44 @@ surfRead *loadSurface(char *fileName)
             fscanf(file, "%lf",&surfData->raster[j][i]);
         }
     }
+    
+    firstLat = surfData->lati[0];
+    lastLat = surfData->lati[surfData->nLat-1];
+    
+    if (firstLat >= lastLat)
+    {
+        surfData->maxLat = firstLat;
+        surfData->minLat = lastLat;
+    }
+    else if (lastLat >= firstLat)
+    {
+        surfData->maxLat = lastLat;
+        surfData->minLat = firstLat;
+    }
+    else
+    {
+        printf("Error.\n");
+    }
+    
+    firstLon = surfData->loni[0];
+    lastLon = surfData->loni[surfData->nLon-1];
+
+    if (firstLon >= lastLon)
+    {
+        surfData->maxLon = firstLon;
+        surfData->minLon = lastLon;
+    }
+    else if (lastLon >= firstLon)
+    {
+        surfData->maxLon = lastLon;
+        surfData->minLon = firstLon;
+    }
+    else
+    {
+        printf("Error.\n");
+    }
+//    printf("%lf %lf\n",surfData->minLon,surfData->maxLon);
+//    printf("%lf %lf\n",surfData->minLat,surfData->maxLat);
     
     return surfData;
     

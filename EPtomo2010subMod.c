@@ -81,7 +81,7 @@ depInterpVals *loadEPtomo2010subMod(gridStruct *location)
     surfDepVals = malloc(sizeof(depInterpVals));
     surfDepVals->numSurf = nElev;
     surfRead *tempSurf;
-    adjacentPointsStruct points;
+    adjacentPointsStruct *points;
     
     double X1, X2, Y1, Y2, Q11, Q12, Q22, Q21, X, Y, interpVal;
 
@@ -100,16 +100,16 @@ depInterpVals *loadEPtomo2010subMod(gridStruct *location)
                 for(int n = 0; n < location->nY; n++)
                 {
                     points = findAdjacentPoints(tempSurf, location->Lat[k][n], location->Lon[k][n]); // a little inefficient as process is repeated for each of Vp Vs and Rho!
-                    X1 = tempSurf->loni[points.lonInd[0]];
-                    X2 = tempSurf->loni[points.lonInd[1]];
-                    Y1 = tempSurf->lati[points.latInd[0]];
-                    Y2 = tempSurf->lati[points.latInd[1]];
+                    X1 = tempSurf->loni[points->lonInd[0]];
+                    X2 = tempSurf->loni[points->lonInd[1]];
+                    Y1 = tempSurf->lati[points->latInd[0]];
+                    Y2 = tempSurf->lati[points->latInd[1]];
                     X = location->Lon[k][n];
                     Y = location->Lat[k][n];
-                    Q11 = tempSurf->raster[points.lonInd[0]][points.latInd[0]];
-                    Q12 = tempSurf->raster[points.lonInd[0]][points.latInd[1]];
-                    Q21 = tempSurf->raster[points.lonInd[1]][points.latInd[0]];
-                    Q22 = tempSurf->raster[points.lonInd[1]][points.latInd[1]];
+                    Q11 = tempSurf->raster[points->lonInd[0]][points->latInd[0]];
+                    Q12 = tempSurf->raster[points->lonInd[0]][points->latInd[1]];
+                    Q21 = tempSurf->raster[points->lonInd[1]][points->latInd[0]];
+                    Q22 = tempSurf->raster[points->lonInd[1]][points->latInd[1]];
                     
                     interpVal = biLinearInterpolation(X1, X2, Y1, Y2, Q11, Q12, Q21, Q22, X, Y);
                     if(j == 0)
@@ -124,6 +124,7 @@ depInterpVals *loadEPtomo2010subMod(gridStruct *location)
                     {
                         surfDepVals->Rho[i][k][n] = interpVal;
                     }
+                    free(points);
                 }
             }
             free(tempSurf);

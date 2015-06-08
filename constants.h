@@ -10,9 +10,9 @@
 #define constants_h
 
 #define SURF_IN_DIM_MAX 1001 // maximum dimension of surface input files (used in main and here)
-#define LON_GRID_DIM_MAX 1400 // X
-#define LAT_GRID_DIM_MAX 1200 // Y
-#define DEP_GRID_DIM_MAX 460 // Z
+#define LON_GRID_DIM_MAX 888 // X
+#define LAT_GRID_DIM_MAX 801 // Y
+#define DEP_GRID_DIM_MAX 130 // Z
 #define NUM_SURF_DIM_MAX 15 // the maximum number of surfaces
 #define SURF_VEC_DIM_MAX 8442 // maximum length of surface vector // obsolete
 #define SUB_MOD_DIM_MAX 50 // maximum number of entries in the 1d sub model arrays
@@ -23,6 +23,8 @@
 #define MAX_NUM_SLICE_PIVOTS 4
 #define MAX_NUM_BOUNDARIES 2 // the maximum number of boundaries per velocity model
 #define EARTH_RADIUS_MEAN 6371.0071
+#define MAX_LAT_SURFACE_EXTENSION 1
+#define MAX_LON_SURFACE_EXTENSION 1
 
 
 // #define M_PI 3.14159

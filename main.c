@@ -22,31 +22,45 @@
 #include "structs.h"
 #include "functions.h"
 
-int main(int argc, char *argv[])
+int main(void)//(int argc, char *argv[])
 {
-    /*
+    
     int argc = 18;
     char *argv[18];
     argv[1] = "EXTRACT_VELOCITY_SLICE";
-    argv[2] = "1.2";
-    argv[3] = "ExtractedSliceV1.2";
-    argv[4] = "-43.6";
-    argv[5] = "172.3";
-    argv[6] = "-10.00";
-    argv[7] = "70";
-    argv[8] = "60";
+    argv[2] = "1.3";
+    argv[3] = "ExtractedSliceV1.3";
+    argv[4] = "-43.75"; //-43.75
+    argv[5] = "172.25"; //172.25
+    argv[6] = "0";
+    argv[7] = "130"; //130
+    argv[8] = "120";//120
     argv[9] = "46";
     argv[10] = "0";
-    argv[11] = "0.1";
-    argv[12] = "0.1";
+    argv[11] = "1";
+    argv[12] = "1";
     argv[13] = "250";
     argv[14] = "-43.0";
     argv[15] = "-43.0";
     argv[16] = "171.0";
     argv[17] = "173.0";
-    */
-
     
+    
+    /*
+    int argc = 12;
+    char *argv[12];
+    argv[1] = "GENERATE_VELOCITY_SLICE";
+    argv[2] = "1.3";
+    argv[3] = "GeneratedSliceV1.3";
+    argv[4] = "46";
+    argv[5] = "0";
+    argv[6] = "1";
+    argv[7] = "10";
+    argv[8] = "-42.6";
+    argv[9] = "-43.0";
+    argv[10] = "172.7";
+    argv[11] = "172.7";
+    */
     
     /*
     int argc = 13;
@@ -69,13 +83,13 @@ int main(int argc, char *argv[])
     int argc = 9;
     char *argv[12];
     argv[1] = "GENERATE_INDIVIDUAL_PROFILE";
-    argv[2] = "0.3";
-    argv[3] = "GeneratedProfileV0.3";
-    argv[4] = "-43.7471";
-    argv[5] = "171.765";
+    argv[2] = "1.3";
+    argv[3] = "GeneratedProfileV1.3";
+    argv[4] = "-42.86";
+    argv[5] = "172.7";
     argv[6] = "1";
     argv[7] = "-0.3";
-    argv[8] = "0.001";
+    argv[8] = "0.01";
     */
     
     
@@ -98,7 +112,6 @@ int main(int argc, char *argv[])
     //=============================================================
     if ((strcmp(generateType, "GENERATE_VELOCITY_MOD") == 0) || (strcmp(generateType,"EXTRACT_VELOCITY_SLICE")== 0))
     {
-        printf("Entered.\n");
         if (strcmp(generateType, "GENERATE_VELOITY_MOD") == 0 && argc != 13)
         {
             printf("Incorrect number of inputs: Recieved %i, require 12.\n",argc-1);
@@ -144,13 +157,14 @@ int main(int argc, char *argv[])
         // generate the model grid
         location = generateModelGrid(modelOrigin, modelExtent);
 //        writeGridPoints(location, outputDirectory);
+//        printf("%lf %lf %lf %lf.\n",location->maxLat,location->minLat,location->maxLon,location->minLon);
         
         // obtain surface filenames based off version number
         surfNames surfSubModNames;
         surfSubModNames = getSurfSubModNames(modelVersion);
         
         // determine the depths of each surface for each lat lon point
-        surfDepsGlob = getSurfaceValues(location, surfSubModNames);
+        surfDepsGlob = getSurfaceValues(location, surfSubModNames, outputDirectory);
         
         // assign values
         globDataVals = assignValues(modelVersion, location, surfSubModNames, surfDepsGlob, outputDirectory);
