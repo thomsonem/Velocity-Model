@@ -36,7 +36,7 @@ surfDepValues *determineSurfaceDepths(gridStruct *location, char *fileName)
     surfDep = malloc(sizeof(surfDepValues));
     adjacentPointsStruct *points;
     
-    double p1, p2, p3, v1, v2, v3;
+    double p1, p2, p3, v1, v2;
 
     
     // loop over values and find the depth of the surface at all points (2D interpolation)
@@ -59,11 +59,7 @@ surfDepValues *determineSurfaceDepths(gridStruct *location, char *fileName)
                 v1 = currentSurface->raster[points->lonInd[0]][points->latEdgeInd];
                 v2 = currentSurface->raster[points->lonInd[1]][points->latEdgeInd];
                 p3 = location->Lon[i][j];
-                v3 = linearInterpolation(p1, p2, v1, v2, p3);
-                printf("%i %i %i %i\n", points->lonInd[0], points->lonInd[1], points->inLatExtensionZone, points->latEdgeInd);
-                printf("%lf %lf %lf %lf %lf %lf\n",p1, p2, p3, v1, v2, v3);
-                
-                surfDep->dep[i][j] = v3;
+                surfDep->dep[i][j] = linearInterpolation(p1, p2, v1, v2, p3);
             }
             else if (points->inLonExtensionZone == 1)
             {
@@ -72,24 +68,14 @@ surfDepValues *determineSurfaceDepths(gridStruct *location, char *fileName)
                 v1 = currentSurface->raster[points->lonEdgeInd][points->latInd[0]];
                 v2 = currentSurface->raster[points->lonEdgeInd][points->latInd[1]];
                 p3 = location->Lat[i][j];
-                v3 = linearInterpolation(p1, p2, v1, v2, p3);
-                printf("%lf %lf %lf %lf %lf %lf\n",p1, p2, p3, v1, v2, v3);
-                if ( v3>v2 && v3>v1)
-                {
-                    int hh = 1;
-                }
-                else if( v3<v2 && v3<v1)
-                {
-                    int kk = 1;
-                }
-                surfDep->dep[i][j] = v3;
+                surfDep->dep[i][j] = linearInterpolation(p1, p2, v1, v2, p3);
             }
             else if (points->inCornerZone == 1)
             {
                 surfDep->dep[i][j] = currentSurface->raster[points->cornerLonInd][points->cornerLatInd];
-                //printf("%i %i %lf.\n", points->cornerLatInd, points->cornerLonInd,surfDep->dep[i][j]);
             }
             free(points);
+
         }
     }
     free(currentSurface);

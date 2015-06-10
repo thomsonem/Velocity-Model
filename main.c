@@ -22,9 +22,9 @@
 #include "structs.h"
 #include "functions.h"
 
-int main(void)//(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-    
+    /*
     int argc = 18;
     char *argv[18];
     argv[1] = "EXTRACT_VELOCITY_SLICE";
@@ -44,7 +44,7 @@ int main(void)//(int argc, char *argv[])
     argv[15] = "-43.0";
     argv[16] = "171.0";
     argv[17] = "173.0";
-    
+    */
     
     /*
     int argc = 12;
@@ -85,8 +85,8 @@ int main(void)//(int argc, char *argv[])
     argv[1] = "GENERATE_INDIVIDUAL_PROFILE";
     argv[2] = "1.3";
     argv[3] = "GeneratedProfileV1.3";
-    argv[4] = "-42.86";
-    argv[5] = "172.7";
+    argv[4] = "-44.6";
+    argv[5] = "170.5";
     argv[6] = "1";
     argv[7] = "-0.3";
     argv[8] = "0.01";
