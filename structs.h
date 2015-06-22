@@ -223,6 +223,15 @@ typedef struct{
     int cornerLonInd;
 }adjacentPointsStruct;
 
+// struct to hold slice parameters
+typedef struct{
+    int nSlices;
+    double latA[MAX_NUM_SLICES];
+    double latB[MAX_NUM_SLICES];
+    double lonA[MAX_NUM_SLICES];
+    double lonB[MAX_NUM_SLICES];
+}sliceParams;
+
 
 
 

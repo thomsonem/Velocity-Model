@@ -17,7 +17,7 @@ extern void writeIndividualProfile(globalDataValues *globalValues, gridStruct *l
 
 // slice functions
 extern void generateSlice(modOrigin modelOrigin, sliceExtent sliceBounds, modVersion modelVersion,  char *outputDirectory);
-extern void extractSlice(gridStruct *location, modOrigin modelOrigin, sliceExtent sliceBounds, char *outputDirectory);
+extern void extractSlice(gridStruct *location, modOrigin modelOrigin, sliceExtent sliceBounds, globalDataValues *globDataVals, char *outputDirectory, int sliceNumber);
 extern void generateSliceXYpoints(sliceExtractData *sliceData, modOrigin modelOrigin, sliceExtent sliceBounds);
 extern globalDataValues* loadCvmDataAll(gridStruct *location, char *outputDirectory);
 
@@ -25,7 +25,7 @@ extern globalDataValues* loadCvmDataAll(gridStruct *location, char *outputDirect
 
 // primary functions
 extern surfNames getSurfSubModNames(modVersion modelVersion);
-extern surfaceDepthsGlobal *getSurfaceValues(gridStruct *location, surfNames surfSubModNames,char *outputDirectory);
+extern surfaceDepthsGlobal *getSurfaceValues(gridStruct *location, surfNames surfSubModNames, char *outputDirectory);
 extern gridStruct *generateModelGrid(modOrigin modelOrigin, modExtent modelExtent);
 extern globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, surfNames surfSubModNames, surfaceDepthsGlobal *surfDepsGlob, char *outputDirectory);
 extern void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *outputDirectory);
@@ -38,6 +38,7 @@ extern void writeGridPoints(gridStruct *location, char *outputDirectory);
 
 // secondary functions
 extern void writeVeloModLogFile(int argc, char *argv[]);
+extern void writeSliceParametersLogFile(sliceParams *sliceParameters, modVersion modelVersion, gridStruct *location, char *outputDirectory);
 extern surfRead *loadSurface(char *fileName);
 extern indexStruct calculateSurfaceLatLonIndex(surfRead currentSurface, double x, double y);
 extern double IDW(surfVec *depVec, double x, double y, double power, double radius);
@@ -54,6 +55,8 @@ extern void findCornerInds(surfRead *surface, double latPt, double lonPt, adjace
 extern void findEdgeInds(surfRead *surface, adjacentPointsStruct *points, int edgeType);
 extern void writeAllSurfaceDepths(gridStruct *location, surfDepValues *surfDep, char *outputDirectory);
 extern void determineIfWithinBasinLatLon(gridStruct *location, int basinNum, globalBasinData *basinData);
+extern sliceParams *readSliceParametersFile(char *sliceParametersDirectory);
+
 
 
 // surface functions

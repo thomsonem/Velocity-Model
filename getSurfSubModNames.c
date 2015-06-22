@@ -174,6 +174,8 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         // insert velocity submodel names
         surfSubModNames.veloSubMod[0] = "v1DsubMod";
         surfSubModNames.veloSubMod[1] = "EPtomo2010subMod";
+        
+        surfSubModNames.nBasin = 0;
     }
     
     assert(surfSubModNames.nSurf==(surfSubModNames.nVeloSubMod+1));

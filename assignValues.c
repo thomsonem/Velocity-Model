@@ -61,6 +61,8 @@ globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, su
     globalValues = malloc(sizeof(globalDataValues));
     int nVeloModInd;
     int flagInABasin = 0;
+    
+//    printf("%i %i %i\n", location->nX, location->nY, location->nZ);
  
     // add in basin qualities
     for(int i = 0; i < location->nX; i++)

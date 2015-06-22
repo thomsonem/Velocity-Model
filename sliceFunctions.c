@@ -11,6 +11,8 @@
 #include <math.h>
 #include <string.h>
 #include <assert.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include "constants.h"
 #include "structs.h"
 #include "functions.h"
@@ -116,15 +118,12 @@ void generateSlice(modOrigin modelOrigin, sliceExtent sliceBounds, modVersion mo
 	//free(sliceData);
 }
 
-void extractSlice(gridStruct *location, modOrigin modelOrigin, sliceExtent sliceBounds, char *outputDirectory)
+void extractSlice(gridStruct *location, modOrigin modelOrigin, sliceExtent sliceBounds, globalDataValues *globDataVals, char *outputDirectory, int sliceNumber)
 {
     
     sliceExtractData *sliceData;
     sliceData = malloc(sizeof(sliceExtractData));
     generateSliceXYpoints(sliceData, modelOrigin, sliceBounds);
-    
-    globalDataValues *globDataVals;
-    globDataVals = loadCvmDataAll(location, outputDirectory);
     
     // loop over points
     int xInd = 0;
@@ -137,6 +136,9 @@ void extractSlice(gridStruct *location, modOrigin modelOrigin, sliceExtent slice
     for(int i = 0; i < sliceData->nPts; i++)
     {
         // if x or y value is outside of the bound of the dataset return NaNs.
+//        printf("%lf %lf %lf\n", sliceData->xPts[i], location->X[0],location->X[location->nX-1]);
+//        printf("%lf %lf %lf\n", sliceData->yPts[i], location->Y[0],location->Y[location->nY-1]);
+
         if(sliceData->xPts[i]<location->X[0] || sliceData->xPts[i]>location->X[location->nX-1] || sliceData->yPts[i]>location->Y[location->nY-1] || sliceData->yPts[i]<location->Y[0] )
         {
             for(int k = 0; k < location->nZ; k++)
@@ -169,6 +171,10 @@ void extractSlice(gridStruct *location, modOrigin modelOrigin, sliceExtent slice
             X2 = location->X[xInd+1];
             Y1 = location->Y[yInd];
             Y2 = location->Y[yInd+1];
+            
+//            printf("%lf %lf %lf %lf\n", X1, X2, Y1,Y2);
+//            printf("%lf %lf\n",sliceData->xPts[i], sliceData->yPts[i]);
+            
             for(int k = 0; k < location->nZ; k++)
             {
                 // Vs
@@ -177,6 +183,8 @@ void extractSlice(gridStruct *location, modOrigin modelOrigin, sliceExtent slice
                 Q21Vs = globDataVals->Vs[xInd+1][yInd][k];
                 Q22Vs = globDataVals->Vs[xInd+1][yInd+1][k];
                 
+//                printf("%lf %lf %lf %lf\n", Q11Vs, Q21Vs, Q22Vs, Q12Vs);
+                
                 sliceData->Vs[i][k] = biLinearInterpolation(X1, X2, Y1, Y2, Q11Vs, Q12Vs, Q21Vs, Q22Vs, sliceData->xPts[i], sliceData->yPts[i]);
                 
                 // Vp
@@ -184,6 +192,8 @@ void extractSlice(gridStruct *location, modOrigin modelOrigin, sliceExtent slice
                 Q12Vp = globDataVals->Vp[xInd][yInd+1][k];
                 Q21Vp = globDataVals->Vp[xInd+1][yInd][k];
                 Q22Vp = globDataVals->Vp[xInd+1][yInd+1][k];
+//                printf("%lf %lf %lf %lf\n", Q11Vp, Q21Vp, Q22Vp, Q12Vp);
+
                 
                 sliceData->Vp[i][k] = biLinearInterpolation(X1, X2, Y1, Y2, Q11Vp, Q12Vp, Q21Vp, Q22Vp, sliceData->xPts[i], sliceData->yPts[i]);
                 
@@ -198,13 +208,29 @@ void extractSlice(gridStruct *location, modOrigin modelOrigin, sliceExtent slice
         }
         
     }
+    char sliceDir[128];
+    sprintf(sliceDir,"%s/Slices",outputDirectory);
+
+    struct stat st = {0};
+    if (stat(sliceDir, &st) == -1)
+    {
+        // create output directory and the velocity model
+        mkdir(sliceDir, 0700);
+    }
     
     // generate file for writing
     FILE *fp2;
     double currRho, currVp, currVs;
-    char fName[64];
-    sprintf(fName,"%s/veloModelSliceExtracted.txt",outputDirectory);
+    char fName[128];
+    sprintf(fName,"%s/ExtractedSlice%i.txt",sliceDir,sliceNumber);
     fp2 = fopen(fName,"w");
+    fprintf(fp2,"Extracted slice #%i.\n",sliceNumber);
+    fprintf(fp2,"Slice_Horizontal_Resolution\t%i\n",sliceBounds.resXY);
+    fprintf(fp2,"LatA:\t%lf\n",sliceData->latPts[0]);
+    fprintf(fp2,"LatB:\t%lf\n",sliceData->latPts[sliceData->nPts-1]);
+    fprintf(fp2,"LonA:\t%lf\n",sliceData->lonPts[0]);
+    fprintf(fp2,"LonB:\t%lf\n",sliceData->lonPts[sliceData->nPts-1]);
+    fprintf(fp2,"Lat \t Lon \t Depth \t Vp \t Vs \t Rho\n");
     for(int i = 0; i < sliceData->nPts; i++)
     {
         for(int m = 0; m < location->nZ; m++)
@@ -212,15 +238,13 @@ void extractSlice(gridStruct *location, modOrigin modelOrigin, sliceExtent slice
             currVp = sliceData->Vp[i][m];
             currRho = sliceData->Rho[i][m];
             currVs = sliceData->Vs[i][m];
-            //            fprintf(fp2, "%lf\t%lf\t%lf\n",sliceData->latPts[i], location->Z[m], currVp);
-            fprintf(fp2, "%lf,%lf,%lf,%lf,%lf,%lf\n",sliceData->lonPts[i],sliceData->latPts[i], location->Z[m], currVp, currVs, currRho);
+            fprintf(fp2, "%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",sliceData->latPts[i],sliceData->lonPts[i], location->Z[m], currVp, currVs, currRho);
             
         }
         
     }
     
     fclose(fp2);
-    printf("Extracted slice data save complete.\n");
     
 }
 
@@ -231,15 +255,20 @@ globalDataValues* loadCvmDataAll(gridStruct *location, char *outputDirectory)
 {
     globalDataValues *globDataVals;
     globDataVals = malloc(sizeof(globalDataValues));
+
+    char veloModDir[128];
+    sprintf(veloModDir,"%s/Velocity_Model",outputDirectory);
+    
     FILE *fvp, *fvs, *frho;
     char vp3dfile[64];
-    sprintf(vp3dfile,"%s/vp3dfile.bin",outputDirectory);
+    sprintf(vp3dfile,"%s/vp3dfile.p",veloModDir);
     
     char vs3dfile[64];
-    sprintf(vs3dfile,"%s/vs3dfile.bin",outputDirectory);
+    sprintf(vs3dfile,"%s/vs3dfile.s",veloModDir);
     
     char rho3dfile[64];
-    sprintf(rho3dfile,"%s/rho3dfile.bin",outputDirectory);
+    sprintf(rho3dfile,"%s/rho3dfile.d",veloModDir);
+    
     float *vp, *vs, *rho;
     int bsize, ip;
     
@@ -270,6 +299,7 @@ globalDataValues* loadCvmDataAll(gridStruct *location, char *outputDirectory)
                 globDataVals->Vp[ix][iy][iz] = vp[ip];
                 globDataVals->Vs[ix][iy][iz] = vs[ip];
                 globDataVals->Rho[ix][iy][iz] = rho[ip];
+//                printf("%lf %lf %lf.\n",vp[ip],vs[ip],rho[ip] );
             }
         }
     }
@@ -335,7 +365,7 @@ void generateSliceXYpoints(sliceExtractData *sliceData, modOrigin modelOrigin, s
             
             sliceData->xPts[count] = rotatedGridPoint.X;
             sliceData->yPts[count] = rotatedGridPoint.Y;
-            
+//            printf("%lf %lf\n",sliceData->xPts[count],sliceData->yPts[count]);
             count += 1;
         }
     }
