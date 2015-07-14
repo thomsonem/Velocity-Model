@@ -37,54 +37,47 @@ int main(int argc, char *argv[])
      argv[8] = "60";
      argv[9] = "46";
      argv[10] = "0";
-     argv[11] = ".25";
-     argv[12] = ".25";
+     argv[11] = "1";
+     argv[12] = "1";
      */
     
     
     /*
     int argc = 14;
-    char *argv[14];
+    char *argv[20];
     argv[1] = "EXTRACT_VELOCITY_SLICES";
-    argv[2] = "1.3";
-    argv[3] = "VelocityModel1.3";
+    argv[2] = "1.2";
+    argv[3] = "VelocityModel1.2";
     argv[4] = "-43.6"; //-43.75
     argv[5] = "172.3"; //172.25
     argv[6] = "-10";
     argv[7] = "70"; //130
     argv[8] = "60";//120
-    argv[9] = "46";
+    argv[9] = "1";
     argv[10] = "0";
-    argv[11] = ".1";
-    argv[12] = ".1";
+    argv[11] = "1";
+    argv[12] = "1";
     argv[13] = "SliceParameters";
     */
     
     /*
-    int argc = 12;
-    char *argv[12];
-    argv[1] = "GENERATE_VELOCITY_SLICE";
-    argv[2] = "1.3";
-    argv[3] = "GeneratedSliceV1.3";
-    argv[4] = "46";
-    argv[5] = "0";
-    argv[6] = "1";
-    argv[7] = "10";
-    argv[8] = "-42.6";
-    argv[9] = "-43.0";
-    argv[10] = "172.7";
-    argv[11] = "172.7";
+    int argc = 5;
+    char *argv[20];
+    argv[1] = "GENERATE_VELOCITY_SLICES";
+    argv[2] = "0.9";
+    argv[3] = "0.9";
+    argv[4] =  "SliceParameters";
     */
     
     
     /*
     int argc = 9;
-    char *argv[12];
+    char *argv[20];
     argv[1] = "GENERATE_INDIVIDUAL_PROFILE";
-    argv[2] = "1.1";
+    argv[2] = "0.5";
     argv[3] = "GeneratedProfileV1.3";
-    argv[4] = "-44.6";
-    argv[5] = "170.5";
+    argv[4] = "-43.7509";
+    argv[5] = "172.0230";
     argv[6] = "1";
     argv[7] = "-0.0";
     argv[8] = "0.01";
@@ -105,7 +98,7 @@ int main(int argc, char *argv[])
 
     //=============================================================
     
-    // Generate velocity model "GENERATE_VELOCITY_MOD" or "EXTRACT_VELOCITY_SLICE"
+    // Generate velocity model "GENERATE_VELOCITY_MOD" or "EXTRACT_VELOCITY_SLICES"
      
     //=============================================================
     if ((strcmp(generateType, "GENERATE_VELOCITY_MOD") == 0) || (strcmp(generateType,"EXTRACT_VELOCITY_SLICES")== 0))
@@ -182,7 +175,7 @@ int main(int argc, char *argv[])
         if (strcmp(generateType,"EXTRACT_VELOCITY_SLICES") == 0)
         {
             sliceParams *sliceParameters;
-            sliceParameters = readSliceParametersFile(argv[13]);
+            sliceParameters = readExtractedSliceParametersFile(argv[13]);
             
             globalDataValues *globDataValsRead;
             globDataValsRead = loadCvmDataAll(location, outputDirectory);
@@ -191,7 +184,7 @@ int main(int argc, char *argv[])
             {
                 // slice extent struct
                 sliceBounds.nSections = 1; // can do arbitary transects, restricted here to 1 slice between 2 points.
-                sliceBounds.resXY = 250; // hard coded number of points to take along the slice
+                sliceBounds.resXY = sliceParameters->LatLonRes[i]; // hard coded number of points to take along the slice
                 sliceBounds.latPtsSlice[0] = sliceParameters->latA[i];
                 sliceBounds.latPtsSlice[1] = sliceParameters->latB[i];
                 sliceBounds.lonPtsSlice[0] = sliceParameters->lonA[i];
@@ -199,9 +192,17 @@ int main(int argc, char *argv[])
                 
                 // extract slice from data
                 extractSlice(location, modelOrigin, sliceBounds, globDataValsRead, outputDirectory,i+1);
+                
+                sliceBounds.zMax = 1; // positive downwards
+                sliceBounds.zMin = 0;
+                sliceBounds.resZ = 1;
+                sliceBounds.saveSlices = 0;
+                generateSlice(modelOrigin, sliceBounds, modelVersion, outputDirectory);
+
                 printf("Slice %i of %i complete.\n",i+1, sliceParameters->nSlices);
             }
-            writeSliceParametersLogFile(sliceParameters, modelVersion, location, outputDirectory);
+            char *type = "EXTRACTED";
+            writeSliceParametersLogFile(sliceParameters, modelVersion, location, outputDirectory, type);
             
             free(sliceParameters);
             free(globDataValsRead);
@@ -277,14 +278,14 @@ int main(int argc, char *argv[])
     
     //=============================================================
     
-    // Generate high resolution velocity slice "GENERATE_VELOCITY_SLICE"
+    // Generate high resolution velocity slice "GENERATE_VELOCITY_SLICES"
     
     //=============================================================
-    else if (strcmp(generateType, "GENERATE_VELOCITY_SLICE") == 0)
+    else if (strcmp(generateType, "GENERATE_VELOCITY_SLICES") == 0)
     {
-        if (argc != 12)
+        if (argc != 5)
         {
-            printf("Incorrect number of inputs: Recieved %i, require 11.\n",argc-1);
+            printf("Incorrect number of inputs: Recieved %i, require 4.\n",argc-1);
             exit(0);
         }
         
@@ -305,26 +306,37 @@ int main(int argc, char *argv[])
             printf("Output directory already exists.\n");
         }
         
-        modelVersion.saveSurfaceDepths = 1;
+        sliceParams *sliceParameters;
+        sliceParameters = readGeneratedSliceParametersFile(argv[4]);
         
-        // slice extent struct
-        sliceBounds.nSections = 1;
-        sliceBounds.zMax = atof(argv[4]); // positive downwards
-        sliceBounds.zMin = atof(argv[5]);
-        sliceBounds.resZ = atof(argv[6]);
-        sliceBounds.resXY = atoi(argv[7]);
-        sliceBounds.latPtsSlice[0] = atof(argv[8]);
-        sliceBounds.latPtsSlice[1] = atof(argv[9]);
-        sliceBounds.lonPtsSlice[0] = atof(argv[10]);
-        sliceBounds.lonPtsSlice[1] = atof(argv[11]);
+        for( int i = 0; i < sliceParameters->nSlices; i++)
+        {
+            // slice extent struct
+            sliceBounds.nSections = 1;
+            sliceBounds.zMax = sliceParameters->depMax[i]; // positive downwards
+            sliceBounds.zMin = sliceParameters->depMin[i];
+            sliceBounds.resZ = (sliceParameters->depMax[i] - sliceParameters->depMin[i])/sliceParameters->DepRes[i];
+            sliceBounds.resXY = sliceParameters->LatLonRes[i];
+            sliceBounds.latPtsSlice[0] = sliceParameters->latA[i];
+            sliceBounds.latPtsSlice[1] = sliceParameters->latB[i];
+            sliceBounds.lonPtsSlice[0] = sliceParameters->lonA[i];
+            sliceBounds.lonPtsSlice[1] = sliceParameters->lonB[i];
+            sliceBounds.saveSlices = 1;
+
+            
+            modelOrigin.mlat = sliceBounds.latPtsSlice[0];
+            modelOrigin.mlon = sliceBounds.lonPtsSlice[0];
+            modelOrigin.mrot = 0;
+            
+            generateSlice(modelOrigin, sliceBounds, modelVersion, outputDirectory);
+            
+            printf("Slice %i of %i complete.\n",i+1, sliceParameters->nSlices);
+        }
+        char *type = "GENERATED";
+        writeSliceParametersLogFile(sliceParameters, modelVersion, location, outputDirectory, type);
+
         
-        modelOrigin.mlat = sliceBounds.latPtsSlice[0];
-        modelOrigin.mlon = sliceBounds.lonPtsSlice[0];
-        modelOrigin.mrot = 0;
-        
-        generateSlice(modelOrigin, sliceBounds, modelVersion, outputDirectory);
-        
-        printf("GENERATE_VELOCITY_SLICE routine complete.\n");
+        printf("GENERATE_VELOCITY_SLICES routine complete.\n");
         
         // write log file
         writeVeloModLogFile(argc, argv);

@@ -21,6 +21,7 @@ void determineIfWithinBasinLatLon(gridStruct *location, int basinNum, globalBasi
     double currLat, currLon;
     int basinFlag = 0; // 0=outside basin 1=possibly inside basin (prelim screen)
     int inPoly = 0;
+//    printf("%i %i %i\n",location->nX,location->nY,basinNum);
     for(int i = 0; i < location->nX; i++)
     {
         for(int j = 0; j < location->nY; j++)

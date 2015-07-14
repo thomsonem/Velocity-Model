@@ -106,6 +106,19 @@ valStructLocal *shirleySubModel(gridStruct *location, int xInd, int yInd, int zI
     return values;
 }
 
+// Wainoni gravels sub-model
+valStructLocal *wainoniSubModel(gridStruct *location, int xInd, int yInd, int zInd)
+{
+    valStructLocal *values = NULL;
+    values = malloc(sizeof(valStructLocal));
+    
+    values->Rho = 1.6971;
+    values->Vp = 1.6;
+    values->Vs = 0.4;
+    
+    return values;
+}
+
 //  DEM to pliocene surface sub-model (same as shirley formation)
 valStructLocal *DEMtoPlioceneSubModel(gridStruct *location, int xInd, int yInd, int zInd)
 {
@@ -146,7 +159,7 @@ valStructLocal *mioceneSubModel(gridStruct *location, int xInd, int yInd, int zI
 }
 
 // Paleogene sub-model
-valStructLocal *paloegeneSubMod(gridStruct *location, int xInd, int yInd, int zInd)
+valStructLocal *paleogeneSubMod(gridStruct *location, int xInd, int yInd, int zInd)
 {
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));

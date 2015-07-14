@@ -58,7 +58,7 @@ void generateSlice(modOrigin modelOrigin, sliceExtent sliceBounds, modVersion mo
     surfSubModNames = getSurfSubModNames(modelVersion);
     
     // determine the depths of each surface for each lat lon point
-    
+    location->saveSurfaceDepths = 1;
     surfDepsGlob = getSurfaceValues(location, surfSubModNames, outputDirectory);
     
     // assign values
@@ -79,43 +79,55 @@ void generateSlice(modOrigin modelOrigin, sliceExtent sliceBounds, modVersion mo
         }
     }
     
-    // generate file for writing
-    FILE *fp2;
-	double currRho, currVp, currVs;
-    
-    char fName[64];
-    sprintf(fName,"%s/veloModelSliceGenerated.txt",outputDirectory);
-    fp2 = fopen(fName, "w");
-
-    for(int i = 0; i < sliceData->nPts; i++)
+    if (sliceBounds.saveSlices == 1)
     {
-        for(int m = 0; m < location->nZ; m++)
+        // generate file for writing
+        FILE *fp2;
+        double currRho, currVp, currVs;
+        static int sliceNumber = 0;
+        sliceNumber += 1;
+        char fName[128];
+        
+        char sliceDir[128];
+        sprintf(sliceDir,"%s/Slices",outputDirectory);
+        
+        struct stat st = {0};
+        if (stat(sliceDir, &st) == -1)
         {
-            currVp = sliceData->Vp[i][m];
-            currRho = sliceData->Rho[i][m];
-            currVs = sliceData->Vs[i][m];
-			if (currVp != currVp) // used only for Visual studio code
-			{
-				//printf("%lf,%lf,%lf,NAN,NAN,NAN\n", sliceData->lonPts[i], sliceData->latPts[i], location->Z[m]);
-				fprintf(fp2, "%lf,%lf,%lf,NAN,NAN,NAN\n", sliceData->lonPts[i], sliceData->latPts[i], location->Z[m]);
-			}
-			else
-			{
-				//printf("%lf,%lf,%lf,%lf,%lf,%lf\n", sliceData->lonPts[i], sliceData->latPts[i], location->Z[m], currVp, currVs, currRho);
-				fprintf(fp2, "%lf,%lf,%lf,%lf,%lf,%lf\n", sliceData->lonPts[i], sliceData->latPts[i], location->Z[m], currVp, currVs, currRho);
-			}
-            //            fprintf(fp2, "%lf\t%lf\t%lf\n",sliceData->latPts[i], location->Z[m], currVp);
-            
-//            fprintf(fp2, "%lf\t%lf\t%lf\n",sliceData->latPts[i], location->Z[m], currVp);
+            // create output directory and the velocity model
+            mkdir(sliceDir, 0700);
+        }
+        sprintf(fName,"%s/GeneratedSlice%i.txt",sliceDir,sliceNumber);
+        fp2 = fopen(fName,"w");
+        fprintf(fp2,"Generated slice #%i.\n",sliceNumber);
+        fprintf(fp2,"Slice_Horizontal_Resolution\t%i\n",sliceBounds.resXY);
+        fprintf(fp2,"LatA:\t%lf\n",sliceData->latPts[0]);
+        fprintf(fp2,"LatB:\t%lf\n",sliceData->latPts[sliceData->nPts-1]);
+        fprintf(fp2,"LonA:\t%lf\n",sliceData->lonPts[0]);
+        fprintf(fp2,"LonB:\t%lf\n",sliceData->lonPts[sliceData->nPts-1]);
+        fprintf(fp2,"Lat \t Lon \t Depth \t Vp \t Vs \t Rho\n");
+        for(int i = 0; i < sliceData->nPts; i++)
+        {
+            for(int m = 0; m < location->nZ; m++)
+            {
+                currVp = sliceData->Vp[i][m];
+                currRho = sliceData->Rho[i][m];
+                currVs = sliceData->Vs[i][m];
+                fprintf(fp2, "%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",sliceData->latPts[i],sliceData->lonPts[i], location->Z[m], currVp, currVs, currRho);
+                
+            }
             
         }
-        
+        fclose(fp2);
+        printf("High resolution velocity model slice file save complete.\n");
     }
-    printf("High resolution velocity model slice file save complete.\n");
-   
-	fclose(fp2);
-	//free(location);
-	//free(sliceData);
+
+
+
+	free(location);
+	free(sliceData);
+    free(globDataVals);
+    free(surfDepsGlob);
 }
 
 void extractSlice(gridStruct *location, modOrigin modelOrigin, sliceExtent sliceBounds, globalDataValues *globDataVals, char *outputDirectory, int sliceNumber)
@@ -124,6 +136,7 @@ void extractSlice(gridStruct *location, modOrigin modelOrigin, sliceExtent slice
     sliceExtractData *sliceData;
     sliceData = malloc(sizeof(sliceExtractData));
     generateSliceXYpoints(sliceData, modelOrigin, sliceBounds);
+
     
     // loop over points
     int xInd = 0;
@@ -172,8 +185,16 @@ void extractSlice(gridStruct *location, modOrigin modelOrigin, sliceExtent slice
             Y1 = location->Y[yInd];
             Y2 = location->Y[yInd+1];
             
+//            double lat1, lat2, lon1, lon2;
+//            lat1 = location->Lat[xInd][yInd];
+//            lat2 = location->Lat[xInd+1][yInd+1];
+//            lon1 = location->Lon[xInd][yInd];
+//            lon2 = location->Lon[xInd+1][yInd+1];
+//            
 //            printf("%lf %lf %lf %lf\n", X1, X2, Y1,Y2);
 //            printf("%lf %lf\n",sliceData->xPts[i], sliceData->yPts[i]);
+//            printf("%lf %lf %lf %lf\n", lat1, lat2, lon1, lon2);
+//            printf("%lf %lf\n",sliceData->latPts[i], sliceData->lonPts[i]);
             
             for(int k = 0; k < location->nZ; k++)
             {
@@ -356,7 +377,7 @@ void generateSliceXYpoints(sliceExtractData *sliceData, modOrigin modelOrigin, s
                 distY = -distY;
             }
             
-            if (dLonRot < 0)
+            if (dLonRot > 0)
             {
                 distX = - distX;
             }

@@ -54,6 +54,15 @@ globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, su
         {
             loadCanterburyBasinData(location, i, basinData);
         }
+        if(strcmp(surfSubModNames.basin[i], "PREQ_CANTERBURY_BASIN") == 0)
+        {
+            loadPreQCanterburyBasinData(location, i, basinData);
+        }
+        if(strcmp(surfSubModNames.basin[i], "Q_CANTERBURY_BASIN") == 0)
+        {
+            loadQCanterburyBasinData(location, i, basinData);
+        }
+        
     }
 
     // loop over gridpoints and assign quantities
@@ -107,11 +116,12 @@ globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, su
     }
     
     if((location->nX == 1)&&(location->nY==1))
-       // if grid only contains a single point save the surface depths to a text file
-       {
-           writeBasinSurfaceDepths(basinData, location, outputDirectory);
-       }
-	if (modelVersion.saveSurfaceDepths == 1)
+        // if grid only contains a single point save the surface depths to a text file
+    {
+        int basinNum = 0;
+        writeBasinSurfaceDepths(basinData, basinNum, location, outputDirectory);
+    }
+	if (location->saveSurfaceDepths == 1)
 	{
 		writeAllBasinSurfaceDepths(basinData, location, outputDirectory);
 	}

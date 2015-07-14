@@ -121,6 +121,12 @@ surfDepValues *determineSurfaceDepthsBasin(globalBasinData *basinData ,gridStruc
                     surfDep->dep[i][j] = biLinearInterpolation( currentSurface->loni[points->lonInd[0]], currentSurface->loni[points->lonInd[1]], currentSurface->lati[points->latInd[0]], currentSurface->lati[points->latInd[1]], currentSurface->raster[points->lonInd[0]][points->latInd[0]], currentSurface->raster[points->lonInd[0]][points->latInd[1]], currentSurface->raster[points->lonInd[1]][points->latInd[0]], currentSurface->raster[points->lonInd[1]][points->latInd[1]], location->Lon[i][j], location->Lat[i][j]);
                     free(points);
                 }
+                else
+                {
+                    printf("%lf %lf\n",location->Lat[i][j], location->Lon[i][j]);
+
+                    printf("Error, point lies outside basin surface domain.\n");
+                }
             }
             else
             {

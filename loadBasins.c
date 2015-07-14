@@ -45,10 +45,6 @@ void loadBasinSurfaces(gridStruct *location, int basinNum, globalBasinData *basi
         }
         else if(strcmp(basinData->surf[basinNum][i], "BromleyTop") == 0)
         {
-            fileName = "Data/Canterbury_Basin/Quaternary/RiccartonGravelsBottom.in";
-        }
-        else if(strcmp(basinData->surf[basinNum][i], "BromleyTop") == 0)
-        {
             fileName = "Data/Canterbury_Basin/Quaternary/BromleyTop.in";
         }
         else if(strcmp(basinData->surf[basinNum][i], "LinwoodTop") == 0)
@@ -67,6 +63,10 @@ void loadBasinSurfaces(gridStruct *location, int basinNum, globalBasinData *basi
         {
             fileName = "Data/Canterbury_Basin/Quaternary/ShirleyTop.in";
         }
+        else if(strcmp(basinData->surf[basinNum][i], "WainoniTop") == 0)
+        {
+            fileName = "Data/Canterbury_Basin/Quaternary/WainoniTop.in";
+        }
         else if(strcmp(basinData->surf[basinNum][i], "PlioceneTop") == 0)
         {
             fileName = "Data/Canterbury_Basin/Pre_Quaternary/PlioceneTop.in";
@@ -75,9 +75,9 @@ void loadBasinSurfaces(gridStruct *location, int basinNum, globalBasinData *basi
         {
             fileName = "Data/Canterbury_Basin/Pre_Quaternary/MioceneTop.in";
         }
-        else if(strcmp(basinData->surf[basinNum][i], "PaloegeneTop") == 0)
+        else if(strcmp(basinData->surf[basinNum][i], "PaleogeneTop") == 0)
         {
-            fileName = "Data/Canterbury_Basin/Pre_Quaternary/PaloegeneTop.in";
+            fileName = "Data/Canterbury_Basin/Pre_Quaternary/PaleogeneTop.in";
         }
         else if(strcmp(basinData->surf[basinNum][i], "BasementTop") == 0)
         {
@@ -120,7 +120,7 @@ void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd
             lowerSurfName = basinData->surf[basinNum][i];
             break;
         }
-        if (i ==basinData->nSurf[basinNum])
+        if (i == basinData->nSurf[basinNum])
         {
             printf("Error\n");
         }
@@ -169,9 +169,13 @@ void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd
     {
         values = burwoodSubModel(location, xInd, yInd, zInd);
     }
-    else if((strcmp(upperSurfName, "ShirleyTop") == 0) && strcmp(lowerSurfName, "PlioceneTop") == 0)
+    else if((strcmp(upperSurfName, "ShirleyTop") == 0) && strcmp(lowerSurfName, "WainoniTop") == 0)
     {
         values = shirleySubModel(location, xInd, yInd, zInd);
+    }
+    else if((strcmp(upperSurfName, "WainoniTop") == 0) && strcmp(lowerSurfName, "PlioceneTop") == 0)
+    {
+        values = wainoniSubModel(location, xInd, yInd, zInd);
     }
     else if((strcmp(upperSurfName, "DEM") == 0) && strcmp(lowerSurfName, "PlioceneTop") == 0)
     {
@@ -181,13 +185,13 @@ void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd
     {
         values = plioceneSubModel(location, xInd, yInd, zInd);
     }
-    else if((strcmp(upperSurfName, "MioceneTop") == 0) && strcmp(lowerSurfName, "PaloegeneTop") == 0)
+    else if((strcmp(upperSurfName, "MioceneTop") == 0) && strcmp(lowerSurfName, "PaleogeneTop") == 0)
     {
         values = mioceneSubModel(location, xInd, yInd, zInd);
     }
-    else if((strcmp(upperSurfName, "PaloegeneTop") == 0) && strcmp(lowerSurfName, "BasementTop") == 0)
+    else if((strcmp(upperSurfName, "PaleogeneTop") == 0) && strcmp(lowerSurfName, "BasementTop") == 0)
     {
-        values = paloegeneSubMod(location, xInd, yInd, zInd);
+        values = paleogeneSubMod(location, xInd, yInd, zInd);
     }
     else
     {

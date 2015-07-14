@@ -1,2 +1,2 @@
-xlc -Wall -g -std=c99 -o CVM *.c -lm
-./CVM EXTRACT_VELOCITY_SLICES 1.1 VMod1.1 -43.6 172.3 -10 70 60 46 0 0.1 0.1 SliceParameters
+gcc -Wall -g -std=c99 -o CVM *.c -lm
+./CVM GENERATE_VELOCITY_SLICES 0.9 0.9 SliceParameters

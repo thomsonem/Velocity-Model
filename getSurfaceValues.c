@@ -45,7 +45,7 @@ surfaceDepthsGlobal *getSurfaceValues(gridStruct *location, surfNames surfSubMod
         else if(strcmp(surfSubModNames.surf[i], "basementRockSurf") == 0)
         {
             surfDeps = basementRockSurf(location);
-            writeAllSurfaceDepths(location, surfDeps, outputDirectory);
+//            writeAllSurfaceDepths(location, surfDeps, outputDirectory);
         }
         else if(strcmp(surfSubModNames.surf[i], "demSurf") == 0)
         {
@@ -68,6 +68,16 @@ surfaceDepthsGlobal *getSurfaceValues(gridStruct *location, surfNames surfSubMod
         }
         
         free(surfDeps);
+    }
+    
+    if((location->nX == 1)&&(location->nY==1))
+        // if grid only contains a single point save the surface depths to a text file
+    {
+        writeGlobalSurfaceDepths(surfDepGlob, location, surfSubModNames, outputDirectory);
+    }
+    if (location->saveSurfaceDepths == 1)
+    {
+        writeAllGlobalSurfaceDepths(surfDepGlob, location, surfSubModNames, outputDirectory);
     }
     printf("Depths of all surfaces at all grid points successfully calculated.\n");
     return surfDepGlob;

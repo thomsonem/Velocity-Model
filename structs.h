@@ -21,6 +21,7 @@ typedef struct{
     int nX;
     int nY;
     int nZ;
+    int saveSurfaceDepths;
 }gridStruct;
 
 // surface read
@@ -98,12 +99,12 @@ typedef struct{
     double lonPtsSlice[MAX_NUM_SLICE_PIVOTS];
     double zMax;
     double zMin;
+    int saveSlices;
 }sliceExtent;
 
 //model version
 typedef struct{
     double version;
-	int saveSurfaceDepths;
 }modVersion;
 
 // struct to house interpolated Vs Vp and Rho for a given lat lon
@@ -230,6 +231,10 @@ typedef struct{
     double latB[MAX_NUM_SLICES];
     double lonA[MAX_NUM_SLICES];
     double lonB[MAX_NUM_SLICES];
+    double depMax[MAX_NUM_SLICES];
+    double depMin[MAX_NUM_SLICES];
+    double DepRes[MAX_NUM_SLICES];
+    double LatLonRes[MAX_NUM_SLICES];
 }sliceParams;
 
 

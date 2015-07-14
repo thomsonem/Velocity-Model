@@ -12,7 +12,7 @@
 // extraction and file I/O
 extern void generateProfile(modOrigin modelOrigin, modVersion modelVersion, modExtent modelExtent, char *outputDirectory);
 extern void writeAllBasinSurfaceDepths(globalBasinData *basinData, gridStruct *location, char *outputDirectory);
-extern void writeBasinSurfaceDepths(globalBasinData *basinData, gridStruct *location, char *outputDirectory);
+extern void writeBasinSurfaceDepths(globalBasinData *basinData,  int basinNum, gridStruct *location, char *outputDirectory);
 extern void writeIndividualProfile(globalDataValues *globalValues, gridStruct *location, char *outputDirectory);
 
 // slice functions
@@ -38,7 +38,7 @@ extern void writeGridPoints(gridStruct *location, char *outputDirectory);
 
 // secondary functions
 extern void writeVeloModLogFile(int argc, char *argv[]);
-extern void writeSliceParametersLogFile(sliceParams *sliceParameters, modVersion modelVersion, gridStruct *location, char *outputDirectory);
+extern void writeSliceParametersLogFile(sliceParams *sliceParameters, modVersion modelVersion, gridStruct *location, char *outputDirectory, char *type);
 extern surfRead *loadSurface(char *fileName);
 extern indexStruct calculateSurfaceLatLonIndex(surfRead currentSurface, double x, double y);
 extern double IDW(surfVec *depVec, double x, double y, double power, double radius);
@@ -55,8 +55,10 @@ extern void findCornerInds(surfRead *surface, double latPt, double lonPt, adjace
 extern void findEdgeInds(surfRead *surface, adjacentPointsStruct *points, int edgeType);
 extern void writeAllSurfaceDepths(gridStruct *location, surfDepValues *surfDep, char *outputDirectory);
 extern void determineIfWithinBasinLatLon(gridStruct *location, int basinNum, globalBasinData *basinData);
-extern sliceParams *readSliceParametersFile(char *sliceParametersDirectory);
-
+extern sliceParams *readExtractedSliceParametersFile(char *sliceParametersDirectory);
+extern sliceParams *readGeneratedSliceParametersFile(char *sliceParametersDirectory);
+extern void writeGlobalSurfaceDepths(surfaceDepthsGlobal *surfDepGlob, gridStruct *location, surfNames surfSubModNames, char *outputDirectory);
+extern void writeAllGlobalSurfaceDepths(surfaceDepthsGlobal *surfDepGlob, gridStruct *location, surfNames surfSubModNames, char *outputDirectory);
 
 
 // surface functions
@@ -70,6 +72,7 @@ extern surfDepValues *basementRockSurf(gridStruct *location);
 extern surfDepValues *demSurf(gridStruct *location);
 
 
+
 // basin velocity submodel functions CHCH
 extern valStructLocal *christchurchSubModel(gridStruct *location, int xInd, int yInd, int zInd);
 extern valStructLocal *riccartonSubModel(gridStruct *location, int xInd, int yInd, int zInd);
@@ -78,10 +81,11 @@ extern valStructLocal *linwoodSubModel(gridStruct *location, int xInd, int yInd,
 extern valStructLocal *heathcoteSubModel(gridStruct *location, int xInd, int yInd, int zInd);
 extern valStructLocal *burwoodSubModel(gridStruct *location, int xInd, int yInd, int zInd);
 extern valStructLocal *shirleySubModel(gridStruct *location, int xInd, int yInd, int zInd);
+extern valStructLocal *wainoniSubModel(gridStruct *location, int xInd, int yInd, int zInd);
 extern valStructLocal *DEMtoPlioceneSubModel(gridStruct *location, int xInd, int yInd, int zInd);
 extern valStructLocal *plioceneSubModel(gridStruct *location, int xInd, int yInd, int zInd);
 extern valStructLocal *mioceneSubModel(gridStruct *location, int xInd, int yInd, int zInd);
-extern valStructLocal *paloegeneSubMod(gridStruct *location, int xInd, int yInd, int zInd);
+extern valStructLocal *paleogeneSubMod(gridStruct *location, int xInd, int yInd, int zInd);
 extern valStructLocal *cretaceousSubMod(gridStruct *location, int xInd, int yInd, int zInd);
 
 
@@ -99,6 +103,8 @@ extern void NaNsubMod(int xInd, int yInd, int zInd, globalDataValues *golbalValu
 
 // Basin data
 extern void loadCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData *basinData);
+extern void loadPreQCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData *basinData);
+extern void loadQCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData *basinData);
 
 extern void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd, int yInd, int zInd, gridStruct *location);
 extern void loadBasinSurfaces(gridStruct *location, int basinNum, globalBasinData *basinData);

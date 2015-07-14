@@ -19,7 +19,7 @@
 
 
 
-void writeSliceParametersLogFile(sliceParams *sliceParameters, modVersion modelVersion, gridStruct *location, char *outputDirectory)
+void writeSliceParametersLogFile(sliceParams *sliceParameters, modVersion modelVersion, gridStruct *location, char *outputDirectory, char *type)
 {
     char sliceDir[128];
     sprintf(sliceDir,"%s/Slices",outputDirectory);
@@ -39,15 +39,28 @@ void writeSliceParametersLogFile(sliceParams *sliceParameters, modVersion modelV
     fprintf(fp2,"Slice Parameters Log File.\n");
     fprintf(fp2,"Number_of_slices\t%i\n",sliceParameters->nSlices);
     fprintf(fp2,"Model_version\t%lf\n",modelVersion.version);
-    fprintf(fp2,"CornerLat1\t%lf\n",location->Lat[0][0]);
-    fprintf(fp2,"CornerLat2\t%lf\n",location->Lat[0][location->nY-1]);
-    fprintf(fp2,"CornerLat3\t%lf\n",location->Lat[location->nX-1][location->nY-1]);
-    fprintf(fp2,"CornerLat4\t%lf\n",location->Lat[location->nX-1][0]);
-    fprintf(fp2,"CornerLon1\t%lf\n",location->Lon[0][0]);
-    fprintf(fp2,"CornerLon2\t%lf\n",location->Lon[0][location->nY-1]);
-    fprintf(fp2,"CornerLon3\t%lf\n",location->Lon[location->nX-1][location->nY-1]);
-    fprintf(fp2,"CornerLon4\t%lf\n",location->Lon[location->nX-1][0]);
+
+    
+    if (strcmp(type,"EXTRACTED") == 0)
+    {
+        fprintf(fp2,"CornerLat1\t%lf\n",location->Lat[0][0]);
+        fprintf(fp2,"CornerLat2\t%lf\n",location->Lat[0][location->nY-1]);
+        fprintf(fp2,"CornerLat3\t%lf\n",location->Lat[location->nX-1][location->nY-1]);
+        fprintf(fp2,"CornerLat4\t%lf\n",location->Lat[location->nX-1][0]);
+        fprintf(fp2,"CornerLon1\t%lf\n",location->Lon[0][0]);
+        fprintf(fp2,"CornerLon2\t%lf\n",location->Lon[0][location->nY-1]);
+        fprintf(fp2,"CornerLon3\t%lf\n",location->Lon[location->nX-1][location->nY-1]);
+        fprintf(fp2,"CornerLon4\t%lf\n",location->Lon[location->nX-1][0]);
+    }
+    else if (strcmp(type,"GENERATED") == 0)
+    {
+        
+    }
+    fclose(fp2);
+
+
 }
+
 
 
 
@@ -99,16 +112,9 @@ void writeVeloModLogFile(int argc, char *argv[])
         inputVector[12] = "EXTENT_LATLON_SPACING";
         inputVector[13] = "SLICE_PARAMETERS_DIRECTORY";
     }
-    else if (strcmp(argv[1], "GENERATE_VELOCITY_SLICE") == 0)
+    else if (strcmp(argv[1], "GENERATE_VELOCITY_SLICES") == 0)
     {
         inputVector[4] = "SLICE_ZMAX";
-        inputVector[5] = "SLICE_ZMIN";
-        inputVector[6] = "SLICE_Z_SPACING";
-        inputVector[7] = "SLICE_NPTS_XY";
-        inputVector[8] = "SLICE_LAT_1";
-        inputVector[9] = "SLICE_LAT_2";
-        inputVector[10] = "SLICE_LON_1";
-        inputVector[11] = "SLICE_LON_2";
     }
     else if (strcmp(argv[1], "GENERATE_INDIVIDUAL_PROFILE") == 0)
     {
@@ -116,7 +122,7 @@ void writeVeloModLogFile(int argc, char *argv[])
         inputVector[5] = "PROFILE_LON";
         inputVector[6] = "PROFILE_ZMAX";
         inputVector[7] = "PROFILE_ZMIN";
-        inputVector[8] = "EXTENT_Z_SPACING";
+        inputVector[8] = "SLICE_PARAMETERS_DIRECTORY";
     }
     else
     {
