@@ -114,7 +114,7 @@ valStructLocal *wainoniSubModel(gridStruct *location, int xInd, int yInd, int zI
     
     values->Rho = 1.6971;
     values->Vp = 1.6;
-    values->Vs = 0.4;
+    values->Vs = 0.6;
     
     return values;
 }

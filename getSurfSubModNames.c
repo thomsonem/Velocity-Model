@@ -148,8 +148,8 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         surfSubModNames.nBasin = 1;
         
     }
-    //  Model Version 0.7  w/ CHCH BASIN
-    else if(modelVersion.version == 0.7)
+    //  Model Version 0.13  w/ CHCH BASIN
+    else if(modelVersion.version == 0.13)
     {
         // define the number of surfaces and sub models
         surfSubModNames.nSurf = 3;
@@ -169,8 +169,8 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         surfSubModNames.nBasin = 1;
         
     }
-    //  Model Version 0.8  w/ CHCH BASIN of preQ
-    else if(modelVersion.version == 0.8)
+    //  Model Version 0.12  w/ CHCH BASIN of preQ
+    else if(modelVersion.version == 0.12)
     {
         // define the number of surfaces and sub models
         surfSubModNames.nSurf = 3;
@@ -190,8 +190,8 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         surfSubModNames.nBasin = 1;
         
     }
-    //  Model Version 0.9  w/ CHCH BASIN of Q
-    else if(modelVersion.version == 0.9)
+    //  Model Version 0.11  w/ CHCH BASIN of Q
+    else if(modelVersion.version == 0.11)
     {
         // define the number of surfaces and sub models
         surfSubModNames.nSurf = 3;
