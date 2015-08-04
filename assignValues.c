@@ -62,6 +62,14 @@ globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, su
         {
             loadQCanterburyBasinData(location, i, basinData);
         }
+        if(strcmp(surfSubModNames.basin[i], "PALEO_CANTERBURY_BASIN") == 0)
+        {
+            loadPreQCanterburyBasinDataPaleogene(location, i, basinData);
+        }
+        if(strcmp(surfSubModNames.basin[i], "PALEO_MIO_CANTERBURY_BASIN") == 0)
+        {
+            loadPreQCanterburyBasinDataPaleogeneMiocene(location, i, basinData);
+        }
         
     }
 

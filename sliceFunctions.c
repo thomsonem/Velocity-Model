@@ -30,6 +30,7 @@ void generateSlice(modOrigin modelOrigin, sliceExtent sliceBounds, modVersion mo
     // generate the model grid
     gridStruct *location;
     location = malloc(sizeof(gridStruct));
+    location->saveSurfaceDepths = 1;
     int nZ = (sliceBounds.zMax-sliceBounds.zMin)/sliceBounds.resZ;
     
     location->nX = sliceData->nPts;
@@ -58,7 +59,6 @@ void generateSlice(modOrigin modelOrigin, sliceExtent sliceBounds, modVersion mo
     surfSubModNames = getSurfSubModNames(modelVersion);
     
     // determine the depths of each surface for each lat lon point
-    location->saveSurfaceDepths = 1;
     surfDepsGlob = getSurfaceValues(location, surfSubModNames, outputDirectory);
     
     // assign values
@@ -266,6 +266,7 @@ void extractSlice(gridStruct *location, modOrigin modelOrigin, sliceExtent slice
     }
     
     fclose(fp2);
+    free(sliceData);
     
 }
 
@@ -324,6 +325,9 @@ globalDataValues* loadCvmDataAll(gridStruct *location, char *outputDirectory)
             }
         }
     }
+    free(vp);
+    free(vs);
+    free(rho);
     fclose(fvp);
     fclose(fvs);
     fclose(frho);

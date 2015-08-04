@@ -100,7 +100,7 @@
 		8C30C1251AE8C6FC0008C943 /* BrocherCorrelations.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BrocherCorrelations.c; sourceTree = "<group>"; };
 		8C30C1271AE8DE330008C943 /* Holder */ = {isa = PBXFileReference; lastKnownFileType = text; path = Holder; sourceTree = "<group>"; };
 		8C30C1281AE8DE330008C943 /* Make */ = {isa = PBXFileReference; lastKnownFileType = text; path = Make; sourceTree = "<group>"; };
-		8C30C1291AE9B9810008C943 /* Build(BlueFern) */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Build(BlueFern)"; sourceTree = "<group>"; };
+		8C30C1291AE9B9810008C943 /* Build */ = {isa = PBXFileReference; lastKnownFileType = text; path = Build; sourceTree = "<group>"; };
 		8C57A0E41B1D7A0700AB096A /* findClosestPoint.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = findClosestPoint.c; sourceTree = "<group>"; };
 		8CC060621B38DCF50008865B /* writeLogFiles.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = writeLogFiles.c; sourceTree = "<group>"; };
 		8CC060641B38F2270008865B /* readSliceParameters.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = readSliceParameters.c; sourceTree = "<group>"; };
@@ -132,7 +132,7 @@
 				8C1F22631952831A00D51835 /* Products */,
 				8C30C1271AE8DE330008C943 /* Holder */,
 				8C30C1281AE8DE330008C943 /* Make */,
-				8C30C1291AE9B9810008C943 /* Build(BlueFern) */,
+				8C30C1291AE9B9810008C943 /* Build */,
 			);
 			sourceTree = "<group>";
 		};

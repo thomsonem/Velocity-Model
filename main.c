@@ -46,10 +46,10 @@ int main(int argc, char *argv[])
     int argc = 14;
     char *argv[20];
     argv[1] = "EXTRACT_VELOCITY_SLICES";
-    argv[2] = "1.2";
-    argv[3] = "VelocityModel1.2";
-    argv[4] = "-43.6"; //-43.75
-    argv[5] = "172.3"; //172.25
+    argv[2] = "1.0";
+    argv[3] = "VelocityModel1.0";
+    argv[4] = "-43.6";
+    argv[5] = "172.3";
     argv[6] = "-10";
     argv[7] = "70"; //130
     argv[8] = "60";//120
@@ -74,16 +74,19 @@ int main(int argc, char *argv[])
     int argc = 9;
     char *argv[20];
     argv[1] = "GENERATE_INDIVIDUAL_PROFILE";
-    argv[2] = "0.5";
-    argv[3] = "GeneratedProfileV1.3";
-    argv[4] = "-43.7509";
-    argv[5] = "172.0230";
-    argv[6] = "1";
-    argv[7] = "-0.0";
-    argv[8] = "0.01";
+    argv[2] = "0.11";
+    argv[3] = "ProfileV0.11";
+    argv[4] = "-43.525233";
+    argv[5] = "172.683350";
+    argv[6] = "2";
+    argv[7] = "-0.05";
+    argv[8] = "0.005";
     */
-    
-    
+    printf("Assign Vals\n");
+    globalDataValues *globalValues;
+    globalValues = malloc(sizeof(globalDataValues));
+    printf("Vals Assigned\n");
+
     char *generateType = argv[1];
         
     modOrigin modelOrigin;
@@ -114,7 +117,8 @@ int main(int argc, char *argv[])
             exit(0);
         }
         // Model Version
-        modelVersion.version = atof(argv[2]);
+        char *tempPoint;
+        modelVersion.version = strtod(argv[2],&tempPoint);
         printf("Generating velocity model version %f.\n", modelVersion.version);
         
         // Model origin struct
@@ -132,13 +136,14 @@ int main(int argc, char *argv[])
         
         // generate the model grid
         location = generateModelGrid(modelOrigin, modelExtent);
-//        writeGridPoints(location, outputDirectory);
         
         // create directory to output files to
         outputDirectory = argv[3];
         struct stat st = {0};
         if (stat(outputDirectory, &st) == -1)
         {
+            location->saveSurfaceDepths = 0;
+
             // create output directory and the velocity model
             mkdir(outputDirectory, 0700);
             printf("Output directory created.\n");
@@ -332,6 +337,7 @@ int main(int argc, char *argv[])
             
             printf("Slice %i of %i complete.\n",i+1, sliceParameters->nSlices);
         }
+        free(sliceParameters);
         char *type = "GENERATED";
         writeSliceParametersLogFile(sliceParameters, modelVersion, location, outputDirectory, type);
 

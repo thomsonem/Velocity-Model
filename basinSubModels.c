@@ -16,124 +16,194 @@
 #include "functions.h"
 
 // Christchurch formation sub-model
-valStructLocal *christchurchSubModel(gridStruct *location, int xInd, int yInd, int zInd)
+valStructLocal *christchurchSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum)
 {
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
+    double Z, totalStress, effectiveStress, Vs;
+    Z = basinData->surfVals[basinNum][xInd][yInd][0] - location->Z[zInd]; // zero indice represents the first surface, should always be the DEM
+    totalStress = Z * rho_const; // kPa
+    effectiveStress = totalStress - Z * 9.81; // kPa
+    Vs = As_silt * pow((effectiveStress/P_a),ns_marine);
+    values->Vs = Vs; // in km/s
+    
     values->Rho = 1.6971; // in kg/m3
     values->Vp = 1.6; // in km/s
-    values->Vs = 0.17; // in km/s
+//    values->Vs = 0.17; // in km/s
     
     return values;
 }
 
 // Riccarton gravels sub-model
-valStructLocal *riccartonSubModel(gridStruct *location, int xInd, int yInd, int zInd)
+valStructLocal *riccartonSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum)
 {
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
+    double Z, totalStress, effectiveStress, Vs;
+    Z = basinData->surfVals[basinNum][xInd][yInd][0] - location->Z[zInd]; // zero indice represents the first surface, should always be the DEM
+    totalStress = Z * rho_const; // kPa
+    effectiveStress = totalStress - Z * 9.81; // kPa
+    Vs = As_gravel * pow((effectiveStress/P_a),ns_gravel);
+    values->Vs = Vs; // in km/s
+    
     values->Rho = 1.6971;
     values->Vp = 1.6;
-    values->Vs = 0.4;
+//    values->Vs = 0.4;
     
     return values;
 }
 
 // Bromley formation sub-model
-valStructLocal *bromleySubModel(gridStruct *location, int xInd, int yInd, int zInd)
+valStructLocal *bromleySubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum)
 {
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
+    double Z, totalStress, effectiveStress, Vs;
+    Z = basinData->surfVals[basinNum][xInd][yInd][0] - location->Z[zInd]; // zero indice represents the first surface, should always be the DEM
+    totalStress = Z * rho_const; // kPa
+    effectiveStress = totalStress - Z * 9.81; // kPa
+    Vs = As_silt * pow((effectiveStress/P_a),ns_marine);
+    values->Vs = Vs; // in km/s
+    
     values->Rho = 1.6971;
     values->Vp = 1.6;
-    values->Vs = 0.3;
+//    values->Vs = 0.3;
     
     return values;
 }
 
 // Linwood gravel sub-model
-valStructLocal*linwoodSubModel(gridStruct *location, int xInd, int yInd, int zInd)
+valStructLocal*linwoodSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum)
 {
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
+    double Z, totalStress, effectiveStress, Vs;
+    Z = basinData->surfVals[basinNum][xInd][yInd][0] - location->Z[zInd]; // zero indice represents the first surface, should always be the DEM
+    totalStress = Z * rho_const; // kPa
+    effectiveStress = totalStress - Z * 9.81; // kPa
+    Vs = As_gravel * pow((effectiveStress/P_a),ns_gravel);
+    values->Vs = Vs; // in km/s
+    
     values->Rho = 1.6971;
     values->Vp = 1.6;
-    values->Vs = 0.5;
+//    values->Vs = 0.5;
     
     return values;
 }
 
 // Heathcote formation sub-model
-valStructLocal *heathcoteSubModel(gridStruct *location, int xInd, int yInd, int zInd)
+valStructLocal *heathcoteSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum)
 {
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
+    double Z, totalStress, effectiveStress, Vs;
+    Z = basinData->surfVals[basinNum][xInd][yInd][0] - location->Z[zInd]; // zero indice represents the first surface, should always be the DEM
+    totalStress = Z * rho_const; // kPa
+    effectiveStress = totalStress - Z * 9.81; // kPa
+    Vs = As_silt * pow((effectiveStress/P_a),ns_marine);
+    values->Vs = Vs; // in km/s
+    
     values->Rho = 1.6971;
     values->Vp = 1.6;
-    values->Vs = 0.4;
+//    values->Vs = 0.4;
     
     return values;
 }
 
 // Burwood gravel sub-model
-valStructLocal *burwoodSubModel(gridStruct *location, int xInd, int yInd, int zInd)
+valStructLocal *burwoodSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum)
 {
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
+    double Z, totalStress, effectiveStress, Vs;
+    Z = basinData->surfVals[basinNum][xInd][yInd][0] - location->Z[zInd]; // zero indice represents the first surface, should always be the DEM
+    totalStress = Z * rho_const; // kPa
+    effectiveStress = totalStress - Z * 9.81; // kPa
+    Vs = As_gravel * pow((effectiveStress/P_a),ns_gravel);
+    values->Vs = Vs; // in km/s
+    
     values->Rho = 1.6971;
     values->Vp = 1.6;
-    values->Vs = 0.6;
+//    values->Vs = 0.6;
     
     return values;
 }
 
 // Shirley formation sub-model
-valStructLocal *shirleySubModel(gridStruct *location, int xInd, int yInd, int zInd)
+valStructLocal *shirleySubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum)
 {
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
+    double Z, totalStress, effectiveStress, Vs;
+    Z = basinData->surfVals[basinNum][xInd][yInd][0] - location->Z[zInd]; // zero indice represents the first surface, should always be the DEM
+    totalStress = Z * rho_const; // kPa
+    effectiveStress = totalStress - Z * 9.81; // kPa
+    Vs = As_silt * pow((effectiveStress/P_a),ns_marine);
+    values->Vs = Vs; // in km/s
+    
     values->Rho = 1.6971;
     values->Vp = 1.6;
-    values->Vs = 0.4;
+//    values->Vs = 0.4;
     
     return values;
 }
 
 // Wainoni gravels sub-model
-valStructLocal *wainoniSubModel(gridStruct *location, int xInd, int yInd, int zInd)
+valStructLocal *wainoniSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum)
 {
     valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
+    double Z, totalStress, effectiveStress, Vs;
+    Z = basinData->surfVals[basinNum][xInd][yInd][0] - location->Z[zInd]; // zero indice represents the first surface, should always be the DEM
+    totalStress = Z * rho_const; // kPa
+    effectiveStress = totalStress - Z * 9.81; // kPa
+    Vs = As_gravel * pow((effectiveStress/P_a),ns_gravel);
+    values->Vs = Vs; // in km/s
+    
     values->Rho = 1.6971;
     values->Vp = 1.6;
-    values->Vs = 0.6;
+//    values->Vs = 0.6;
     
     return values;
 }
 
 //  DEM to pliocene surface sub-model (same as shirley formation)
-valStructLocal *DEMtoPlioceneSubModel(gridStruct *location, int xInd, int yInd, int zInd)
+valStructLocal *DEMtoPlioceneSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum)
 {
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
+    double Z, totalStress, effectiveStress, Vs;
+    Z = basinData->surfVals[basinNum][xInd][yInd][0] - location->Z[zInd]; // zero indice represents the first surface, should always be the DEM
+    totalStress = Z * rho_const; // kPa
+    effectiveStress = totalStress - Z * 9.81; // kPa
+    Vs = As_silt * pow((effectiveStress/P_a),ns_marine);
+    values->Vs = Vs; // in km/s
+    
     values->Rho = 1.6971;
     values->Vp = 1.6;
-    values->Vs = 0.4;
+//    values->Vs = 0.4;
     
     return values;
 }
 
+
+//=================================================================
+
+//          PRE QUATERNARY MODELS
+
+//=================================================================
+
 // Pliocene sub-model
-valStructLocal *plioceneSubModel(gridStruct *location, int xInd, int yInd, int zInd)
+valStructLocal *plioceneSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum)
 {
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
@@ -146,7 +216,7 @@ valStructLocal *plioceneSubModel(gridStruct *location, int xInd, int yInd, int z
 }
 
 // Miocene sub-model
-valStructLocal *mioceneSubModel(gridStruct *location, int xInd, int yInd, int zInd)
+valStructLocal *mioceneSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum)
 {
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
@@ -159,7 +229,7 @@ valStructLocal *mioceneSubModel(gridStruct *location, int xInd, int yInd, int zI
 }
 
 // Paleogene sub-model
-valStructLocal *paleogeneSubMod(gridStruct *location, int xInd, int yInd, int zInd)
+valStructLocal *paleogeneSubMod(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum)
 {
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));

@@ -69,6 +69,8 @@ surfRead *loadSurface(char *fileName)
         }
     }
     
+    fclose(file);
+    
     firstLat = surfData->lati[0];
     lastLat = surfData->lati[surfData->nLat-1];
     

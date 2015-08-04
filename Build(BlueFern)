@@ -1,3 +1,0 @@
-gcc -Wall -g -std=c99 -o CVM *.c -lm
-./CVM GENERATE_INDIVIDUAL_PROFILE 0.11 PTA -43.618382 172.406250 .4 -.1 0.0005
-

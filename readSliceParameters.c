@@ -44,6 +44,7 @@ sliceParams *readExtractedSliceParametersFile(char *sliceParametersDirectory)
         fscanf(file, "%lf %lf %lf %lf %lf", &sliceParameters->latA[i], &sliceParameters->latB[i], &sliceParameters->lonA[i], &sliceParameters->lonB[i], &sliceParameters->LatLonRes[i]);
     }
     
+    fclose(file);
     return sliceParameters;
 }
 
@@ -70,6 +71,6 @@ sliceParams *readGeneratedSliceParametersFile(char *sliceParametersDirectory)
     {
         fscanf(file, "%lf %lf %lf %lf %lf %lf %lf %lf", &sliceParameters->latA[i], &sliceParameters->latB[i], &sliceParameters->lonA[i], &sliceParameters->lonB[i], &sliceParameters->depMin[i], &sliceParameters->depMax[i], &sliceParameters->DepRes[i], &sliceParameters->LatLonRes[i] );
     }
-    
+    fclose(file);
     return sliceParameters;
 }

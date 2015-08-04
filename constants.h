@@ -27,6 +27,13 @@
 #define MAX_LAT_SURFACE_EXTENSION 1 // value in degrees the surface files may be extended by
 #define MAX_LON_SURFACE_EXTENSION 1 // value in degrees the surface files may be extended by
 
+#define P_a 101.325 // kPa
+#define ns_marine 0.331
+#define ns_gravel 0.273
+#define rho_const 19.0 // t/m3
+#define As_gravel 0.312 // m/s
+#define As_silt 0.192 // m/s
+
 
 
 

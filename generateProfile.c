@@ -31,6 +31,7 @@ void generateProfile(modOrigin modelOrigin, modVersion modelVersion, modExtent m
     
     // determine the depths of each surface for each lat lon point
     surfaceDepthsGlobal *surfDepsGlob = NULL;
+    location->saveSurfaceDepths = 0;
     surfDepsGlob = getSurfaceValues(location, surfSubModNames, outputDirectory);
     
     // assign values

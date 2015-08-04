@@ -15,6 +15,7 @@
 #include "structs.h"
 #include "functions.h"
 
+// FULL CANTERBURY BASIN
 void loadCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData *basinData)
 {
     basinData->surf[basinNum][0] = "DEM";
@@ -124,5 +125,56 @@ void loadQCanterburyBasinData(gridStruct *location, int basinNum, globalBasinDat
     
     
 }
+
+// PRE QUATERNARY BASIN WITH PALOEGENE ONLY
+void loadPreQCanterburyBasinDataPaleogene(gridStruct *location, int basinNum, globalBasinData *basinData)
+{
+    basinData->surf[basinNum][0] = "PaleogeneTop";
+    basinData->surf[basinNum][1] = "BasementTop";
+    basinData->nSurf[basinNum] = 2;
+    
+    
+    // basin boundaries must be completely encompassed within higher level boundaries
+    // ie basin [0] must be completely within basin [0] in order to enforce the depths properly
+    
+    basinData->nBoundaries[basinNum] = 1;
+    basinData->boundaryFileName[basinNum][0] = "Data/Boundaries/CanterburyBasinBoundary.txt";
+    
+    basinData->boundaryType[basinNum][0] = 0;
+    basinData->boundaryType[basinNum][1] = 0;
+    
+    
+    // load the basin data
+    loadBasin(location, basinNum, basinData);
+    
+    
+}
+
+// PRE QUATERNARY BASIN WITH PALOEGENE + MIOCENE ONLY
+void loadPreQCanterburyBasinDataPaleogeneMiocene(gridStruct *location, int basinNum, globalBasinData *basinData)
+{
+    basinData->surf[basinNum][0] = "MioceneTop";
+    basinData->surf[basinNum][1] = "PaleogeneTop";
+    basinData->surf[basinNum][2] = "BasementTop";
+    basinData->nSurf[basinNum] = 3;
+    
+    
+    // basin boundaries must be completely encompassed within higher level boundaries
+    // ie basin [0] must be completely within basin [0] in order to enforce the depths properly
+    
+    basinData->nBoundaries[basinNum] = 1;
+    basinData->boundaryFileName[basinNum][0] = "Data/Boundaries/CanterburyBasinBoundary.txt";
+    
+    basinData->boundaryType[basinNum][0] = 0;
+    basinData->boundaryType[basinNum][1] = 0;
+    basinData->boundaryType[basinNum][2] = 0;
+    
+    
+    // load the basin data
+    loadBasin(location, basinNum, basinData);
+    
+    
+}
+
 
 

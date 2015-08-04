@@ -39,5 +39,6 @@ velo1D *load1dVeloSubModel(char *fileName)
         i += 1;
     }
     veloMod1D->nDep = i;
+    fclose(file);
     return veloMod1D;
 }

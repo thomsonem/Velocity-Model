@@ -147,51 +147,51 @@ void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd
     valStructLocal *values = NULL;
     if((strcmp(upperSurfName, "DEM") == 0) && strcmp(lowerSurfName, "RiccartonTop") == 0)
     {
-        values = christchurchSubModel(location, xInd, yInd, zInd);
+        values = christchurchSubModel(location, basinData, xInd, yInd, zInd, basinNum);
     }
     else if((strcmp(upperSurfName, "RiccartonTop") == 0) && strcmp(lowerSurfName, "BromleyTop") == 0)
     {
-        values = riccartonSubModel(location, xInd, yInd, zInd);
+        values = riccartonSubModel(location, basinData, xInd, yInd, zInd, basinNum);
     }
     else if((strcmp(upperSurfName, "BromleyTop") == 0) && strcmp(lowerSurfName, "LinwoodTop") == 0)
     {
-        values = bromleySubModel(location, xInd, yInd, zInd);
+        values = bromleySubModel(location, basinData, xInd, yInd, zInd, basinNum);
     }
     else if((strcmp(upperSurfName, "LinwoodTop") == 0) && strcmp(lowerSurfName, "HeathcoteTop") == 0)
     {
-        values = linwoodSubModel(location, xInd, yInd, zInd);
+        values = linwoodSubModel(location, basinData, xInd, yInd, zInd, basinNum);
     }
     else if((strcmp(upperSurfName, "HeathcoteTop") == 0) && strcmp(lowerSurfName, "BurwoodTop") == 0)
     {
-        values = heathcoteSubModel(location, xInd, yInd, zInd);
+        values = heathcoteSubModel(location, basinData, xInd, yInd, zInd, basinNum);
     }
     else if((strcmp(upperSurfName, "BurwoodTop") == 0) && strcmp(lowerSurfName, "ShirleyTop") == 0)
     {
-        values = burwoodSubModel(location, xInd, yInd, zInd);
+        values = burwoodSubModel(location, basinData, xInd, yInd, zInd, basinNum);
     }
     else if((strcmp(upperSurfName, "ShirleyTop") == 0) && strcmp(lowerSurfName, "WainoniTop") == 0)
     {
-        values = shirleySubModel(location, xInd, yInd, zInd);
+        values = shirleySubModel(location, basinData, xInd, yInd, zInd, basinNum);
     }
     else if((strcmp(upperSurfName, "WainoniTop") == 0) && strcmp(lowerSurfName, "PlioceneTop") == 0)
     {
-        values = wainoniSubModel(location, xInd, yInd, zInd);
+        values = wainoniSubModel(location, basinData, xInd, yInd, zInd, basinNum);
     }
     else if((strcmp(upperSurfName, "DEM") == 0) && strcmp(lowerSurfName, "PlioceneTop") == 0)
     {
-        values = DEMtoPlioceneSubModel(location, xInd, yInd, zInd);
+        values = DEMtoPlioceneSubModel(location, basinData, xInd, yInd, zInd, basinNum);
     }
     else if((strcmp(upperSurfName, "PlioceneTop") == 0) && strcmp(lowerSurfName, "MioceneTop") == 0)
     {
-        values = plioceneSubModel(location, xInd, yInd, zInd);
+        values = plioceneSubModel(location, basinData, xInd, yInd, zInd, basinNum);
     }
     else if((strcmp(upperSurfName, "MioceneTop") == 0) && strcmp(lowerSurfName, "PaleogeneTop") == 0)
     {
-        values = mioceneSubModel(location, xInd, yInd, zInd);
+        values = mioceneSubModel(location, basinData, xInd, yInd, zInd, basinNum);
     }
     else if((strcmp(upperSurfName, "PaleogeneTop") == 0) && strcmp(lowerSurfName, "BasementTop") == 0)
     {
-        values = paleogeneSubMod(location, xInd, yInd, zInd);
+        values = paleogeneSubMod(location, basinData, xInd, yInd, zInd, basinNum);
     }
     else
     {

@@ -61,7 +61,6 @@ velo1D *loadv1DsubMod(void)
  */
 {
     char *fileName;
-//    fileName = "Cant1D_v1.fd_modfile";
     fileName = "Data/1D_Velocity_Model/Cant1D_v1.fd_modfile";
     velo1D *subModel1D = NULL;
     subModel1D = load1dVeloSubModel(fileName);

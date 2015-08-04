@@ -44,6 +44,7 @@ void loadBoundary(globalBasinData *basinData, int basinNum)
             
             count += 1;
         }
+        fclose(file);
         basinData->boundaryNumPoints[basinNum][i] = count;
         assert(count<=MAX_DIM_BOUNDARY_FILE);
     }

@@ -74,19 +74,19 @@ extern surfDepValues *demSurf(gridStruct *location);
 
 
 // basin velocity submodel functions CHCH
-extern valStructLocal *christchurchSubModel(gridStruct *location, int xInd, int yInd, int zInd);
-extern valStructLocal *riccartonSubModel(gridStruct *location, int xInd, int yInd, int zInd);
-extern valStructLocal *bromleySubModel(gridStruct *location, int xInd, int yInd, int zInd);
-extern valStructLocal *linwoodSubModel(gridStruct *location, int xInd, int yInd, int zInd);
-extern valStructLocal *heathcoteSubModel(gridStruct *location, int xInd, int yInd, int zInd);
-extern valStructLocal *burwoodSubModel(gridStruct *location, int xInd, int yInd, int zInd);
-extern valStructLocal *shirleySubModel(gridStruct *location, int xInd, int yInd, int zInd);
-extern valStructLocal *wainoniSubModel(gridStruct *location, int xInd, int yInd, int zInd);
-extern valStructLocal *DEMtoPlioceneSubModel(gridStruct *location, int xInd, int yInd, int zInd);
-extern valStructLocal *plioceneSubModel(gridStruct *location, int xInd, int yInd, int zInd);
-extern valStructLocal *mioceneSubModel(gridStruct *location, int xInd, int yInd, int zInd);
-extern valStructLocal *paleogeneSubMod(gridStruct *location, int xInd, int yInd, int zInd);
-extern valStructLocal *cretaceousSubMod(gridStruct *location, int xInd, int yInd, int zInd);
+extern valStructLocal *christchurchSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
+extern valStructLocal *riccartonSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
+extern valStructLocal *bromleySubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
+extern valStructLocal *linwoodSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
+extern valStructLocal *heathcoteSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
+extern valStructLocal *burwoodSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
+extern valStructLocal *shirleySubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
+extern valStructLocal *wainoniSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
+extern valStructLocal *DEMtoPlioceneSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
+extern valStructLocal *plioceneSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
+extern valStructLocal *mioceneSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
+extern valStructLocal *paleogeneSubMod(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
+extern valStructLocal *cretaceousSubMod(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
 
 
 
@@ -105,6 +105,8 @@ extern void NaNsubMod(int xInd, int yInd, int zInd, globalDataValues *golbalValu
 extern void loadCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData *basinData);
 extern void loadPreQCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData *basinData);
 extern void loadQCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData *basinData);
+extern void loadPreQCanterburyBasinDataPaleogeneMiocene(gridStruct *location, int basinNum, globalBasinData *basinData);
+extern void loadPreQCanterburyBasinDataPaleogene(gridStruct *location, int basinNum, globalBasinData *basinData);
 
 extern void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd, int yInd, int zInd, gridStruct *location);
 extern void loadBasinSurfaces(gridStruct *location, int basinNum, globalBasinData *basinData);

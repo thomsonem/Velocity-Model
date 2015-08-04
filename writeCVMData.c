@@ -91,6 +91,10 @@ void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *ou
 		fwrite(vs,sizeof(vs[0]),location->nX*location->nZ,fvs);
 		fwrite(rho,sizeof(rho[0]),location->nX*location->nZ,frho);
 	}
+    
+    free(vp);
+    free(vs);
+    free(rho);
 	fclose(fvp);
 	fclose(fvs);
 	fclose(frho);
