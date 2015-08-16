@@ -46,8 +46,13 @@ globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, su
     }
 
     // read in basin data
-    globalBasinData *basinData = NULL;
+    globalBasinData *basinData;
     basinData = malloc(sizeof(globalBasinData));
+    if(basinData == NULL)
+    {
+        printf("Memory allocation failed for basin data array.\n");
+    }
+    
     for(int i = 0; i < surfSubModNames.nBasin; i++)
     {
         if(strcmp(surfSubModNames.basin[i], "CANTERBURY_BASIN") == 0)
@@ -76,6 +81,10 @@ globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, su
     // loop over gridpoints and assign quantities
     globalDataValues *globalValues;
     globalValues = malloc(sizeof(globalDataValues));
+    if( globalValues == NULL)
+    {
+        printf("Memory allocation failed for global data array.\n");
+    }
     int nVeloModInd;
     int flagInABasin = 0;
     
@@ -120,8 +129,13 @@ globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, su
                 flagInABasin = 0; // reassign flag
             }
         }
-        printf("Completed calculation of properties at latitude %i of %i.\n", i+1, location->nX);
+//        printf("Completed calculation of properties at latitude %i of %i.\n", i+1, location->nX);
+        printf("\rAssigning values %d%% complete.", i*100/location->nX);
+        fflush(stdout);
     }
+    printf("\rAssigning values 100%% complete.");
+    fflush(stdout);
+    printf("\n");
     
     if((location->nX == 1)&&(location->nY==1))
         // if grid only contains a single point save the surface depths to a text file

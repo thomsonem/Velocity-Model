@@ -224,8 +224,13 @@ void assignBasinProperties(gridStruct *location, int basinNum, globalBasinData *
                 }
             }
         }
-        printf("Completed calculation of basin properties at latitude %i of %i.\n", i+1, location->nX);
+//        printf("Completed calculation of basin properties at latitude %i of %i.\n", i+1, location->nX);
+        printf("\rAssigning basin properties %d%% complete.", i*100/location->nX);
+        fflush(stdout);
     }
+    printf("\rAssigning basin properties 100%% complete.");
+    fflush(stdout);
+    printf("\n");
     printf("Basin data successfully calculated.\n");
 }
 

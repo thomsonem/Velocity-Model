@@ -307,7 +307,9 @@ globalDataValues* loadCvmDataAll(gridStruct *location, char *outputDirectory)
     for(int iy = 0; iy < location->nY; iy++)
     {
         //increment a counter
-        printf("%d / %d complete \n",iy+1,location->nY);
+//        printf("%d / %d complete \n",iy+1,location->nY);
+        printf("\rReading velocity model from file %d%% complete.", iy*100/location->nY);
+        fflush(stdout);
         
         //now read the obtained file in binary
         fread(vp,sizeof(vp[0]),location->nX*location->nZ,fvp);
@@ -325,6 +327,11 @@ globalDataValues* loadCvmDataAll(gridStruct *location, char *outputDirectory)
             }
         }
     }
+    printf("\rReading velocity model from file 100%% complete.");
+    fflush(stdout);
+    printf("\n");
+
+    
     free(vp);
     free(vs);
     free(rho);

@@ -46,17 +46,17 @@ int main(int argc, char *argv[])
     int argc = 14;
     char *argv[20];
     argv[1] = "EXTRACT_VELOCITY_SLICES";
-    argv[2] = "1.0";
-    argv[3] = "VelocityModel1.0";
+    argv[2] = "1.01";
+    argv[3] = "v1.01";
     argv[4] = "-43.6";
     argv[5] = "172.3";
     argv[6] = "-10";
     argv[7] = "70"; //130
     argv[8] = "60";//120
-    argv[9] = "1";
+    argv[9] = "46";
     argv[10] = "0";
-    argv[11] = "1";
-    argv[12] = "1";
+    argv[11] = "0.1";
+    argv[12] = "0.1";
     argv[13] = "SliceParameters";
     */
     
@@ -82,10 +82,6 @@ int main(int argc, char *argv[])
     argv[7] = "-0.05";
     argv[8] = "0.005";
     */
-    printf("Assign Vals\n");
-    globalDataValues *globalValues;
-    globalValues = malloc(sizeof(globalDataValues));
-    printf("Vals Assigned\n");
 
     char *generateType = argv[1];
         
@@ -119,8 +115,10 @@ int main(int argc, char *argv[])
         // Model Version
         char *tempPoint;
         modelVersion.version = strtod(argv[2],&tempPoint);
+        printf("========================================\n");
         printf("Generating velocity model version %f.\n", modelVersion.version);
-        
+        printf("========================================\n");
+
         // Model origin struct
         modelOrigin.mlat = atof(argv[4]);
         modelOrigin.mlon = atof(argv[5]);
@@ -163,7 +161,10 @@ int main(int argc, char *argv[])
             
             if (strcmp(generateType,"GENERATE_VELO_MOD") == 0)
             {
+                // write log file
+                writeVeloModLogFile(argc, argv);
                 printf("GENERATE_VELO_MOD routine complete.\n");
+                printf("========================================\n\n");
             }
 
             
@@ -211,19 +212,17 @@ int main(int argc, char *argv[])
             
             free(sliceParameters);
             free(globDataValsRead);
+            
+            // write log file
+            writeVeloModLogFile(argc, argv);
             printf("EXTRACT_VELOCITY_SLICE routine complete.\n");
+            printf("========================================\n\n");
             
         }
-        
-        
-        // write log file
-        writeVeloModLogFile(argc, argv);
-        
+    
         // free allocated memory
         free(surfDepsGlob);
-        
         free(location);
-        
         
     }
     
@@ -242,7 +241,9 @@ int main(int argc, char *argv[])
         
         // Model Version
         modelVersion.version = atof(argv[2]);
+        printf("========================================\n\n");
         printf("Generating velocity model version %f.\n", modelVersion.version);
+        printf("========================================\n");
         
         // create directory to output files to
         outputDirectory = argv[3];
@@ -273,10 +274,11 @@ int main(int argc, char *argv[])
         // Generate profile
         generateProfile(modelOrigin, modelVersion, modelExtent, outputDirectory);
         
-        printf("GENERATE_INDIVIDUAL_PROFILE routine complete.\n");
-        
         // write log file
         writeVeloModLogFile(argc, argv);
+        
+        printf("GENERATE_INDIVIDUAL_PROFILE routine complete.\n");
+        printf("========================================\n\n");
 
     }
     
@@ -337,15 +339,20 @@ int main(int argc, char *argv[])
             
             printf("Slice %i of %i complete.\n",i+1, sliceParameters->nSlices);
         }
-        free(sliceParameters);
+
         char *type = "GENERATED";
         writeSliceParametersLogFile(sliceParameters, modelVersion, location, outputDirectory, type);
+        
+        free(sliceParameters);
 
-        
-        printf("GENERATE_VELOCITY_SLICES routine complete.\n");
-        
         // write log file
         writeVeloModLogFile(argc, argv);
+        
+        printf("GENERATE_VELOCITY_SLICES routine complete.\n");
+        printf("========================================\n\n");
+
+        
+
 
     }
 }

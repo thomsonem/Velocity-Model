@@ -84,13 +84,18 @@ void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *ou
 			}
 		}
 		//increment a counter
-		printf("Completed write of properties at latitude %i of %i.\n",iy+1,location->nY);
+//		printf("Completed write of properties at longitude %i of %i.\n",iy+1,location->nY);
+        printf("\rWriting velocity model to file %d%% complete.", iy*100/location->nY);
+        fflush(stdout);
         
 		//now write the obtained file in binary
 		fwrite(vp,sizeof(vp[0]),location->nX*location->nZ,fvp);
 		fwrite(vs,sizeof(vs[0]),location->nX*location->nZ,fvs);
 		fwrite(rho,sizeof(rho[0]),location->nX*location->nZ,frho);
 	}
+    printf("\rWriting velocity model to file 100%% complete.");
+    fflush(stdout);
+    printf("\n");
     
     free(vp);
     free(vs);

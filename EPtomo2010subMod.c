@@ -129,8 +129,14 @@ depInterpVals *loadEPtomo2010subMod(gridStruct *location)
             }
             free(tempSurf);
         }
-        printf("Completed Read of EP2010 Tomo Data surface %i of %i.\n", i+1, nElev);
+//        printf("Completed Read of EP2010 Tomo Data surface %i of %i.\n", i+1, nElev);
+        printf("\rReading tomography data %d%% complete.", i*100/nElev);
+        fflush(stdout);
     }
+    printf("\rReading tomography data 100%% complete.");
+    fflush(stdout);
+    printf("\n");
+
 return surfDepVals;
 
 }
