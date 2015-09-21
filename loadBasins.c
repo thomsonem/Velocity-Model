@@ -20,6 +20,7 @@ void loadBasin(gridStruct *location, int basinNum, globalBasinData *basinData)
     //assert(basinData->nBasinSubMod[basinNum]<=MAX_NUM_VELOSUBMOD);
     //assert(basinData->nSurf[basinNum]<=MAX_NUM_VELOSUBMOD);
     
+    printf("%i %i\n",location->nY,location->nX);
     loadBoundary(basinData, basinNum);
     determineIfWithinBasinLatLon(location, basinNum, basinData);
     loadBasinSurfaces(location, basinNum, basinData);
@@ -82,6 +83,10 @@ void loadBasinSurfaces(gridStruct *location, int basinNum, globalBasinData *basi
         else if(strcmp(basinData->surf[basinNum][i], "BasementTop") == 0)
         {
             fileName = "Data/Canterbury_Basin/Pre_Quaternary/BasementTop.in";
+        }
+        else if(strcmp(basinData->surf[basinNum][i], "BPVTop") == 0)
+        {
+            fileName = "Data/Canterbury_Basin/BPV/BPVTop.in";
         }
         else
         {
@@ -191,7 +196,11 @@ void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd
     }
     else if((strcmp(upperSurfName, "PaleogeneTop") == 0) && strcmp(lowerSurfName, "BasementTop") == 0)
     {
-        values = paleogeneSubMod(location, basinData, xInd, yInd, zInd, basinNum);
+        values = paleogeneSubModel(location, basinData, xInd, yInd, zInd, basinNum);
+    }
+    else if((strcmp(upperSurfName, "BPVTop") == 0) && strcmp(lowerSurfName, "MioceneTop") == 0)
+    {
+        values = BPVSubModel(location, basinData, xInd, yInd, zInd, basinNum);
     }
     else
     {

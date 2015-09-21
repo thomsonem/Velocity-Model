@@ -229,7 +229,7 @@ valStructLocal *mioceneSubModel(gridStruct *location, globalBasinData *basinData
 }
 
 // Paleogene sub-model
-valStructLocal *paleogeneSubMod(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum)
+valStructLocal *paleogeneSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum)
 {
 	valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
@@ -241,6 +241,24 @@ valStructLocal *paleogeneSubMod(gridStruct *location, globalBasinData *basinData
     return values;
 }
 
+//=================================================================
+
+//          BPV MODEL
+
+//=================================================================
+
+// BPV sub-model
+valStructLocal *BPVSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum)
+{
+    valStructLocal *values = NULL;
+    values = malloc(sizeof(valStructLocal));
+    
+    values->Vp = 3.5;
+    values->Rho = 2.3184;
+    values->Vs = 1.8554;
+    
+    return values;
+}
 
 
 

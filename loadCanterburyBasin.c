@@ -176,5 +176,28 @@ void loadPreQCanterburyBasinDataPaleogeneMiocene(gridStruct *location, int basin
     
 }
 
+// BPV Basin
+void loadBPVBasinData(gridStruct *location, int basinNum, globalBasinData *basinData)
+{
+    basinData->surf[basinNum][0] = "BPVTop";
+    basinData->surf[basinNum][1] = "MioceneTop";
+    basinData->nSurf[basinNum] = 2;
+    
+    
+    // basin boundaries must be completely encompassed within higher level boundaries
+    // ie basin [0] must be completely within basin [0] in order to enforce the depths properly
+    
+    basinData->nBoundaries[basinNum] = 1;
+    basinData->boundaryFileName[basinNum][0] = "Data/Boundaries/BPVBoundary.txt";
+    
+    basinData->boundaryType[basinNum][0] = 0;
+    basinData->boundaryType[basinNum][1] = 0;
+    
+    
+    // load the basin data
+    loadBasin(location, basinNum, basinData);
+    
+    
+}
 
 

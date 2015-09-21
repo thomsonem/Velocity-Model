@@ -85,8 +85,9 @@ extern valStructLocal *wainoniSubModel(gridStruct *location, globalBasinData *ba
 extern valStructLocal *DEMtoPlioceneSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
 extern valStructLocal *plioceneSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
 extern valStructLocal *mioceneSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
-extern valStructLocal *paleogeneSubMod(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
-extern valStructLocal *cretaceousSubMod(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
+extern valStructLocal *paleogeneSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
+extern valStructLocal *cretaceousSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
+extern valStructLocal *BPVSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
 
 
 
@@ -107,6 +108,8 @@ extern void loadPreQCanterburyBasinData(gridStruct *location, int basinNum, glob
 extern void loadQCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData *basinData);
 extern void loadPreQCanterburyBasinDataPaleogeneMiocene(gridStruct *location, int basinNum, globalBasinData *basinData);
 extern void loadPreQCanterburyBasinDataPaleogene(gridStruct *location, int basinNum, globalBasinData *basinData);
+extern void loadBPVBasinData(gridStruct *location, int basinNum, globalBasinData *basinData);
+
 
 extern void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd, int yInd, int zInd, gridStruct *location);
 extern void loadBasinSurfaces(gridStruct *location, int basinNum, globalBasinData *basinData);

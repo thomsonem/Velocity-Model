@@ -51,18 +51,18 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         // define the number of surfaces and sub models
         surfSubModNames.nSurf = 2;
         surfSubModNames.nVeloSubMod = 1;
-
+        
         // insert surface surface keywords
         surfSubModNames.surf[0] = "posInfSurf";
         surfSubModNames.surf[1] = "negInfSurf";
-
+        
         // insert velocity submodel names
         surfSubModNames.veloSubMod[0] = "EPtomo2010subMod";
-
+        
         surfSubModNames.nBasin = 0;
-
+        
     }
-
+    
     //  Model Version 0.3  CHCH BASIN
     else if(modelVersion.version == 0.3)
     {
@@ -74,7 +74,7 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         surfSubModNames.surf[0] = "posInfSurf";
         surfSubModNames.surf[1] = "demSurf";
         surfSubModNames.surf[2] = "negInfSurf";
-
+        
         // insert velocity submodel names
         surfSubModNames.veloSubMod[0] = "NaNsubMod";
         surfSubModNames.veloSubMod[1] = "NaNsubMod";
@@ -82,7 +82,7 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         // insert basin name / number
         surfSubModNames.basin[0] = "CANTERBURY_BASIN";
         surfSubModNames.nBasin = 1;
-
+        
     }
     //  Model Version 0.4  w/ CHCH BASIN and 1D velocity model
     else if(modelVersion.version == 0.4)
@@ -90,20 +90,20 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         // define the number of surfaces and sub models
         surfSubModNames.nSurf = 3;
         surfSubModNames.nVeloSubMod = 2;
-
+        
         // insert surface surface keywords
         surfSubModNames.surf[0] = "posInfSurf";
         surfSubModNames.surf[1] = "demSurf";
         surfSubModNames.surf[2] = "negInfSurf";
-
+        
         // insert velocity submodel names
         surfSubModNames.veloSubMod[0] = "NaNsubMod";
         surfSubModNames.veloSubMod[1] = "v1DsubMod";
-
+        
         // insert basin name / number
         surfSubModNames.basin[0] = "CANTERBURY_BASIN";
         surfSubModNames.nBasin = 1;
-
+        
     }
     //  Model Version 0.5  w/ CHCH BASIN and EP Tomo
     else if(modelVersion.version == 0.5)
@@ -148,6 +148,51 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         surfSubModNames.nBasin = 1;
         
     }
+    
+    
+    //  Model Version 0.11  w/ CHCH BASIN of Q
+    else if(modelVersion.version == 0.11)
+    {
+        // define the number of surfaces and sub models
+        surfSubModNames.nSurf = 3;
+        surfSubModNames.nVeloSubMod = 2;
+        
+        // insert surface surface keywords
+        surfSubModNames.surf[0] = "posInfSurf";
+        surfSubModNames.surf[1] = "basementRockSurf";
+        surfSubModNames.surf[2] = "negInfSurf";
+        
+        // insert velocity submodel names
+        surfSubModNames.veloSubMod[0] = "NaNsubMod";
+        surfSubModNames.veloSubMod[1] = "NaNsubMod";
+        
+        // insert basin name / number
+        surfSubModNames.basin[0] = "Q_CANTERBURY_BASIN";
+        surfSubModNames.nBasin = 1;
+        
+    }
+    
+    //  Model Version 0.12  w/ CHCH BASIN of preQ
+    else if(modelVersion.version == 0.12)
+    {
+        // define the number of surfaces and sub models
+        surfSubModNames.nSurf = 3;
+        surfSubModNames.nVeloSubMod = 2;
+        
+        // insert surface surface keywords
+        surfSubModNames.surf[0] = "posInfSurf";
+        surfSubModNames.surf[1] = "basementRockSurf";
+        surfSubModNames.surf[2] = "negInfSurf";
+        
+        // insert velocity submodel names
+        surfSubModNames.veloSubMod[0] = "NaNsubMod";
+        surfSubModNames.veloSubMod[1] = "NaNsubMod";
+        
+        // insert basin name / number
+        surfSubModNames.basin[0] = "PREQ_CANTERBURY_BASIN";
+        surfSubModNames.nBasin = 1;
+    }
+    
     //  Model Version 0.13  w/ CHCH BASIN
     else if(modelVersion.version == 0.13)
     {
@@ -169,46 +214,76 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         surfSubModNames.nBasin = 1;
         
     }
-    //  Model Version 0.12  w/ CHCH BASIN of preQ
-    else if(modelVersion.version == 0.12)
+    //  Model Version 0.141  w/ PREQ + Q + BPV
+    else if(modelVersion.version == 0.141)
     {
         // define the number of surfaces and sub models
-        surfSubModNames.nSurf = 3;
-        surfSubModNames.nVeloSubMod = 2;
+        surfSubModNames.nSurf = 4;
+        surfSubModNames.nVeloSubMod = 3;
         
         // insert surface surface keywords
         surfSubModNames.surf[0] = "posInfSurf";
-        surfSubModNames.surf[1] = "basementRockSurf";
-        surfSubModNames.surf[2] = "negInfSurf";
+        surfSubModNames.surf[1] = "demSurf";
+        surfSubModNames.surf[2] = "basementRockSurf";
+        surfSubModNames.surf[3] = "negInfSurf";
         
         // insert velocity submodel names
         surfSubModNames.veloSubMod[0] = "NaNsubMod";
-        surfSubModNames.veloSubMod[1] = "NaNsubMod";
+        surfSubModNames.veloSubMod[1] = "v1DsubMod";
+        surfSubModNames.veloSubMod[2] = "EPtomo2010subMod";
+        
         
         // insert basin name / number
-        surfSubModNames.basin[0] = "PREQ_CANTERBURY_BASIN";
+        surfSubModNames.basin[0] = "BPV_BASIN";
         surfSubModNames.nBasin = 1;
         
     }
-    //  Model Version 0.11  w/ CHCH BASIN of Q
-    else if(modelVersion.version == 0.11)
+    else if(modelVersion.version == 0.14)
     {
         // define the number of surfaces and sub models
-        surfSubModNames.nSurf = 3;
-        surfSubModNames.nVeloSubMod = 2;
+        surfSubModNames.nSurf = 4;
+        surfSubModNames.nVeloSubMod = 3;
         
         // insert surface surface keywords
         surfSubModNames.surf[0] = "posInfSurf";
-        surfSubModNames.surf[1] = "basementRockSurf";
-        surfSubModNames.surf[2] = "negInfSurf";
+        surfSubModNames.surf[1] = "demSurf";
+        surfSubModNames.surf[2] = "basementRockSurf";
+        surfSubModNames.surf[3] = "negInfSurf";
         
         // insert velocity submodel names
         surfSubModNames.veloSubMod[0] = "NaNsubMod";
-        surfSubModNames.veloSubMod[1] = "NaNsubMod";
+        surfSubModNames.veloSubMod[1] = "v1DsubMod";
+        surfSubModNames.veloSubMod[2] = "EPtomo2010subMod";
+
         
         // insert basin name / number
-        surfSubModNames.basin[0] = "Q_CANTERBURY_BASIN";
+        surfSubModNames.basin[0] = "BPV_BASIN";
         surfSubModNames.nBasin = 1;
+        
+    }
+    //  Model Version 0.15  w/ PREQ + Q + BPV
+    else if(modelVersion.version == 0.15)
+    {
+        // define the number of surfaces and sub models
+        surfSubModNames.nSurf = 4;
+        surfSubModNames.nVeloSubMod = 3;
+        
+        // insert surface surface keywords
+        surfSubModNames.surf[0] = "posInfSurf";
+        surfSubModNames.surf[1] = "demSurf";
+        surfSubModNames.surf[2] = "basementRockSurf";
+        surfSubModNames.surf[3] = "negInfSurf";
+        
+        // insert velocity submodel names
+        surfSubModNames.veloSubMod[0] = "NaNsubMod";
+        surfSubModNames.veloSubMod[1] = "v1DsubMod";
+        surfSubModNames.veloSubMod[2] = "EPtomo2010subMod";
+        
+        
+        // insert basin name / number
+        surfSubModNames.basin[0] = "PREQ_CANTERBURY_BASIN";
+        surfSubModNames.basin[1] = "BPV_BASIN";
+        surfSubModNames.nBasin = 2;
         
     }
     
@@ -233,7 +308,7 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         surfSubModNames.veloSubMod[0] = "v1DsubMod";
         
         surfSubModNames.nBasin = 0;
-
+        
     }
     //  Model Version 1.1  w/ Tomography
     else if(modelVersion.version == 1.11)
@@ -262,7 +337,7 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         surfSubModNames.surf[0] = "posInfSurf";
         surfSubModNames.surf[1] = "basementRockSurf";
         surfSubModNames.surf[2] = "negInfSurf";
-
+        
         // insert velocity submodel names
         surfSubModNames.veloSubMod[0] = "v1DsubMod";
         surfSubModNames.veloSubMod[1] = "EPtomo2010subMod";

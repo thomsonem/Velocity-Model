@@ -39,8 +39,6 @@ void writeCVMData(gridStruct *location, globalDataValues *globDataVals, char *ou
         mkdir(veloModDir, 0700);
     }
     
-    
-    
     FILE *fvp, *fvs, *frho; //*fp
     char vp3dfile[64];
     sprintf(vp3dfile,"%s/vp3dfile.p",veloModDir);

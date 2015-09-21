@@ -1,2 +1,2 @@
 gcc -Wall -g -std=c99 -o CVM *.c -lm -g
-./CVM EXTRACT_VELOCITY_SLICES 1.01 v1.01 -43.6 172.3 -10 70 60 46 0 0.1 0.1 SliceParameters
+./CVM GENERATE_VELOCITY_SLICES 0.11 thesisPlots SliceParametersForRobin

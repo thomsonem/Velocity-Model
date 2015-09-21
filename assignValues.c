@@ -75,6 +75,10 @@ globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, su
         {
             loadPreQCanterburyBasinDataPaleogeneMiocene(location, i, basinData);
         }
+        if(strcmp(surfSubModNames.basin[i], "BPV_BASIN") == 0)
+        {
+            loadBPVBasinData(location, i, basinData);
+        }
         
     }
 
