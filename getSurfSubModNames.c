@@ -379,12 +379,13 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         // insert velocity submodel names
         surfSubModNames.veloSubMod[0] = "v1DsubMod";
         surfSubModNames.veloSubMod[1] = "EPtomo2010subMod";
+    
         
         // insert basin name / number
         surfSubModNames.basin[0] = "PALEO_MIO_CANTERBURY_BASIN";
         surfSubModNames.nBasin = 1;
     }
-    //  Model Version 1.5  w/ 1D to basement w/ Tomography w/ Paleogene + Miocene + Pliocene Basin layers (full PreqQ basin)
+    //  Model Version 1.5  w/ 1D to basement w/ Tomography w/ Paleogene + Miocene Basin layers w/ BPV Basin
     else if(modelVersion.version == 1.51)
     {
         // define the number of surfaces and sub models
@@ -401,8 +402,50 @@ surfNames getSurfSubModNames(modVersion modelVersion)
         surfSubModNames.veloSubMod[1] = "EPtomo2010subMod";
         
         // insert basin name / number
+        surfSubModNames.basin[0] = "PALEO_MIO_CANTERBURY_BASIN";
+        surfSubModNames.basin[1] = "BPV_BASIN";
+        surfSubModNames.nBasin = 2;
+    }
+    
+    //  Model Version 1.6  w/ 1D to basement w/ Tomography w/ Paleogene + Miocene + Pliocene Basin layers (full PreqQ basin)
+    else if(modelVersion.version == 1.61)
+    {
+        // define the number of surfaces and sub models
+        surfSubModNames.nSurf = 3;
+        surfSubModNames.nVeloSubMod = 2;
+        
+        // insert surface surface keywords
+        surfSubModNames.surf[0] = "posInfSurf";
+        surfSubModNames.surf[1] = "basementRockSurf";
+        surfSubModNames.surf[2] = "negInfSurf";
+        
+        // insert velocity submodel names
+        surfSubModNames.veloSubMod[0] = "v1DsubMod";
+        surfSubModNames.veloSubMod[1] = "EPtomo2010subMod";
+        
+        // insert basin name / number
         surfSubModNames.basin[0] = "PREQ_CANTERBURY_BASIN";
-        surfSubModNames.nBasin = 1;
+        surfSubModNames.basin[1] = "BPV_BASIN";
+        surfSubModNames.nBasin = 2;
+    }
+    //  Model Version 1.6  w/ 1D to basement w/ Tomography w/ Paleogene + Miocene + Pliocene Basin layers (full PreqQ basin)
+    else if(modelVersion.version == 1.62)
+    {
+        // define the number of surfaces and sub models
+        surfSubModNames.nSurf = 2;
+        surfSubModNames.nVeloSubMod = 1;
+        
+        // insert surface surface keywords
+        surfSubModNames.surf[0] = "posInfSurf";
+        surfSubModNames.surf[1] = "negInfSurf";
+        
+        // insert velocity submodel names
+        surfSubModNames.veloSubMod[0] = "EPtomo2010subMod";
+        
+        // insert basin name / number
+        surfSubModNames.basin[0] = "PREQ_CANTERBURY_BASIN_1D";
+        surfSubModNames.basin[1] = "BPV_BASIN";
+        surfSubModNames.nBasin = 2;
     }
     else
     {

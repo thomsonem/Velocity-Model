@@ -1,2 +1,4 @@
 gcc -Wall -g -std=c99 -o CVM *.c -lm -g
-./CVM GENERATE_VELOCITY_SLICES 0.11 thesisPlots SliceParametersForRobin
+
+
+

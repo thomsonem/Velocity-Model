@@ -195,6 +195,31 @@ valStructLocal *DEMtoPlioceneSubModel(gridStruct *location, globalBasinData *bas
     return values;
 }
 
+//  DEM to pliocene surface sub-model 1D
+valStructLocal *v1DBasinSubMod(gridStruct *location, int zInd, velo1D *subModel1D)
+{
+    valStructLocal *values = NULL;
+    values = malloc(sizeof(valStructLocal));
+    
+    // loop over depth values and assign qualities from the sub-model
+    for(int j = 0; j < subModel1D->nDep; j++)
+    {
+        if(location->Z[zInd] >= subModel1D->Dep[j]*-1000) // convert to meters, -ve being downwards
+        {
+            values->Rho = subModel1D->Rho[j];
+            values->Vp = subModel1D->Vp[j];
+            values->Vs = subModel1D->Vs[j];
+            break;
+        }
+        if(j == subModel1D->nDep)
+        {
+            printf("Error: Depth point below the extent represented in the 1D velocity model file.\n");
+        }
+    }
+    
+    return values;
+}
+
 
 //=================================================================
 
@@ -253,9 +278,9 @@ valStructLocal *BPVSubModel(gridStruct *location, globalBasinData *basinData, in
     valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
     
-    values->Vp = 3.5;
-    values->Rho = 2.3184;
-    values->Vs = 1.8554;
+    values->Vp = 4.0;
+    values->Rho = 2.393;
+    values->Vs = 2.2818;
     
     return values;
 }

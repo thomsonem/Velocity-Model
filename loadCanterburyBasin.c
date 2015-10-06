@@ -88,6 +88,37 @@ void loadPreQCanterburyBasinData(gridStruct *location, int basinNum, globalBasin
     
 }
 
+// PRE QUATERNARY BASIN ONLY W/ 1D
+void loadPreQCanterburyBasinData1D(gridStruct *location, int basinNum, globalBasinData *basinData)
+{
+    basinData->surf[basinNum][0] = "DEM_1D";
+    basinData->surf[basinNum][1] = "PlioceneTop";
+    basinData->surf[basinNum][2] = "MioceneTop";
+    basinData->surf[basinNum][3] = "PaleogeneTop";
+    basinData->surf[basinNum][4] = "BasementTop";
+    basinData->nSurf[basinNum] = 5;
+    
+    
+    // basin boundaries must be completely encompassed within higher level boundaries
+    // ie basin [0] must be completely within basin [0] in order to enforce the depths properly
+    
+    basinData->nBoundaries[basinNum] = 1;
+    basinData->boundaryFileName[basinNum][0] = "Data/Boundaries/CanterburyBasinBoundary.txt";
+    
+    basinData->boundaryType[basinNum][0] = 0;
+    basinData->boundaryType[basinNum][1] = 0;
+    basinData->boundaryType[basinNum][2] = 0;
+    basinData->boundaryType[basinNum][3] = 0;
+    basinData->boundaryType[basinNum][4] = 0;
+
+    
+    
+    // load the basin data
+    loadBasin(location, basinNum, basinData);
+    
+    
+}
+
 // QUATERNARY BASIN ONLY
 void loadQCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData *basinData)
 {

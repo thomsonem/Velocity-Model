@@ -13,7 +13,7 @@
 #define LON_GRID_DIM_MAX 1401 // X
 #define LAT_GRID_DIM_MAX 1201 // Y
 #define DEP_GRID_DIM_MAX 561 // Z
-#define NUM_SURF_DIM_MAX 15 // the maximum number of surfaces
+#define NUM_SURF_DIM_MAX 20 // the maximum number of tomography surfaces
 #define SURF_VEC_DIM_MAX 8442 // maximum length of surface vector // obsolete
 #define SUB_MOD_DIM_MAX 50 // maximum number of entries in the 1d sub model arrays
 #define MAX_NUM_BASINS 2 // the maxinum number of basins

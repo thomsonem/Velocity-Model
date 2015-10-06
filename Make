@@ -1,6 +1,8 @@
 gcc -Wall -g -std=c99 -o CVM *.c -lm
-./CVM GENERATE_VELOCITY_SLICES 1.01 v1.01 SliceParameters
-./CVM GENERATE_VELOCITY_SLICES 1.11 v1.11 SliceParameters
-./CVM GENERATE_VELOCITY_SLICES 1.21 v1.21 SliceParameters
+./CVM GENERATE_VELOCITY_SLICES 1.61 v1.61 SliceParameters
+./CVM GENERATE_VELOCITY_SLICES 1.62 v1.62 SliceParameters
+
+
+
 
 

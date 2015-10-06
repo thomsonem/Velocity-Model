@@ -49,10 +49,10 @@ typedef struct{
     int lengthCount;
 }surfVec;
 
-typedef struct{
-    double Vec[NUM_SURF_DIM_MAX][3][SURF_VEC_DIM_MAX][3];
-    int lengthCount[NUM_SURF_DIM_MAX][3];
-}surfVecGlobal;
+//typedef struct{
+//    double Vec[NUM_SURF_DIM_MAX][3][SURF_VEC_DIM_MAX][3];
+//    int lengthCount[NUM_SURF_DIM_MAX][3];
+//}surfVecGlobal;
 
 // output struct from calculateSurfaceLatLonIndex
 typedef struct{

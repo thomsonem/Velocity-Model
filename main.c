@@ -22,20 +22,20 @@
 #include "structs.h"
 #include "functions.h"
 
-int main(void)//(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     /*
      int argc = 13;
      char *argv[13];
      argv[1] = "GENERATE_VELOCITY_MOD";
-     argv[2] = "1.2";
-     argv[3] = "ExtractedSliceV1.3";
+     argv[2] = "1.61";
+     argv[3] = "FullSouthIsland1.6";
      argv[4] = "-43.6";
-     argv[5] = "172.3";
-     argv[6] = "-10.00";
-     argv[7] = "70";
-     argv[8] = "60";
-     argv[9] = "46";
+     argv[5] = "170.75";
+     argv[6] = "-50.00";
+     argv[7] = "150";
+     argv[8] = "425";
+     argv[9] = "100";
      argv[10] = "0";
      argv[11] = "1";
      argv[12] = "1";
@@ -46,28 +46,28 @@ int main(void)//(int argc, char *argv[])
     int argc = 14;
     char *argv[20];
     argv[1] = "EXTRACT_VELOCITY_SLICES";
-    argv[2] = "1.31";
-    argv[3] = "v1.31";
+    argv[2] = "1.61";
+    argv[3] = "v1.61";
     argv[4] = "-43.6";
     argv[5] = "172.3";
     argv[6] = "-10";
-    argv[7] = "70"; //130
-    argv[8] = "60";//120
+    argv[7] = "70";
+    argv[8] = "60";
     argv[9] = "46";
     argv[10] = "0";
-    argv[11] = "1";
+    argv[11] = ".1";
     argv[12] = "1";
     argv[13] = "SliceParameters";
     */ //./CVM EXTRACT_VELOCITY_SLICES 1.31 v1.31 -43.6 172.3 -10 70 60 46 0 0.1 0.1 SliceParameters
     
-    ///*
+    /*
     int argc = 5;
     char *argv[20];
     argv[1] = "GENERATE_VELOCITY_SLICES";
-    argv[2] = "0.15";
-    argv[3] = "v0.15HD";
-    argv[4] =  "SliceParametersBPV";
-    //*/
+    argv[2] = "1.62";
+    argv[3] = "v1.62Generated";
+    argv[4] =  "SliceParameters";
+    */
     
     
     /*

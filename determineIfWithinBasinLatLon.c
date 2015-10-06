@@ -31,19 +31,19 @@ void determineIfWithinBasinLatLon(gridStruct *location, int basinNum, globalBasi
             for(int m = 0; m < basinData->nBoundaries[basinNum]; m++)
             {
 
-                if(currLon > basinData->maxLon[basinNum][m])
+                if(currLon >= basinData->maxLon[basinNum][m])
                 {
                     basinFlag = 0;
                 }
-                else if(currLon < basinData->minLon[basinNum][m])
+                else if(currLon <= basinData->minLon[basinNum][m])
                 {
                     basinFlag = 0;
                 }
-                else if(currLat > basinData->maxLat[basinNum][m])
+                else if(currLat >= basinData->maxLat[basinNum][m])
                 {
                     basinFlag = 0;
                 }
-                else if(currLat < basinData->minLat[basinNum][m])
+                else if(currLat <= basinData->minLat[basinNum][m])
                 {
                     basinFlag = 0;
                 }

@@ -17,10 +17,10 @@
 
 void loadBasin(gridStruct *location, int basinNum, globalBasinData *basinData)
 {
-    //assert(basinData->nBasinSubMod[basinNum]<=MAX_NUM_VELOSUBMOD);
-    //assert(basinData->nSurf[basinNum]<=MAX_NUM_VELOSUBMOD);
+    assert(basinData->nBasinSubMod[basinNum]<=MAX_NUM_VELOSUBMOD);
+    assert(basinData->nSurf[basinNum]<=MAX_NUM_VELOSUBMOD);
     
-    printf("%i %i\n",location->nY,location->nX);
+//    printf("%i %i\n",location->nY,location->nX);
     loadBoundary(basinData, basinNum);
     determineIfWithinBasinLatLon(location, basinNum, basinData);
     loadBasinSurfaces(location, basinNum, basinData);
@@ -32,11 +32,16 @@ void loadBasin(gridStruct *location, int basinNum, globalBasinData *basinData)
 void loadBasinSurfaces(gridStruct *location, int basinNum, globalBasinData *basinData)
 {
     // load and interpolate basin surfaces for all points
+
     surfDepValues *surfDeps = NULL;
     char *fileName = NULL;
     for(int i = 0; i < basinData->nSurf[basinNum]; i++)
     {
         if(strcmp(basinData->surf[basinNum][i], "DEM")==0)
+        {
+            fileName = "Data/DEM/DEM.in";
+        }
+        else if(strcmp(basinData->surf[basinNum][i], "DEM_1D")==0)
         {
             fileName = "Data/DEM/DEM.in";
         }
@@ -90,7 +95,7 @@ void loadBasinSurfaces(gridStruct *location, int basinNum, globalBasinData *basi
         }
         else
         {
-            printf("Error. \n");
+            printf("Error.\n");
         }
         surfDeps = determineSurfaceDepthsBasin(basinData, location, fileName, basinNum, i);
     
@@ -111,8 +116,9 @@ void loadBasinSurfaces(gridStruct *location, int basinNum, globalBasinData *basi
 
 
 
-void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd, int yInd, int zInd, gridStruct *location)
+void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd, int yInd, int zInd, gridStruct *location, velo1D *subModel1D)
 {
+    
     //find surfaces adjacent to the point
     
     double upperSurf, lowerSurf;
@@ -186,6 +192,10 @@ void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd
     {
         values = DEMtoPlioceneSubModel(location, basinData, xInd, yInd, zInd, basinNum);
     }
+    else if((strcmp(upperSurfName, "DEM_1D") == 0) && strcmp(lowerSurfName, "PlioceneTop") == 0)
+    {
+        values = v1DBasinSubMod(location, zInd, subModel1D);
+    }
     else if((strcmp(upperSurfName, "PlioceneTop") == 0) && strcmp(lowerSurfName, "MioceneTop") == 0)
     {
         values = plioceneSubModel(location, basinData, xInd, yInd, zInd, basinNum);
@@ -217,6 +227,10 @@ void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd
 
 void assignBasinProperties(gridStruct *location, int basinNum, globalBasinData *basinData)
 {
+    // load 1D velo model
+    velo1D *velocityModel1DBasinData = NULL;
+    velocityModel1DBasinData = loadv1DsubMod();
+    
     // calculate the properties for all points inside the basin
     for(int i = 0; i < location->nX; i++)
     {
@@ -228,7 +242,7 @@ void assignBasinProperties(gridStruct *location, int basinNum, globalBasinData *
                 {
                     if(basinData->inBasinDep[basinNum][i][j][k] == 1) // in basin Z limits
                     {
-                        determineBasinProperties(basinData, basinNum, i, j, k, location);
+                        determineBasinProperties(basinData, basinNum, i, j, k, location, velocityModel1DBasinData);
                     }
                 }
             }
@@ -241,6 +255,7 @@ void assignBasinProperties(gridStruct *location, int basinNum, globalBasinData *
     fflush(stdout);
     printf("\n");
     printf("Basin data successfully calculated.\n");
+    free(velocityModel1DBasinData);
 }
 
 

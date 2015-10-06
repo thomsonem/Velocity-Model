@@ -46,7 +46,7 @@ extern double linearInterpolation(double p1, double p2, double v1, double v2, do
 extern double biLinearInterpolation(double X1, double X2, double Y1, double Y2, double Q11, double Q12, double Q21, double Q22, double X, double Y);
 extern velo1D *load1dVeloSubModel(char *fileName);
 extern int findSubVeloModelInd(gridStruct *location, int lonInd, int latInd, int depInd, int nVeloSubMod, surfaceDepthsGlobal *surfDepsGlob);
-extern depInterpVals generateSurfaceValuesAllDepths(surfVecGlobal *vector, gridStruct location, int elev[], int nElev, double power, double radius);
+//extern depInterpVals generateSurfaceValuesAllDepths(surfVecGlobal *vector, gridStruct location, int elev[], int nElev, double power, double radius);
 extern void loadBoundary(globalBasinData *basinData, int basinNum);
 extern int pointInPoly(globalBasinData *basinData, int basinNum, int boundaryNum, double xLoc, double yLoc);
 extern void plotExtracts(void);
@@ -88,6 +88,8 @@ extern valStructLocal *mioceneSubModel(gridStruct *location, globalBasinData *ba
 extern valStructLocal *paleogeneSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
 extern valStructLocal *cretaceousSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
 extern valStructLocal *BPVSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum);
+extern valStructLocal *v1DBasinSubMod(gridStruct *location, int zInd, velo1D *subModel1D);
+
 
 
 
@@ -105,13 +107,14 @@ extern void NaNsubMod(int xInd, int yInd, int zInd, globalDataValues *golbalValu
 // Basin data
 extern void loadCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData *basinData);
 extern void loadPreQCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData *basinData);
+extern void loadPreQCanterburyBasinData1D(gridStruct *location, int basinNum, globalBasinData *basinData);
 extern void loadQCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData *basinData);
 extern void loadPreQCanterburyBasinDataPaleogeneMiocene(gridStruct *location, int basinNum, globalBasinData *basinData);
 extern void loadPreQCanterburyBasinDataPaleogene(gridStruct *location, int basinNum, globalBasinData *basinData);
 extern void loadBPVBasinData(gridStruct *location, int basinNum, globalBasinData *basinData);
 
 
-extern void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd, int yInd, int zInd, gridStruct *location);
+extern void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd, int yInd, int zInd, gridStruct *location, velo1D *subModel1D);
 extern void loadBasinSurfaces(gridStruct *location, int basinNum, globalBasinData *basinData);
 extern void enforceBasinSurfaceDepths(gridStruct *location, int basinNum, globalBasinData *basinData);
 extern void assignBasinProperties(gridStruct *location, int basinNum, globalBasinData *basinData);

@@ -63,6 +63,10 @@ globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, su
         {
             loadPreQCanterburyBasinData(location, i, basinData);
         }
+        if(strcmp(surfSubModNames.basin[i], "PREQ_CANTERBURY_BASIN_1D") == 0)
+        {
+            loadPreQCanterburyBasinData1D(location, i, basinData);
+        }
         if(strcmp(surfSubModNames.basin[i], "Q_CANTERBURY_BASIN") == 0)
         {
             loadQCanterburyBasinData(location, i, basinData);

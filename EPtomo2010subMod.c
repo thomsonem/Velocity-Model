@@ -72,9 +72,10 @@ depInterpVals *loadEPtomo2010subMod(gridStruct *location)
 {
     const char *varNames[3];
     varNames[0] = "vp", varNames[1] = "vs", varNames[2] = "rho";
-    int nElev = 11; // only read first 11 for efficiency
-    int elev[17] = {15, 1, -3, -8, -15, -23, -30, -38, -48, -65, -85, -105, -130, -155, -185, -225, -275 };
+    int nElev = 14; // only read first 14 for efficiency
+ //   int elev[17] = {15, 1, -3, -8, -15, -23, -30, -38, -48, -65, -85, -105, -130, -155, -185, -225, -275 };
 //    int elev[21] = {15, 1, -3, -5, -8, -11, -15, -23, -30, -38, -48, -65, -85, -105, -130, -155, -185, -225, -275, -370, -630};
+    int elev[20] = {10, 1, -5, -8, -11, -15, -23, -30, -38, -48, -65, -85, -105, -130, -155, -185, -225, -275, -370, -620};
     char baseFilename[256];
     
     depInterpVals *surfDepVals = NULL;
@@ -129,7 +130,6 @@ depInterpVals *loadEPtomo2010subMod(gridStruct *location)
             }
             free(tempSurf);
         }
-//        printf("Completed Read of EP2010 Tomo Data surface %i of %i.\n", i+1, nElev);
         printf("\rReading tomography data %d%% complete.", i*100/nElev);
         fflush(stdout);
     }
