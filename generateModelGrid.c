@@ -15,29 +15,29 @@
 #include "structs.h"
 #include "functions.h"
 
-gridStruct *generateModelGrid(modOrigin modelOrigin, modExtent modelExtent)
+global_mesh *generateFullModelGrid(model_extent MODEL_EXTENT)
 /*
  Purpose:   generate the grid of lat long and dep points
  
  Input variables:
  modelOrigin        - struct containing the origin and rotation of the model
- modelExtent        - struct containing the extent, spacing and version of the model.
+ MODEL_EXTENT        - struct containing the extent, spacing and version of the model.
  
  Output variables:
- gridPtsStruct      - (malloc'd) pointer to structure containing lat lon and dep points
+ GLOBAL_MESH      - (malloc'd) pointer to structure containing lat lon and dep points
  
  */
 {
-    gridStruct *gridPtsStruct;
-    gridPtsStruct = malloc(sizeof(gridStruct));
+    global_mesh *GLOBAL_MESH;
+    GLOBAL_MESH = malloc(sizeof(global_mesh));
     // determine number of points in each orthogonal direction
-	int nX = 2*modelExtent.Xmax/modelExtent.hLatLon;
-	int nY = 2*modelExtent.Ymax/modelExtent.hLatLon;
-	int nZ = (modelExtent.Zmax-modelExtent.Zmin)/modelExtent.hDep;
-    gridPtsStruct->maxLat = -180;
-    gridPtsStruct->minLat = 0;
-    gridPtsStruct->maxLon = 0;
-    gridPtsStruct->minLon = 180;
+	int nX = 2*MODEL_EXTENT.Xmax/MODEL_EXTENT.hLatLon;
+	int nY = 2*MODEL_EXTENT.Ymax/MODEL_EXTENT.hLatLon;
+	int nZ = (MODEL_EXTENT.Zmax-MODEL_EXTENT.Zmin)/MODEL_EXTENT.hDep;
+    GLOBAL_MESH->maxLat = -180;
+    GLOBAL_MESH->minLat = 0;
+    GLOBAL_MESH->maxLon = 0;
+    GLOBAL_MESH->minLon = 180;
     
     // esnure the number of points does not exceed that of the struct preallocation
 	printf("nx: %i, ny: %i, nz: %i.\n", nX, nY, nZ);
@@ -46,28 +46,28 @@ gridStruct *generateModelGrid(modOrigin modelOrigin, modExtent modelExtent)
     assert(nZ<=DEP_GRID_DIM_MAX);
     
     //write values to the struct
-    gridPtsStruct->nX = nX;
-    gridPtsStruct->nY = nY;
-    gridPtsStruct->nZ = nZ; 
+    GLOBAL_MESH->nX = nX;
+    GLOBAL_MESH->nY = nY;
+    GLOBAL_MESH->nZ = nZ; 
     
 	double X[LON_GRID_DIM_MAX], Y[LAT_GRID_DIM_MAX], Z[DEP_GRID_DIM_MAX];
     
     // loop over x y z arrays to insert values
 	for(int i = 0; i < nX; i++)
 	{
-		X[i] = -1*modelExtent.Xmax + modelExtent.hLatLon*(i+0.5);
-        gridPtsStruct->X[i] = X[i];
+		X[i] = -1*MODEL_EXTENT.Xmax + MODEL_EXTENT.hLatLon*(i+0.5);
+        GLOBAL_MESH->X[i] = X[i];
 	}
     
     for(int i = 0; i < nY; i++)
 	{
-		Y[i] = -1*modelExtent.Ymax + modelExtent.hLatLon*(i+0.5);
-        gridPtsStruct->Y[i] = Y[i];
+		Y[i] = -1*MODEL_EXTENT.Ymax + MODEL_EXTENT.hLatLon*(i+0.5);
+        GLOBAL_MESH->Y[i] = Y[i];
 	}
     
     for(int i = 0; i < nZ; i++)
 	{
-		Z[i] = modelExtent.Zmin + modelExtent.hDep*(i+0.5);
+		Z[i] = MODEL_EXTENT.Zmin + MODEL_EXTENT.hDep*(i+0.5);
 	}
     
     double locationXY[2];
@@ -80,35 +80,35 @@ gridStruct *generateModelGrid(modOrigin modelOrigin, modExtent modelExtent)
             locationXY[0] = X[ix];
             locationXY[1] = Y[iy];
             
-            points = XYtoLatLon(locationXY, modelOrigin);
+            points = XYtoLatLon(locationXY, MODEL_EXTENT.originLat, MODEL_EXTENT.originLon, MODEL_EXTENT.originRot);
             // determin the maximum lat long points of the model grid
-            if( gridPtsStruct->maxLat < points.lat)
+            if( GLOBAL_MESH->maxLat < points.lat)
             {
-                gridPtsStruct->maxLat = points.lat;
+                GLOBAL_MESH->maxLat = points.lat;
             }
-            if( gridPtsStruct->maxLon < points.lon)
+            if( GLOBAL_MESH->maxLon < points.lon)
             {
-                gridPtsStruct->maxLon = points.lon;
+                GLOBAL_MESH->maxLon = points.lon;
             }
-            if( gridPtsStruct->minLat > points.lat)
+            if( GLOBAL_MESH->minLat > points.lat)
             {
-                gridPtsStruct->minLat = points.lat;
+                GLOBAL_MESH->minLat = points.lat;
             }
-            if( gridPtsStruct->minLon > points.lon)
+            if( GLOBAL_MESH->minLon > points.lon)
             {
-                gridPtsStruct->minLon = points.lon;
+                GLOBAL_MESH->minLon = points.lon;
             }
-            gridPtsStruct->Lat[ix][iy] = points.lat;
-            gridPtsStruct->Lon[ix][iy] = points.lon;
+            GLOBAL_MESH->Lat[ix][iy] = points.lat;
+            GLOBAL_MESH->Lon[ix][iy] = points.lon;
         }
     }
     
     for(int iz = 0; iz < nZ; iz++)
     {
-        gridPtsStruct->Z[iz] = -1000*Z[iz]; // convert to m (below ground is negative)
+        GLOBAL_MESH->Z[iz] = -1000*Z[iz]; // convert to m (below ground is negative)
     }
     printf("Completed Generation of Model Grid.\n");
-    return gridPtsStruct;
+    return *GLOBAL_MESH;
 }
 
 

@@ -275,6 +275,11 @@ void extractSlice(gridStruct *location, modOrigin modelOrigin, sliceExtent slice
 
 globalDataValues* loadCvmDataAll(gridStruct *location, char *outputDirectory)
 {
+    
+    // perform endian check
+    int endianInt;
+    endianInt = endian();
+    
     globalDataValues *globDataVals;
     globDataVals = malloc(sizeof(globalDataValues));
 
@@ -303,6 +308,8 @@ globalDataValues* loadCvmDataAll(gridStruct *location, char *outputDirectory)
     vs = (float*) malloc(bsize);
     rho = (float*) malloc(bsize);
     
+    float vsRead, vpRead, rhoRead;
+    
     printf("Reading binary files.\n");
     for(int iy = 0; iy < location->nY; iy++)
     {
@@ -320,10 +327,22 @@ globalDataValues* loadCvmDataAll(gridStruct *location, char *outputDirectory)
             for (int ix = 0; ix < location->nX; ix++)
             {
                 ip = ix + iz * location->nX;  //index counter
-                globDataVals->Vp[ix][iy][iz] = vp[ip];
-                globDataVals->Vs[ix][iy][iz] = vs[ip];
-                globDataVals->Rho[ix][iy][iz] = rho[ip];
-//                printf("%lf %lf %lf.\n",vp[ip],vs[ip],rho[ip] );
+                vpRead = vp[ip];
+                vsRead = vs[ip];
+                rhoRead = rho[ip];
+
+                if (endianInt == 1) // big endian, implement byteswap
+                {
+                    globDataVals->Vp[ix][iy][iz] = float_swap(vpRead);
+                    globDataVals->Vs[ix][iy][iz] = float_swap(vsRead);
+                    globDataVals->Rho[ix][iy][iz] = float_swap(rhoRead);
+                }
+                else if (endianInt == 0) // system is little endain, read as is.
+                {
+                    globDataVals->Vp[ix][iy][iz] = vpRead;
+                    globDataVals->Vs[ix][iy][iz] = vsRead;
+                    globDataVals->Rho[ix][iy][iz] = rhoRead;
+                }
             }
         }
     }

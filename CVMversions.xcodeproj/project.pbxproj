@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C1739261BF958AE00BBE7DD /* extractPartialMesh.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C1739251BF958AE00BBE7DD /* extractPartialMesh.c */; };
 		8C30C0F91AE71DCE0008C943 /* assignValues.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0D81AE71DCE0008C943 /* assignValues.c */; };
 		8C30C0FA1AE71DCE0008C943 /* basementRockSurf.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0D91AE71DCE0008C943 /* basementRockSurf.c */; };
 		8C30C0FB1AE71DCE0008C943 /* basinSubModels.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0DA1AE71DCE0008C943 /* basinSubModels.c */; };
@@ -45,6 +46,7 @@
 		8CC060631B38DCF50008865B /* writeLogFiles.c in Sources */ = {isa = PBXBuildFile; fileRef = 8CC060621B38DCF50008865B /* writeLogFiles.c */; };
 		8CC060651B38F2270008865B /* readSliceParameters.c in Sources */ = {isa = PBXBuildFile; fileRef = 8CC060641B38F2270008865B /* readSliceParameters.c */; };
 		8CCF2F7E1B005DB700ED990E /* writeGridPoints.c in Sources */ = {isa = PBXBuildFile; fileRef = 8CCF2F7D1B005DB700ED990E /* writeGridPoints.c */; };
+		8CE218ED1BD5940D00D450E5 /* loadAllData.c in Sources */ = {isa = PBXBuildFile; fileRef = 8CE218EC1BD5940D00D450E5 /* loadAllData.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -60,6 +62,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8C1739251BF958AE00BBE7DD /* extractPartialMesh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = extractPartialMesh.c; sourceTree = "<group>"; };
 		8C19E2A91B09AADD0076C619 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		8C19E2AA1B09AADD0076C619 /* functions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = functions.h; sourceTree = "<group>"; };
 		8C19E2AB1B09AADD0076C619 /* structs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = structs.h; sourceTree = "<group>"; };
@@ -105,6 +108,7 @@
 		8CC060621B38DCF50008865B /* writeLogFiles.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = writeLogFiles.c; sourceTree = "<group>"; };
 		8CC060641B38F2270008865B /* readSliceParameters.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = readSliceParameters.c; sourceTree = "<group>"; };
 		8CCF2F7D1B005DB700ED990E /* writeGridPoints.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = writeGridPoints.c; sourceTree = "<group>"; };
+		8CE218EC1BD5940D00D450E5 /* loadAllData.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = loadAllData.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +226,7 @@
 				8C30C0DB1AE71DCE0008C943 /* calculateSurfaceLatLonIndex.c */,
 				8CC060641B38F2270008865B /* readSliceParameters.c */,
 				8C30C0E01AE71DCE0008C943 /* findAdjacentPoints.c */,
+				8C1739251BF958AE00BBE7DD /* extractPartialMesh.c */,
 				8C57A0E41B1D7A0700AB096A /* findClosestPoint.c */,
 				8C30C0E81AE71DCE0008C943 /* linearInterpolation.c */,
 				8C30C0ED1AE71DCE0008C943 /* loadSurface.c */,
@@ -236,6 +241,7 @@
 			children = (
 				8C30C0E71AE71DCE0008C943 /* getSurfSubModNames.c */,
 				8C30C0D81AE71DCE0008C943 /* assignValues.c */,
+				8CE218EC1BD5940D00D450E5 /* loadAllData.c */,
 				8C30C0EE1AE71DCE0008C943 /* main.c */,
 			);
 			name = Primary;
@@ -302,8 +308,10 @@
 				8C30C0FB1AE71DCE0008C943 /* basinSubModels.c in Sources */,
 				8C30C1101AE71DCE0008C943 /* mathFunctions.c in Sources */,
 				8C30C10C1AE71DCE0008C943 /* loadBoundary.c in Sources */,
+				8C1739261BF958AE00BBE7DD /* extractPartialMesh.c in Sources */,
 				8C30C1191AE71DCE0008C943 /* writeLatLonData.c in Sources */,
 				8C30C10F1AE71DCE0008C943 /* main.c in Sources */,
+				8CE218ED1BD5940D00D450E5 /* loadAllData.c in Sources */,
 				8C30C1041AE71DCE0008C943 /* generateModelGrid.c in Sources */,
 				8C30C1181AE71DCE0008C943 /* writeCVMData.c in Sources */,
 				8C30C1161AE71DCE0008C943 /* sliceFunctions.c in Sources */,

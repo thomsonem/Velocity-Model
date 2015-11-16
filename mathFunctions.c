@@ -11,6 +11,8 @@
 #include <math.h>
 #include <string.h>
 #include <assert.h>
+#include <sys/stat.h>
+#include <stdint.h>
 #include "constants.h"
 #include "structs.h"
 #include "functions.h"
@@ -19,7 +21,7 @@
 //              LatLonToDistance
 //=====================================================================
 
-double LatLonToDistance(double locationLatLon[], modOrigin modelOrigin)
+double LatLonToDistance(double locationLatLon[], double originLat, double originLon)
 {
     
     double refLon, refLat;
@@ -30,8 +32,8 @@ double LatLonToDistance(double locationLatLon[], modOrigin modelOrigin)
     lat = deg2rad(locationLatLon[0]);
     lon = deg2rad(locationLatLon[1]);
     
-    refLon = deg2rad(modelOrigin.mlon);
-    refLat = deg2rad(modelOrigin.mlat);
+    refLon = deg2rad(originLon);
+    refLat = deg2rad(originLat);
     
     double dLon = lon-refLon;
     
@@ -65,7 +67,7 @@ singleGridPoint rotateGrid(double rotAngle, double X, double Y)
 //              XYtoLatLon
 //=====================================================================
 
-singleGridPoint XYtoLatLon(double locationXY[], modOrigin modelOrigin)
+singleGridPoint XYtoLatLon(double locationXY[], double originLat, double originLon, double originRot)
 /*
  Purpose:   calculate the latitude and longitude values of the input x y and reference coords
  
@@ -84,11 +86,11 @@ singleGridPoint XYtoLatLon(double locationXY[], modOrigin modelOrigin)
     double h = sqrt(pow(locationXY[1],2) + pow(locationXY[0],2));
     double netAngle = 90 - rad2deg(atan2(-locationXY[1],locationXY[0]));
     // remove the effect of reference coordinate axis rotation
-    double bearing = netAngle + modelOrigin.mrot;
+    double bearing = netAngle + originRot;
     
     double refLatLon[2];
-    refLatLon[0] = modelOrigin.mlon;
-    refLatLon[1] = modelOrigin.mlat;
+    refLatLon[0] = originLon;
+    refLatLon[1] = originLat;
     
     singleGridPoint points;
     points = pointRadialDistance(refLatLon, -bearing, h);
@@ -181,4 +183,60 @@ double deg2rad(double angDeg)
  */
 {
     return angDeg*M_PI/180;
+}
+
+
+//=====================================================================
+//              float_swap
+//=====================================================================
+
+float float_swap(const float inFloat)
+/*
+ Purpose:   convert endianess
+ 
+ Input variables:
+ value - float
+ 
+ Output variables:
+ return  - byte swapped to opposite endian
+ */
+{
+    float retVal;
+    char *floatToConvert = ( char* ) & inFloat;
+    char *returnFloat = ( char* ) & retVal;
+    // swap the bytes into a temporary buffer
+    returnFloat[0] = floatToConvert[3];
+    returnFloat[1] = floatToConvert[2];
+    returnFloat[2] = floatToConvert[1];
+    returnFloat[3] = floatToConvert[0];
+    
+    return retVal;
+}
+
+
+
+//=====================================================================
+//              endian
+//=====================================================================
+/*
+ Purpose:   check endianness of system
+ 
+ Input variables:
+ n.a.
+ 
+ Output variables:
+ return  - int designating big or little endianess 
+ #define LITTLE_ENDIAN_CONFIRMED 0
+ #define BIG_ENDIAN_CONFIRMED    1
+ */
+
+int endian(void)
+{
+    int i = 1;
+    char *p = (char *)&i;
+    
+    if (p[0] == 1)
+        return 0;
+    else
+        return 1;
 }

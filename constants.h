@@ -13,15 +13,20 @@
 #define LON_GRID_DIM_MAX 1401 // X
 #define LAT_GRID_DIM_MAX 1201 // Y
 #define DEP_GRID_DIM_MAX 561 // Z
-#define NUM_SURF_DIM_MAX 20 // the maximum number of tomography surfaces
-#define SURF_VEC_DIM_MAX 8442 // maximum length of surface vector // obsolete
 #define SUB_MOD_DIM_MAX 50 // maximum number of entries in the 1d sub model arrays
 #define MAX_NUM_BASINS 2 // the maxinum number of basins
+#define MAX_NUM_GLOBAL_SURFACES 4 // the maxinum number of global (Full domain) surfaces
+#define MAX_NUM_1D_VELOCITY_MODELS 1 // the maximum number of 1D velocity models
+
+
 #define MAX_DIM_BOUNDARY_FILE 1500 // maximum number of points to define a basin boundary
-#define MAX_NUM_VELOSUBMOD 15 // max number of velo sub models in the basin
+//#define MAX_NUM_VELOSUBMOD 15 // max number of velo sub models in the basin
 #define MAX_NUM_SLICE_GRIDPTS 5000 // the maximum number of grid points for slice extraction
 #define MAX_NUM_SLICE_PIVOTS 4
 #define MAX_NUM_BOUNDARIES 3 // the maximum number of boundaries per velocity model
+#define MAX_NUM_TOMO_SURFACES 21 // the maximun number of Tomography surfaces able to be loaded
+#define MAX_NUM_BASIN_SURF 15 // the maximum number of basin surfaces per basin
+#define MAX_NUM_GLOBAL_SURFACES 4 // the maximum number of full domain (global) surfaces
 #define EARTH_RADIUS_MEAN 6371.0071
 #define MAX_NUM_SLICES 15 // the maximum number of slices
 #define MAX_LAT_SURFACE_EXTENSION 1 // value in degrees the surface files may be extended by

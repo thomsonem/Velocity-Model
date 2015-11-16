@@ -1,11 +1,12 @@
-gcc -Wall -g -std=c99 -o CVM *.c -lm -I /home/ethan/workspace/Velocity-Model/Headers
-
+gcc -Wall -g -std=c99 -o CVM *.c -lm -mcpu=powerpc64le -mlittle-endian
 
 ./CVM EXTRACT_VELOCITY_SLICE 0.1 ExtractedSliceV0.1 -43.5 172.5 0 20 15 2 -.1 0.01 .25 250 -43.75 -43.5 171.5 173.0
 ./CVM EXTRACT_VELOCITY_SLICE 0.2 ExtractedSliceV0.2 -43.5 172.5 0 20 15 2 -.1 0.01 .25 250 -43.75 -43.5 171.5 173.0
 ./CVM EXTRACT_VELOCITY_SLICE 0.3 ExtractedSliceV0.3 -43.5 172.5 0 20 15 2 -.1 0.01 .25 250 -43.75 -43.5 171.5 173.0
 ./CVM EXTRACT_VELOCITY_SLICE 0.4 ExtractedSliceV0.4 -43.5 172.5 0 20 15 2 -.1 0.01 .25 250 -43.75 -43.5 171.5 173.0
 ./CVM EXTRACT_VELOCITY_SLICE 0.5 ExtractedSliceV0.5 -43.5 172.5 0 20 15 2 -.1 0.01 .25 250 -43.75 -43.5 171.5 173.0
+
+
 
 
 
@@ -55,6 +56,14 @@ Field testing locations
 
 ./CVM GENERATE_VELOCITY_SLICES 1.0 v1.01 SliceParameters
 
+
+./CVM GENERATE_VELOCITY_SLICES 1.01 v1.01 SliceParametersVersionIllustration
+./CVM GENERATE_VELOCITY_SLICES 1.11 v1.11 SliceParametersVersionIllustration
+./CVM GENERATE_VELOCITY_SLICES 1.21 v1.21 SliceParametersVersionIllustration
+./CVM GENERATE_VELOCITY_SLICES 1.31 v1.31 SliceParametersVersionIllustration
+./CVM GENERATE_VELOCITY_SLICES 1.41 v1.41 SliceParametersVersionIllustration
+./CVM GENERATE_VELOCITY_SLICES 1.51 v1.51 SliceParametersVersionIllustration
+./CVM GENERATE_VELOCITY_SLICES 1.61 v1.61 SliceParametersVersionIllustration
 
  Same model version different points
 ./CVM GENERATE_INDIVIDUAL_PROFILE 0.3 GeneratedProfileV0.1 -43.5 172.5 0.1 -.05 0.00025

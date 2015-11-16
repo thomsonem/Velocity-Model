@@ -1,0 +1,11 @@
+Slice Parameters Log File.
+Number_of_slices	11
+Model_version	1.010000
+CornerLat1	-43.177437
+CornerLat2	-44.233198
+CornerLat3	-44.014221
+CornerLat4	-42.962261
+CornerLon1	171.328493
+CornerLon2	171.570614
+CornerLon3	173.285113
+CornerLon4	173.014140

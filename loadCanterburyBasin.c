@@ -16,7 +16,7 @@
 #include "functions.h"
 
 // FULL CANTERBURY BASIN
-void loadCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData *basinData)
+void loadCanterburyBasinData(int basinNum, globalBasinData *basinData)
 {
     basinData->surf[basinNum][0] = "DEM";
     basinData->surf[basinNum][1] = "RiccartonTop";
@@ -55,13 +55,13 @@ void loadCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData
 
     
     // load the basin data
-    loadBasin(location, basinNum, basinData);
+    loadBasinData(basinNum, basinData);
 
     
 }
 
 // PRE QUATERNARY BASIN ONLY
-void loadPreQCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData *basinData)
+void loadPreQCanterburyBasinData(int basinNum, globalBasinData *basinData)
 {
     basinData->surf[basinNum][0] = "PlioceneTop";
     basinData->surf[basinNum][1] = "MioceneTop";
@@ -83,13 +83,13 @@ void loadPreQCanterburyBasinData(gridStruct *location, int basinNum, globalBasin
 
     
     // load the basin data
-    loadBasin(location, basinNum, basinData);
+    loadBasinData(basinNum, basinData);
     
     
 }
 
 // PRE QUATERNARY BASIN ONLY W/ 1D
-void loadPreQCanterburyBasinData1D(gridStruct *location, int basinNum, globalBasinData *basinData)
+void loadPreQCanterburyBasinData1D(int basinNum, globalBasinData *basinData)
 {
     basinData->surf[basinNum][0] = "DEM_1D";
     basinData->surf[basinNum][1] = "PlioceneTop";
@@ -114,13 +114,13 @@ void loadPreQCanterburyBasinData1D(gridStruct *location, int basinNum, globalBas
     
     
     // load the basin data
-    loadBasin(location, basinNum, basinData);
+    loadBasinData(basinNum, basinData);
     
     
 }
 
 // QUATERNARY BASIN ONLY
-void loadQCanterburyBasinData(gridStruct *location, int basinNum, globalBasinData *basinData)
+void loadQCanterburyBasinData(int basinNum, globalBasinData *basinData)
 {
     basinData->surf[basinNum][0] = "DEM";
     basinData->surf[basinNum][1] = "RiccartonTop";
@@ -152,13 +152,13 @@ void loadQCanterburyBasinData(gridStruct *location, int basinNum, globalBasinDat
     
     
     // load the basin data
-    loadBasin(location, basinNum, basinData);
+    loadBasinData(basinNum, basinData);
     
     
 }
 
 // PRE QUATERNARY BASIN WITH PALOEGENE ONLY
-void loadPreQCanterburyBasinDataPaleogene(gridStruct *location, int basinNum, globalBasinData *basinData)
+void loadPreQCanterburyBasinDataPaleogene(int basinNum, globalBasinData *basinData)
 {
     basinData->surf[basinNum][0] = "PaleogeneTop";
     basinData->surf[basinNum][1] = "BasementTop";
@@ -176,13 +176,13 @@ void loadPreQCanterburyBasinDataPaleogene(gridStruct *location, int basinNum, gl
     
     
     // load the basin data
-    loadBasin(location, basinNum, basinData);
+    loadBasinData(basinNum, basinData);
     
     
 }
 
 // PRE QUATERNARY BASIN WITH PALOEGENE + MIOCENE ONLY
-void loadPreQCanterburyBasinDataPaleogeneMiocene(gridStruct *location, int basinNum, globalBasinData *basinData)
+void loadPreQCanterburyBasinDataPaleogeneMiocene(int basinNum, globalBasinData *basinData)
 {
     basinData->surf[basinNum][0] = "MioceneTop";
     basinData->surf[basinNum][1] = "PaleogeneTop";
@@ -202,13 +202,13 @@ void loadPreQCanterburyBasinDataPaleogeneMiocene(gridStruct *location, int basin
     
     
     // load the basin data
-    loadBasin(location, basinNum, basinData);
+    loadBasinData(basinNum, basinData);
     
     
 }
 
 // BPV Basin
-void loadBPVBasinData(gridStruct *location, int basinNum, globalBasinData *basinData)
+void loadBPVBasinData(int basinNum, globalBasinData *basinData)
 {
     basinData->surf[basinNum][0] = "BPVTop";
     basinData->surf[basinNum][1] = "MioceneTop";
@@ -226,7 +226,31 @@ void loadBPVBasinData(gridStruct *location, int basinNum, globalBasinData *basin
     
     
     // load the basin data
-    loadBasin(location, basinNum, basinData);
+    loadBasinData(basinNum, basinData);
+    
+    
+}
+
+// BPV Basin
+void loadBPVWheatheredBasinData(int basinNum, globalBasinData *basinData)
+{
+    basinData->surf[basinNum][0] = "BPVTopWheathered";
+    basinData->surf[basinNum][1] = "MioceneTop";
+    basinData->nSurf[basinNum] = 2;
+    
+    
+    // basin boundaries must be completely encompassed within higher level boundaries
+    // ie basin [0] must be completely within basin [0] in order to enforce the depths properly
+    
+    basinData->nBoundaries[basinNum] = 1;
+    basinData->boundaryFileName[basinNum][0] = "Data/Boundaries/BPVBoundary.txt";
+    
+    basinData->boundaryType[basinNum][0] = 0;
+    basinData->boundaryType[basinNum][1] = 0;
+    
+    
+    // load the basin data
+    loadBasinData(basinNum, basinData);
     
     
 }

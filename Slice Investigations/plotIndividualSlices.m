@@ -4,20 +4,31 @@ close all
 
 
 % dirName{1} = 'v1.61Generated';
-dirName{1} = 'v1.62Generated';
+% dirName{1} = 'v1.01';
+% dirName{2} = 'v1.11';
+% dirName{3} = 'v1.21';
+% dirName{4} = 'v1.31';
+% dirName{5} = 'v1.41';
+% dirName{1} = 'v1.61';
+dirName{1} = 'v1.01';
 
-% type{1} = 'Extracted';
+
+
+type{1} = 'Extracted';
 % type{2} = 'Extracted';
 % type{3} = 'Extracted';
 % type{4} = 'Extracted';
 % type{5} = 'Extracted';
 
 
-type{1} = 'Generated';
+% type{1} = 'Generated';
+% type{2} = 'Generated';
 % type{3} = 'Generated';
 % type{4} = 'Generated';
 % type{5} = 'Generated';
 % type{6} = 'Generated';
+% type{7} = 'Generated';
+
 
 
 
@@ -520,7 +531,6 @@ end
 end
 
 function sliceParameters = readSliceLogFile(fileName,type)
-
 
 fid = fopen(fileName);
 

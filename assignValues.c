@@ -17,7 +17,7 @@
 #include "functions.h"
 
 
-globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, surfNames surfSubModNames, surfaceDepthsGlobal *surfDepsGlob, char *outputDirectory)
+global_qualitites *assignQualities(model_extent MODEL_EXTENT, global_model_parameters *GLOBAL_MODEL_PARAMETERS, partial_global_mesh *PARTIAL_GLOBAL_MESH, calculation_log *CALCULATION_LOG, int latInd)
 /*
  Purpose:   obtain vp vs and rho for all points within the model grid
  
@@ -28,139 +28,128 @@ globalDataValues *assignValues(modVersion modelVersion, gridStruct *location, su
  
  Output variables:
  globalValues    - (malloc'd) pointer to structure containing vp vs and rho for all gridpoints
-*/
+ */
 {
-    // read in velo subfunction plots
-    velo1D *v1DsubModData = NULL;
-    depInterpVals *EPtomo2010subModData = NULL;
-    for(int i = 0; i < surfSubModNames.nVeloSubMod; i++)
+    velo_mod_1d_data *VELO_MOD_1D_DATA;
+    VELO_MOD_1D_DATA = NULL;
+    nz_tomography_data *NZ_TOMOGRAPHY_DATA;
+    NZ_TOMOGRAPHY_DATA = NULL;
+    
+    if( latInd == 0 ) // if first time, read all data required into memory
     {
-        if(strcmp(surfSubModNames.veloSubMod[i], "v1DsubMod") == 0)
+        for( int i = 0; i < GLOBAL_MODEL_PARAMETERS->nVeloSubMod; i++)
         {
-            v1DsubModData = loadv1DsubMod();
+            if(strcmp(GLOBAL_MODEL_PARAMETERS->veloSubMod[i], "v1DsubMod") == 0)
+            {
+                VELO_MOD_1D_DATA = load1dVeloSubModel(GLOBAL_MODEL_PARAMETERS->veloMod1dFileName[0]);
+            }
+            else if(strcmp(GLOBAL_MODEL_PARAMETERS->veloSubMod[i], "EPtomo2010subMod") == 0)
+            {
+                 NZ_TOMOGRAPHY_DATA = loadEPtomoSurfaceData();
+            }
+            else if(strcmp(GLOBAL_MODEL_PARAMETERS->veloSubMod[i], "NaNsubMod") == 0)
+            {
+                // no data required for NaN velocity sub model
+            }
         }
-        else if(strcmp(surfSubModNames.veloSubMod[i], "EPtomo2010subMod") == 0)
-        {
-            EPtomo2010subModData = loadEPtomo2010subMod(location);
-        }
-    }
+        
 
-    // read in basin data
-    globalBasinData *basinData;
-    basinData = malloc(sizeof(globalBasinData));
-    if(basinData == NULL)
-    {
-        printf("Memory allocation failed for basin data array.\n");
     }
     
-    for(int i = 0; i < surfSubModNames.nBasin; i++)
+    
+
+    
+    
+    
+    surfaceDepthsGlobal *surfDepsGlob = NULL;
+   
+
+    
+
+    determineIfWithinBasinLatLon(location, basinNum, basinData);
+    enforceBasinSurfaceDepths(location, basinNum, basinData);
+    assignBasinProperties(location, basinNum, basinData);
+
+    surfDeps = determineSurfaceDepthsBasin(basinData, location, fileName, basinNum, i);
+
+    
+    
+    for (int nP = 0; nP < location->nX; nP++)
     {
-        if(strcmp(surfSubModNames.basin[i], "CANTERBURY_BASIN") == 0)
+        // loop over gridpoints and assign quantities
+        globalDataValues *globalValues;
+        globalValues = malloc(sizeof(globalDataValues));
+        if( globalValues == NULL)
         {
-            loadCanterburyBasinData(location, i, basinData);
+            printf("Memory allocation failed for global data array.\n");
         }
-        if(strcmp(surfSubModNames.basin[i], "PREQ_CANTERBURY_BASIN") == 0)
+        int nVeloModInd;
+        int flagInABasin = 0;
+        
+        //    printf("%i %i %i\n", location->nX, location->nY, location->nZ);
+        
+        // add in basin qualities
+        for(int i = 0; i < location->nX; i++)
         {
-            loadPreQCanterburyBasinData(location, i, basinData);
-        }
-        if(strcmp(surfSubModNames.basin[i], "PREQ_CANTERBURY_BASIN_1D") == 0)
-        {
-            loadPreQCanterburyBasinData1D(location, i, basinData);
-        }
-        if(strcmp(surfSubModNames.basin[i], "Q_CANTERBURY_BASIN") == 0)
-        {
-            loadQCanterburyBasinData(location, i, basinData);
-        }
-        if(strcmp(surfSubModNames.basin[i], "PALEO_CANTERBURY_BASIN") == 0)
-        {
-            loadPreQCanterburyBasinDataPaleogene(location, i, basinData);
-        }
-        if(strcmp(surfSubModNames.basin[i], "PALEO_MIO_CANTERBURY_BASIN") == 0)
-        {
-            loadPreQCanterburyBasinDataPaleogeneMiocene(location, i, basinData);
-        }
-        if(strcmp(surfSubModNames.basin[i], "BPV_BASIN") == 0)
-        {
-            loadBPVBasinData(location, i, basinData);
+            for(int j = 0; j < location->nY; j++)
+            {
+                for(int k = 0; k < location->nZ; k++)
+                {
+                    for(int m = 0; m < surfSubModNames.nBasin; m++) // loop over number of basins
+                    {
+                        if((basinData->inBasinLatLon[m][basinData->nBoundaries[m]-1][i][j] == 1) && (basinData->inBasinDep[m][i][j][k] == 1)) // in basin lat lon (wider boundary)
+                        {
+                            flagInABasin = 1; // flag as in a basin
+                            globalValues->Rho[i][j][k] = basinData->Rho[m][i][j][k];
+                            globalValues->Vp[i][j][k] = basinData->Vp[m][i][j][k];
+                            globalValues->Vs[i][j][k] = basinData->Vs[m][i][j][k];
+                        }
+                    }
+                    if(flagInABasin == 0) // if point is not flagged as within the basin assign based off sub-velocity models
+                    {
+                        // determine which sub velocity model the point lies within
+                        nVeloModInd = findSubVeloModelInd(location, i, j, k, surfSubModNames.nVeloSubMod, surfDepsGlob);
+                        
+                        // call the respective sub velocity model
+                        if(strcmp(surfSubModNames.veloSubMod[nVeloModInd], "v1DsubMod") == 0)
+                        {
+                            v1DsubMod(i, j, k, globalValues, location, v1DsubModData);
+                        }
+                        else if(strcmp(surfSubModNames.veloSubMod[nVeloModInd], "EPtomo2010subMod") == 0)
+                        {
+                            EPtomo2010subMod(i, j, k, globalValues, location, EPtomo2010subModData);
+                        }
+                        else if(strcmp(surfSubModNames.veloSubMod[nVeloModInd], "NaNsubMod") == 0)
+                        {
+                            NaNsubMod(i, j, k, globalValues);
+                        }
+                    }
+
+                    flagInABasin = 0; // reassign flag
+                }
+            }
+            //        printf("Completed calculation of properties at latitude %i of %i.\n", i+1, location->nX);
+
         }
         
     }
-
-    // loop over gridpoints and assign quantities
-    globalDataValues *globalValues;
-    globalValues = malloc(sizeof(globalDataValues));
-    if( globalValues == NULL)
-    {
-        printf("Memory allocation failed for global data array.\n");
-    }
-    int nVeloModInd;
-    int flagInABasin = 0;
     
-//    printf("%i %i %i\n", location->nX, location->nY, location->nZ);
- 
-    // add in basin qualities
-    for(int i = 0; i < location->nX; i++)
-    {
-        for(int j = 0; j < location->nY; j++)
-        {
-            for(int k = 0; k < location->nZ; k++)
-            {
-                for(int m = 0; m < surfSubModNames.nBasin; m++) // loop over number of basins
-                {
-                    if((basinData->inBasinLatLon[m][basinData->nBoundaries[m]-1][i][j] == 1) && (basinData->inBasinDep[m][i][j][k] == 1)) // in basin lat lon (wider boundary)
-                    {
-                        flagInABasin = 1; // flag as in a basin
-                        globalValues->Rho[i][j][k] = basinData->Rho[m][i][j][k];
-                        globalValues->Vp[i][j][k] = basinData->Vp[m][i][j][k];
-                        globalValues->Vs[i][j][k] = basinData->Vs[m][i][j][k];
-                    }
-                }
-                if(flagInABasin == 0) // if point is not flagged as within the basin assign based off sub-velocity models
-                {
-                    // determine which sub velocity model the point lies within
-                    nVeloModInd = findSubVeloModelInd(location, i, j, k, surfSubModNames.nVeloSubMod, surfDepsGlob);
-                    
-                    // call the respective sub velocity model
-                    if(strcmp(surfSubModNames.veloSubMod[nVeloModInd], "v1DsubMod") == 0)
-                    {
-                        v1DsubMod(i, j, k, globalValues, location, v1DsubModData);
-                    }
-                    else if(strcmp(surfSubModNames.veloSubMod[nVeloModInd], "EPtomo2010subMod") == 0)
-                    {
-                        EPtomo2010subMod(i, j, k, globalValues, location, EPtomo2010subModData);
-                    }
-                    else if(strcmp(surfSubModNames.veloSubMod[nVeloModInd], "NaNsubMod") == 0)
-                    {
-                        NaNsubMod(i, j, k, globalValues);
-                    }
-                }
-                flagInABasin = 0; // reassign flag
-            }
-        }
-//        printf("Completed calculation of properties at latitude %i of %i.\n", i+1, location->nX);
-        printf("\rAssigning values %d%% complete.", i*100/location->nX);
-        fflush(stdout);
-    }
-    printf("\rAssigning values 100%% complete.");
-    fflush(stdout);
-    printf("\n");
-    
-    if((location->nX == 1)&&(location->nY==1))
-        // if grid only contains a single point save the surface depths to a text file
-    {
-        int basinNum = 0;
-        writeBasinSurfaceDepths(basinData, basinNum, location, outputDirectory);
-    }
-	if (location->saveSurfaceDepths == 1)
-	{
-		writeAllBasinSurfaceDepths(basinData, location, outputDirectory);
-	}
-
-    free(basinData);
-    free(v1DsubModData);
-    free(EPtomo2010subModData);
-   
-    return globalValues;
-    
+//    if((location->nX == 1)&&(location->nY==1))
+//        // if grid only contains a single point save the surface depths to a text file
+//    {
+//        int basinNum = 0;
+//        writeBasinSurfaceDepths(basinData, basinNum, location, outputDirectory);
+//    }
+//    if (location->saveSurfaceDepths == 1)
+//    {
+//        writeAllBasinSurfaceDepths(basinData, location, outputDirectory);
+//    }
+//    
+//    free(basinData);
+//    free(v1DsubModData);
+//    free(EPtomo2010subModData);
+//    
+//    return globalValues;
+//    
     
 }

@@ -15,25 +15,20 @@
 #include "structs.h"
 #include "functions.h"
 
-void loadBasin(gridStruct *location, int basinNum, globalBasinData *basinData)
+void loadBasinData(int basinNum, globalBasinData *basinData)
 {
     assert(basinData->nBasinSubMod[basinNum]<=MAX_NUM_VELOSUBMOD);
     assert(basinData->nSurf[basinNum]<=MAX_NUM_VELOSUBMOD);
     
-//    printf("%i %i\n",location->nY,location->nX);
     loadBoundary(basinData, basinNum);
-    determineIfWithinBasinLatLon(location, basinNum, basinData);
-    loadBasinSurfaces(location, basinNum, basinData);
-    enforceBasinSurfaceDepths(location, basinNum, basinData);
-    assignBasinProperties(location, basinNum, basinData);
+    loadAllBasinSurfaces(basinNum, basinData);
     
 }
 
-void loadBasinSurfaces(gridStruct *location, int basinNum, globalBasinData *basinData)
+void loadAllBasinSurfaces(int basinNum, globalBasinData *basinData)
 {
-    // load and interpolate basin surfaces for all points
+    // load and and store all basin surfaces
 
-    surfDepValues *surfDeps = NULL;
     char *fileName = NULL;
     for(int i = 0; i < basinData->nSurf[basinNum]; i++)
     {
@@ -93,22 +88,48 @@ void loadBasinSurfaces(gridStruct *location, int basinNum, globalBasinData *basi
         {
             fileName = "Data/Canterbury_Basin/BPV/BPVTop.in";
         }
+        else if(strcmp(basinData->surf[basinNum][i], "BPVTopWheathered") == 0)
+        {
+            fileName = "Data/Canterbury_Basin/BPV/BPVTop.in";
+        }
         else
         {
             printf("Error.\n");
         }
-        surfDeps = determineSurfaceDepthsBasin(basinData, location, fileName, basinNum, i);
     
         // write individual surface depths into the global file
-        for(int j = 0; j < location->nX; j++)
+        // load surface and transfer data into global struct
+        surfRead *tempSurf = NULL;
+        tempSurf = loadSurface(fileName);
+        
+        // place in surfGlob struct
+        surfGlob->nLat[i] =  tempSurf->nLat;
+        surfGlob->nLon[i] =  tempSurf->nLon;
+        surfGlob->maxLat[i] =  tempSurf->maxLat;
+        surfGlob->minLat[i] =  tempSurf->minLat;
+        surfGlob->maxLon[i] =  tempSurf->maxLon;
+        surfGlob->minLon[i] =  tempSurf->minLon;
+        
+        // latitude
+        for( int nLat = 0; nLat < tempSurf->nLat; nLat++)
         {
-            for(int k = 0; k < location->nY; k++)
+            surfGlob->lati[i][nLat] = tempSurf->lati[nLat];
+        }
+        
+        // longitude
+        for( int nLon = 0; nLon < tempSurf->nLon; nLon++)
+        {
+            surfGlob->loni[i][nLon] = tempSurf->loni[nLon];
+        }
+        
+        // depth
+        for( int nnLat = 0; nnLat < tempSurf->nLat; nnLat++)
+        {
+            for( int nnLon = 0; nnLon < tempSurf->nLon; nnLon++)
             {
-                basinData->surfVals[basinNum][j][k][i] = surfDeps->dep[j][k];
+                surfGlob->dep[i][nnLon][nnLat] =  tempSurf->raster[nnLon][nnLat];
             }
         }
-        free(surfDeps);
-        printf("Completed calculation of basin surface depths %i of %i.\n", i+1, basinData->nSurf[basinNum]);
     }
     
     printf("Basin surfaces successfully loaded.\n");
@@ -211,6 +232,10 @@ void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd
     else if((strcmp(upperSurfName, "BPVTop") == 0) && strcmp(lowerSurfName, "MioceneTop") == 0)
     {
         values = BPVSubModel(location, basinData, xInd, yInd, zInd, basinNum);
+    }
+    else if((strcmp(upperSurfName, "BPVTopWheathered") == 0) && strcmp(lowerSurfName, "MioceneTop") == 0)
+    {
+        values = WheatheredBPVSubModel(location, basinData, xInd, yInd, zInd, basinNum);
     }
     else
     {

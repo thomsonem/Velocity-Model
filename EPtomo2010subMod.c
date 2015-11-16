@@ -58,7 +58,7 @@ void EPtomo2010subMod(int xInd, int yInd, int zInd, globalDataValues *globalValu
     
 }
 
-depInterpVals *loadEPtomo2010subMod(gridStruct *location)
+nz_tomography_data *loadEPtomoSurfaceData(void)
 /*
  Purpose:   read in the Eberhart-Phillips 2010 tomography dataset
  
@@ -73,9 +73,91 @@ depInterpVals *loadEPtomo2010subMod(gridStruct *location)
     const char *varNames[3];
     varNames[0] = "vp", varNames[1] = "vs", varNames[2] = "rho";
     int nElev = 14; // only read first 14 for efficiency
- //   int elev[17] = {15, 1, -3, -8, -15, -23, -30, -38, -48, -65, -85, -105, -130, -155, -185, -225, -275 };
-//    int elev[21] = {15, 1, -3, -5, -8, -11, -15, -23, -30, -38, -48, -65, -85, -105, -130, -155, -185, -225, -275, -370, -630};
-    int elev[20] = {10, 1, -5, -8, -11, -15, -23, -30, -38, -48, -65, -85, -105, -130, -155, -185, -225, -275, -370, -620};
+    int elev[17] = {15, 1, -3, -8, -15, -23, -30, -38, -48, -65, -85, -105, -130, -155, -185, -225, -275};
+    //    int elev[21] = {15, 1, -3, -5, -8, -11, -15, -23, -30, -38, -48, -65, -85, -105, -130, -155, -185, -225, -275, -370, -630};
+    //int elev[20] = {10, 1, -5, -8, -11, -15, -23, -30, -38, -48, -65, -85, -105, -130, -155, -185, -225, -275, -370, -620};
+    char baseFilename[256];
+    
+    nz_tomography_data *NZ_TOMOGRAPHY_DATA;
+    NZ_TOMOGRAPHY_DATA = malloc(sizeof(nz_tomography_data));
+    NZ_TOMOGRAPHY_DATA->nSurf = nElev;
+    assert(NZ_TOMOGRAPHY_DATA->nSurf<=MAX_NUM_TOMO_SURFACES);
+    
+    surfRead *tempSurf;
+    
+    for(int i = 0; i < nElev; i++)
+    {
+        NZ_TOMOGRAPHY_DATA->surfDeps[i] = elev[i]; // depth in km
+        for(int j = 0; j < 3; j++)
+        {
+            sprintf(baseFilename,"Data/Tomography/surf_tomography_%s_elev%i.in",varNames[j],elev[i]);
+            // read the surface
+            tempSurf = loadSurface(baseFilename);
+            if (j == 0) // assume all surfaces for vp vs and rho have the same coordinates
+            {
+                // place in NZ_TOMOGRAPHY_DATA struct
+                NZ_TOMOGRAPHY_DATA->nLat[i] =  tempSurf->nLat;
+                NZ_TOMOGRAPHY_DATA->nLon[i] =  tempSurf->nLon;
+                NZ_TOMOGRAPHY_DATA->maxLat[i] =  tempSurf->maxLat;
+                NZ_TOMOGRAPHY_DATA->minLat[i] =  tempSurf->minLat;
+                NZ_TOMOGRAPHY_DATA->maxLon[i] =  tempSurf->maxLon;
+                NZ_TOMOGRAPHY_DATA->minLon[i] =  tempSurf->minLon;
+                
+                for( int nLat = 0; nLat < tempSurf->nLat; nLat++)
+                {
+                    NZ_TOMOGRAPHY_DATA->lati[i][nLat] = tempSurf->lati[nLat];
+                }
+                for( int nLon = 0; nLon < tempSurf->nLon; nLon++)
+                {
+                    NZ_TOMOGRAPHY_DATA->loni[i][nLon] = tempSurf->loni[nLon];
+                }
+            }
+            for( int nnLat = 0; nnLat < tempSurf->nLat; nnLat++)
+            {
+                for( int nnLon = 0; nnLon < tempSurf->nLon; nnLon++)
+                {
+                    if (j == 0)
+                    {
+                        NZ_TOMOGRAPHY_DATA->Vp[i][nnLon][nnLat] =  tempSurf->raster[nnLon][nnLat];
+                    }
+                    else if (j == 1)
+                    {
+                        NZ_TOMOGRAPHY_DATA->Vs[i][nnLon][nnLat] =  tempSurf->raster[nnLon][nnLat];
+                        
+                    }
+                    else if (j == 3)
+                    {
+                        NZ_TOMOGRAPHY_DATA->Rho[i][nnLon][nnLat] =  tempSurf->raster[nnLon][nnLat];
+                        
+                    }
+                }
+            }
+            free(tempSurf);
+        }
+        printf("\rReading tomography data %d%% complete.", i*100/nElev);
+        fflush(stdout);
+    }
+    return NZ_TOMOGRAPHY_DATA;
+}
+
+depInterpVals *loadEPtomo2010subModSurfaces(partialGridStruct *partialLocation)
+/*
+ Purpose:   read in the Eberhart-Phillips 2010 tomography dataset
+ 
+ Input variables:
+ location       - struct containing the lat lon and dep points
+ 
+ Output variables:
+ surfDepVals    - (malloc'd) pointer to a struct containing the values of the "surfaces" at each lat lon value
+ 
+ */
+{
+    const char *varNames[3];
+    varNames[0] = "vp", varNames[1] = "vs", varNames[2] = "rho";
+    int nElev = 14; // only read first 14 for efficiency
+    int elev[17] = {15, 1, -3, -8, -15, -23, -30, -38, -48, -65, -85, -105, -130, -155, -185, -225, -275 };
+    //    int elev[21] = {15, 1, -3, -5, -8, -11, -15, -23, -30, -38, -48, -65, -85, -105, -130, -155, -185, -225, -275, -370, -630};
+    //int elev[20] = {10, 1, -5, -8, -11, -15, -23, -30, -38, -48, -65, -85, -105, -130, -155, -185, -225, -275, -370, -620};
     char baseFilename[256];
     
     depInterpVals *surfDepVals = NULL;
@@ -85,8 +167,8 @@ depInterpVals *loadEPtomo2010subMod(gridStruct *location)
     adjacentPointsStruct *points;
     
     double X1, X2, Y1, Y2, Q11, Q12, Q22, Q21, X, Y, interpVal;
-
-
+    
+    
     for(int i = 0; i < nElev; i++)
     {
         surfDepVals->deps[i] = elev[i];
@@ -136,8 +218,9 @@ depInterpVals *loadEPtomo2010subMod(gridStruct *location)
     printf("\rReading tomography data 100%% complete.");
     fflush(stdout);
     printf("\n");
-
-return surfDepVals;
-
+    
+    return surfDepVals;
+    
 }
+
 

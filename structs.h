@@ -9,6 +9,14 @@
 #ifndef structs_h
 #define structs_h
 
+// log struct
+typedef struct{
+    int nPointsExceedingMinVelo;
+    int nPointsInGlobalSurfaceExtensionZone;
+    int nPointsInBasinSurfaceExtensionZone;
+    double minVs;
+    char *outputDirectory;
+}calculation_log;
 
 // grid points struct three column vectors
 typedef struct{
@@ -16,13 +24,43 @@ typedef struct{
     double Lon[LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX];
     double Lat[LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX];
     double maxLat, minLat, maxLon, minLon;
+    int nX, nY, nZ;
     double X[LON_GRID_DIM_MAX];
     double Y[LAT_GRID_DIM_MAX];
-    int nX;
-    int nY;
-    int nZ;
-    int saveSurfaceDepths;
-}gridStruct;
+}global_mesh;
+
+// grid points struct partial - stripped out y (lat)
+typedef struct{
+    double Z[DEP_GRID_DIM_MAX];
+    double Lon[LON_GRID_DIM_MAX];
+    double Lat[LON_GRID_DIM_MAX];
+    double X[LON_GRID_DIM_MAX];
+    double Y;
+    int nX, nY, nZ;
+}partial_global_mesh;
+
+// global values
+typedef struct{
+    double Vp[LON_GRID_DIM_MAX][DEP_GRID_DIM_MAX];
+    double Vs[LON_GRID_DIM_MAX][DEP_GRID_DIM_MAX];
+    double Rho[LON_GRID_DIM_MAX][DEP_GRID_DIM_MAX];
+}global_qualitites;
+
+//typedef struct{
+//    double Z[DEP_GRID_DIM_MAX];
+//    double Lon[LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX];
+//    double Lat[LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX];
+//    double maxLat, minLat, maxLon, minLon;
+//    double X[LON_GRID_DIM_MAX];
+//    double Y[LAT_GRID_DIM_MAX];
+//    int nX;
+//    int nY;
+//    int nZ;
+//    int currentXind;
+//    int saveSurfaceDepths;
+//}gridStruct;
+
+
 
 // surface read
 typedef struct{
@@ -34,25 +72,20 @@ typedef struct{
     double raster[SURF_IN_DIM_MAX][SURF_IN_DIM_MAX];
 }surfRead;
 
-typedef struct{
-    int nLat[NUM_SURF_DIM_MAX][3];
-    int nLon[NUM_SURF_DIM_MAX][3];
-    double lati[NUM_SURF_DIM_MAX][3][SURF_IN_DIM_MAX];
-    double loni[NUM_SURF_DIM_MAX][3][SURF_IN_DIM_MAX];
-    double raster[NUM_SURF_DIM_MAX][3][SURF_IN_DIM_MAX][SURF_IN_DIM_MAX];
-}surfReadGlobal;
+//typedef struct{
+//    int nLat[NUM_SURF_DIM_MAX][3];
+//    int nLon[NUM_SURF_DIM_MAX][3];
+//    double lati[NUM_SURF_DIM_MAX][3][SURF_IN_DIM_MAX];
+//    double loni[NUM_SURF_DIM_MAX][3][SURF_IN_DIM_MAX];
+//    double raster[NUM_SURF_DIM_MAX][3][SURF_IN_DIM_MAX][SURF_IN_DIM_MAX];
+//}surfReadGlobal;
 
 
 // output struct from GenerateSurfaceVectors
-typedef struct{
-    double Vec[SURF_VEC_DIM_MAX][3];
-    int lengthCount;
-}surfVec;
-
 //typedef struct{
-//    double Vec[NUM_SURF_DIM_MAX][3][SURF_VEC_DIM_MAX][3];
-//    int lengthCount[NUM_SURF_DIM_MAX][3];
-//}surfVecGlobal;
+//    double Vec[SURF_VEC_DIM_MAX][3];
+//    int lengthCount;
+//}surfVec;
 
 // output struct from calculateSurfaceLatLonIndex
 typedef struct{
@@ -72,14 +105,7 @@ typedef struct{
     double Rho;
 }valStructLocal;
 
-//model origin
-typedef struct{
-    double mlat;
-    double mlon;
-    double mrot;
-}modOrigin;
-
-//model extent
+//model extent and origin
 typedef struct{
     double Ymax;
     double Xmax;
@@ -87,7 +113,11 @@ typedef struct{
     double Zmin;
     double hLatLon;
     double hDep;
-}modExtent;
+    double originLat;
+    double originLon;
+    double originRot;
+    double version;
+}model_extent;
 
 //slice extent
 typedef struct{
@@ -102,10 +132,6 @@ typedef struct{
     int saveSlices;
 }sliceExtent;
 
-//model version
-typedef struct{
-    double version;
-}modVersion;
 
 // struct to house interpolated Vs Vp and Rho for a given lat lon
 typedef struct{
@@ -118,13 +144,16 @@ typedef struct{
 
 // surface filenames
 typedef struct{
-    char *surf[NUM_SURF_DIM_MAX];
+    char *surf[MAX_NUM_GLOBAL_SURFACES];
     int nSurf;
-    char *veloSubMod[NUM_SURF_DIM_MAX];
+    char *veloSubMod[MAX_NUM_GLOBAL_SURFACES];
     int nVeloSubMod;
-    char *basin[NUM_SURF_DIM_MAX];
+    char *basin[MAX_NUM_BASINS];
     int nBasin;
-}surfNames;
+    double minVs;
+    int nPtsBelowVsThreshold;
+    char *veloMod1dFileName[MAX_NUM_1D_VELOCITY_MODELS];
+}global_model_parameters;
 
 // assign values
 typedef struct{
@@ -132,16 +161,22 @@ typedef struct{
 }surfDepValues;
 
 // get surface values
+//typedef struct{
+//    double dep[NUM_SURF_DIM_MAX][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX];
+//}surfaceDepthsGlobal;
+
 typedef struct{
-    double dep[NUM_SURF_DIM_MAX][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX];
+    int nSurf;
+    double surfDeps[MAX_NUM_GLOBAL_SURFACES];
+    int nLat[MAX_NUM_GLOBAL_SURFACES];
+    int nLon[MAX_NUM_GLOBAL_SURFACES];
+    double maxLat[MAX_NUM_GLOBAL_SURFACES], minLat[MAX_NUM_GLOBAL_SURFACES], maxLon[MAX_NUM_GLOBAL_SURFACES], minLon[MAX_NUM_GLOBAL_SURFACES];
+    double lati[MAX_NUM_GLOBAL_SURFACES][SURF_IN_DIM_MAX];
+    double loni[MAX_NUM_GLOBAL_SURFACES][SURF_IN_DIM_MAX];
+    double dep[MAX_NUM_GLOBAL_SURFACES][SURF_IN_DIM_MAX][SURF_IN_DIM_MAX];
 }surfaceDepthsGlobal;
 
-// global values
-typedef struct{
-    double Vp[LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX][DEP_GRID_DIM_MAX];
-    double Vs[LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX][DEP_GRID_DIM_MAX];
-    double Rho[LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX][DEP_GRID_DIM_MAX];
-}globalDataValues;
+
 
 // 1d velo sub mod read
 typedef struct{
@@ -150,14 +185,14 @@ typedef struct{
     double Rho[SUB_MOD_DIM_MAX];
     double Dep[SUB_MOD_DIM_MAX];
     int nDep;
-}velo1D;
+}velo_mod_1d_data;
 
 // depth vectors of values between surfaces
-typedef struct{
-    double vec[NUM_SURF_DIM_MAX][DEP_GRID_DIM_MAX];
-    int ind[NUM_SURF_DIM_MAX][DEP_GRID_DIM_MAX];
-    int nDeps[NUM_SURF_DIM_MAX];
-}depthVector;
+//typedef struct{
+//    double vec[NUM_SURF_DIM_MAX][DEP_GRID_DIM_MAX];
+//    int ind[NUM_SURF_DIM_MAX][DEP_GRID_DIM_MAX];
+//    int nDeps[NUM_SURF_DIM_MAX];
+//}depthVector;
 
 // lat long housing when performing grid generation
 typedef struct{
@@ -170,8 +205,8 @@ typedef struct{
 
 // basin data
 typedef struct{
-    char *surf[MAX_NUM_BASINS][NUM_SURF_DIM_MAX];
-    int boundaryType[MAX_NUM_BASINS][NUM_SURF_DIM_MAX];
+    char *surf[MAX_NUM_BASINS][MAX_NUM_BASIN_SURF];
+    int boundaryType[MAX_NUM_BASINS][MAX_NUM_BASIN_SURF];
     int nBoundaries[MAX_NUM_BASINS];
     char *boundaryFileName[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES];
     double boundaryLat[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES][MAX_DIM_BOUNDARY_FILE];
@@ -236,6 +271,19 @@ typedef struct{
     double DepRes[MAX_NUM_SLICES];
     double LatLonRes[MAX_NUM_SLICES];
 }sliceParams;
+
+typedef struct{
+    int nSurf;
+    double surfDeps[MAX_NUM_TOMO_SURFACES];
+    int nLat[MAX_NUM_TOMO_SURFACES];
+    int nLon[MAX_NUM_TOMO_SURFACES];
+    double maxLat[MAX_NUM_TOMO_SURFACES], minLat[MAX_NUM_TOMO_SURFACES], maxLon[MAX_NUM_TOMO_SURFACES], minLon[MAX_NUM_TOMO_SURFACES];
+    double lati[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX];
+    double loni[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX];
+    double Vp[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX][SURF_IN_DIM_MAX];
+    double Vs[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX][SURF_IN_DIM_MAX];
+    double Rho[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX][SURF_IN_DIM_MAX];
+}nz_tomography_data;
 
 
 

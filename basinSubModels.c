@@ -277,11 +277,51 @@ valStructLocal *BPVSubModel(gridStruct *location, globalBasinData *basinData, in
 {
     valStructLocal *values = NULL;
     values = malloc(sizeof(valStructLocal));
+// values for 1.61
+//    values->Vp = 4.0;
+//    values->Rho = 2.393;
+//    values->Vs = 2.2818;
+//
+    // values for 1.62
+    values->Vp = 3.60;
+    values->Rho = 2.334;
+    values->Vs = 1.9428;
+    return values;
+}
+
+// BPV sub-model
+valStructLocal *WheatheredBPVSubModel(gridStruct *location, globalBasinData *basinData, int xInd, int yInd, int zInd, int basinNum)
+{
+    valStructLocal *values = NULL;
+    values = malloc(sizeof(valStructLocal));
     
-    values->Vp = 4.0;
-    values->Rho = 2.393;
-    values->Vs = 2.2818;
+    double pointDepth, wheatherDepth, Vp0, VpFull, Rho0, RhoFull, Vs0, VsFull;
+    wheatherDepth = 100;
+    pointDepth = basinData->surfVals[basinNum][xInd][yInd][0] - location->Z[zInd];
     
+    Vp0 = 3.2; // velocity at the top of the BPV
+    VpFull = 4.0; // velocity at the full
+    
+    Rho0 = 2.265;
+    RhoFull = 2.393;
+    
+    Vs0 = 1.59;
+    VsFull = 1.9428;
+        
+    if (pointDepth < wheatherDepth)
+    {
+        // wheathering function for top 100m
+        values->Vp = linearInterpolation(0, wheatherDepth, Vp0, VpFull, pointDepth);
+        values->Rho = linearInterpolation(0, wheatherDepth, Rho0, RhoFull, pointDepth);
+        values->Vs = linearInterpolation(0, wheatherDepth, Vs0, VsFull, pointDepth);
+    }
+    else
+    {
+        values->Vp = 4.0;
+        values->Rho = 2.393;
+        values->Vs = 2.2818;
+    }
+
     return values;
 }
 

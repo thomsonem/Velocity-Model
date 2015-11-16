@@ -15,7 +15,7 @@
 #include "structs.h"
 #include "functions.h"
 
-velo1D *load1dVeloSubModel(char *fileName)
+velo_mod_1d_data *load1dVeloSubModel(char *fileName)
 /*
  Purpose:   load a 1D velocity submodel into memory
  
@@ -26,8 +26,8 @@ velo1D *load1dVeloSubModel(char *fileName)
  velo1D     - (malloc'd) pointer to the velocity sub-model
  */
 {
-    velo1D *veloMod1D = NULL;
-    veloMod1D = malloc(sizeof(velo1D));
+    velo_mod_1d_data *VELO_MOD_1D_DATA = NULL;
+    VELO_MOD_1D_DATA = malloc(sizeof(velo_mod_1d_data));
     FILE *file;
     file = fopen(fileName, "r");
     char tempA[10], tempB[10];
@@ -35,10 +35,10 @@ velo1D *load1dVeloSubModel(char *fileName)
     int i = 0;
     while(!feof(file))
     {
-        fscanf(file, "%lf %lf %lf %s %s %lf", &veloMod1D->Vp[i], &veloMod1D->Vs[i], &veloMod1D->Rho[i], tempA, tempB, &veloMod1D->Dep[i]);
+        fscanf(file, "%lf %lf %lf %s %s %lf", &VELO_MOD_1D_DATA->Vp[i], &VELO_MOD_1D_DATA->Vs[i], &VELO_MOD_1D_DATA->Rho[i], tempA, tempB, &VELO_MOD_1D_DATA->Dep[i]);
         i += 1;
     }
-    veloMod1D->nDep = i;
+    VELO_MOD_1D_DATA->nDep = i;
     fclose(file);
-    return veloMod1D;
+    return VELO_MOD_1D_DATA;
 }
