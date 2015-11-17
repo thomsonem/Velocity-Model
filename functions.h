@@ -30,6 +30,9 @@ extern global_mesh *generateFullModelGrid(model_extent MODEL_EXTENT);
 extern global_qualitites *assignQualities(model_extent MODEL_EXTENT, global_model_parameters *GLOBAL_MODEL_PARAMETERS, partial_global_mesh *PARTIAL_GLOBAL_MESH, calculation_log *CALCULATION_LOG, int latInd);
 extern void writeGlobalQualities(partial_global_mesh *PARTIAL_GLOBAL_MESH, global_qualitites *GLOBAL_QUALITIES, calculation_log *CALCULATION_LOG, int latInd);
 extern gridStruct *generateLatLonForPlotting(modOrigin modelOrigin, modExtent modelExtent, double latPts[], double lonPts[], int nPts);
+extern global_surfaces *loadGlobalSurfaceData(global_model_parameters *GLOBAL_MODEL_PARAMETERS);
+
+
 extern void writeLatLonData(gridStruct *location, globalDataValues *globDataVals, char *outputDirectory);
 extern void writeGridPoints(gridStruct *location, char *outputDirectory);
 
@@ -47,6 +50,8 @@ extern double linearInterpolation(double p1, double p2, double v1, double v2, do
 extern double biLinearInterpolation(double X1, double X2, double Y1, double Y2, double Q11, double Q12, double Q21, double Q22, double X, double Y);
 extern velo_mod_1d_data *load1dVeloSubModel(char *fileName);
 extern int findSubVeloModelInd(gridStruct *location, int lonInd, int latInd, int depInd, int nVeloSubMod, surfaceDepthsGlobal *surfDepsGlob);
+
+
 //extern depInterpVals generateSurfaceValuesAllDepths(surfVecGlobal *vector, gridStruct location, int elev[], int nElev, double power, double radius);
 extern void loadBoundary(globalBasinData *basinData, int basinNum);
 extern int pointInPoly(globalBasinData *basinData, int basinNum, int boundaryNum, double xLoc, double yLoc);

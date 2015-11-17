@@ -34,9 +34,12 @@ global_qualitites *assignQualities(model_extent MODEL_EXTENT, global_model_param
     VELO_MOD_1D_DATA = NULL;
     nz_tomography_data *NZ_TOMOGRAPHY_DATA;
     NZ_TOMOGRAPHY_DATA = NULL;
+    global_surfaces *GLOBAL_SURFACES;
+    GLOBAL_SURFACES = NULL;
     
     if( latInd == 0 ) // if first time, read all data required into memory
     {
+        // read in sub velocity models
         for( int i = 0; i < GLOBAL_MODEL_PARAMETERS->nVeloSubMod; i++)
         {
             if(strcmp(GLOBAL_MODEL_PARAMETERS->veloSubMod[i], "v1DsubMod") == 0)
@@ -52,9 +55,11 @@ global_qualitites *assignQualities(model_extent MODEL_EXTENT, global_model_param
                 // no data required for NaN velocity sub model
             }
         }
+        // read in global surfaces
+        GLOBAL_SURFACES = 
         
-
     }
+    
     
     
 
@@ -152,4 +157,80 @@ global_qualitites *assignQualities(model_extent MODEL_EXTENT, global_model_param
 //    return globalValues;
 //    
     
+}
+
+global_surfaces *loadGlobalSurfaceData(global_model_parameters *GLOBAL_MODEL_PARAMETERS)
+/*
+ Purpose:   obtain the depths for all lat lon points for all desired surfaces
+ 
+ Input variables:
+ location        - structure containing lat lon grid
+ surfSubModNames - structure containing all surface keywords
+ 
+ Output variables:
+ surfDep   - (malloc'd) pointer to structure containing surface depths for all lat lon points and surfaces
+ */
+{
+    // place global surfaces into struct
+    global_surfaces *GLOBAL_SURFACES;
+    global_surfaces = malloc(sizeof(global_surfaces));
+    
+    surf_read *SURF_DATA = NULL;
+    char *fileName;
+    for(int i = 0; i < surfSubModNames->nSurf; i++)
+    {
+        if(strcmp(GLOBAL_MODEL_PARAMETERS->surf[i], "posInfSurf")==0)
+        {
+            fileName = "Data/Global_Surfaces/posInf.in";
+        }
+        else if(strcmp(GLOBAL_MODEL_PARAMETERS->surf[i], "negInfSurf") == 0)
+        {
+            fileName = "Data/Global_Surfaces/negInf.in";
+        }
+        else if(strcmp(GLOBAL_MODEL_PARAMETERS->surf[i], "basementRockSurf") == 0)
+        {
+            fileName ="Data/Canterbury_Basin/Pre_Quaternary/BasementTop.in";
+        }
+        else if(strcmp(GLOBAL_MODEL_PARAMETERS->surf[i], "demSurf") == 0)
+        {
+            fileName = "Data/DEM/DEM.in";
+        }
+        else
+        {
+            printf("Error.\n");
+        }
+        // load surface and transfer data into global struct
+        SURF_DATA = loadSurface(fileName);
+        
+        // place in surfGlob struct
+        GLOBAL_SURFACES->nLat[i] =  SURF_DATA->nLat;
+        GLOBAL_SURFACES->nLon[i] =  SURF_DATA->nLon;
+        GLOBAL_SURFACES->maxLat[i] =  SURF_DATA->maxLat;
+        GLOBAL_SURFACES->minLat[i] =  SURF_DATA->minLat;
+        GLOBAL_SURFACES->maxLon[i] =  SURF_DATA->maxLon;
+        GLOBAL_SURFACES->minLon[i] =  SURF_DATA->minLon;
+        
+        // latitude
+        for( int nLat = 0; nLat < SURF_DATA->nLat; nLat++)
+        {
+            GLOBAL_SURFACES->lati[i][nLat] = SURF_DATA->lati[nLat];
+        }
+        
+        // longitude
+        for( int nLon = 0; nLon < SURF_DATA->nLon; nLon++)
+        {
+            GLOBAL_SURFACES->loni[i][nLon] = SURF_DATA->loni[nLon];
+        }
+        
+        // depth
+        for( int nnLat = 0; nnLat < SURF_DATA->nLat; nnLat++)
+        {
+            for( int nnLon = 0; nnLon < SURF_DATA->nLon; nnLon++)
+            {
+                GLOBAL_SURFACES->dep[i][nnLon][nnLat] =  SURF_DATA->raster[nnLon][nnLat];
+            }
+        }
+        
+    }
+    return surfGlob;
 }

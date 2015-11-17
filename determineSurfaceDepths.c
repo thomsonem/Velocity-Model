@@ -16,7 +16,7 @@
 #include "functions.h"
 
 
-surfDepValues *determineSurfaceDepths(gridStruct *location, char *fileName)
+//surfDepValues *determineSurfaceDepths(gridStruct *location, char *fileName)
 /*
  Purpose:   obtain the depths for all lat lon points for a given surface file
  

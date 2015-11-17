@@ -16,28 +16,28 @@
 #include "functions.h"
 
 
-surfDepValues *negInfSurf(gridStruct *location)
-/*
- Purpose:   assign the lower limit surface for all lat lon values
- 
- Input variables:
- location  - structure containing lat lon grid
- 
- Output variables:
- surfDep   - structure containing the lower limit negative surface depth
- */
-{
-    surfDepValues *surfDep;
-    surfDep = malloc(sizeof(surfDepValues));
-    double infValue = -1000000; // negative value in m (-1000km)
-    // assign a constant large value for the entire surface
-    for(int i = 0; i < location->nX; i++)
-    {
-        for(int j = 0; j < location->nY; j++)
-        {
-            surfDep->dep[i][j] = infValue;
-        }
-    }
-    return surfDep;
-    
-}
+//surfDepValues *negInfSurf(gridStruct *location)
+///*
+// Purpose:   assign the lower limit surface for all lat lon values
+// 
+// Input variables:
+// location  - structure containing lat lon grid
+// 
+// Output variables:
+// surfDep   - structure containing the lower limit negative surface depth
+// */
+//{
+//    surfDepValues *surfDep;
+//    surfDep = malloc(sizeof(surfDepValues));
+//    double infValue = -1000000; // negative value in m (-1000km)
+//    // assign a constant large value for the entire surface
+//    for(int i = 0; i < location->nX; i++)
+//    {
+//        for(int j = 0; j < location->nY; j++)
+//        {
+//            surfDep->dep[i][j] = infValue;
+//        }
+//    }
+//    return surfDep;
+//    
+//}

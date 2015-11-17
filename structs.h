@@ -67,10 +67,19 @@ typedef struct{
     int nLat;
     int nLon;
     double maxLat, minLat, maxLon, minLon;
-    double lati[SURF_IN_DIM_MAX];
-    double loni[SURF_IN_DIM_MAX];
-    double raster[SURF_IN_DIM_MAX][SURF_IN_DIM_MAX];
-}surfRead;
+    double lati[GLOBAL_SURF_IN_DIM_MAX];
+    double loni[GLOBAL_SURF_IN_DIM_MAX];
+    double raster[GLOBAL_SURF_IN_DIM_MAX][GLOBAL_SURF_IN_DIM_MAX];
+}global_surf_read;
+
+//typedef struct{
+//    int nLat;
+//    int nLon;
+//    double maxLat, minLat, maxLon, minLon;
+//    double lati[BASIN_SURF_IN_DIM_MAX];
+//    double loni[BASIN_SURF_IN_DIM_MAX];
+//    double raster[BASIN_SURF_IN_DIM_MAX][BASIN_SURF_IN_DIM_MAX];
+//}basin_surf_read;
 
 //typedef struct{
 //    int nLat[NUM_SURF_DIM_MAX][3];
@@ -146,13 +155,22 @@ typedef struct{
 typedef struct{
     char *surf[MAX_NUM_GLOBAL_SURFACES];
     int nSurf;
+    char *globalSurfFilenames[MAX_NUM_GLOBAL_SURFACES];
     char *veloSubMod[MAX_NUM_GLOBAL_SURFACES];
     int nVeloSubMod;
-    char *basin[MAX_NUM_BASINS];
-    int nBasin;
-    double minVs;
-    int nPtsBelowVsThreshold;
     char *veloMod1dFileName[MAX_NUM_1D_VELOCITY_MODELS];
+    
+    // basin related parameters
+    int nBasins;
+    char *basin[MAX_NUM_BASINS];
+    char *basinSurfaceFilenames[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+    char *basinSurfaceNames[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+    int nBasinSurfaces[MAX_NUM_BASINS];
+    int nBasinBoundaries[MAX_NUM_BASINS];
+    char *basinBoundaryFilenames[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
+    char *basinBoundaryNames[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
+    int basinBoundaryNumber[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+    char *basinSubModelNames[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
 }global_model_parameters;
 
 // assign values
@@ -171,10 +189,10 @@ typedef struct{
     int nLat[MAX_NUM_GLOBAL_SURFACES];
     int nLon[MAX_NUM_GLOBAL_SURFACES];
     double maxLat[MAX_NUM_GLOBAL_SURFACES], minLat[MAX_NUM_GLOBAL_SURFACES], maxLon[MAX_NUM_GLOBAL_SURFACES], minLon[MAX_NUM_GLOBAL_SURFACES];
-    double lati[MAX_NUM_GLOBAL_SURFACES][SURF_IN_DIM_MAX];
-    double loni[MAX_NUM_GLOBAL_SURFACES][SURF_IN_DIM_MAX];
-    double dep[MAX_NUM_GLOBAL_SURFACES][SURF_IN_DIM_MAX][SURF_IN_DIM_MAX];
-}surfaceDepthsGlobal;
+    double lati[MAX_NUM_GLOBAL_SURFACES][GLOBAL_SURF_IN_DIM_MAX];
+    double loni[MAX_NUM_GLOBAL_SURFACES][GLOBAL_SURF_IN_DIM_MAX];
+    double dep[MAX_NUM_GLOBAL_SURFACES][GLOBAL_SURF_IN_DIM_MAX][GLOBAL_SURF_IN_DIM_MAX];
+}global_surfaces;
 
 
 

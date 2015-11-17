@@ -16,21 +16,21 @@
 #include "functions.h"
 
 
-surfDepValues *basementRockSurf(gridStruct *location)
-/*
- Purpose:   obtain the surface data for the basesment rock
- 
- Input variables:
- location  - structure containing lat lon grid
- 
- Output variables:
- surfDep   - (malloc'd) pointer to structure containing the surface data
- */
-{
-    char *fileName = "Data/Canterbury_Basin/Pre_Quaternary/BasementTop.in";
-    surfDepValues *surfDep;
-    surfDep = determineSurfaceDepths(location, fileName);
-
-    return surfDep;
-    
-}
+//surfDepValues *basementRockSurf(gridStruct *location)
+///*
+// Purpose:   obtain the surface data for the basesment rock
+// 
+// Input variables:
+// location  - structure containing lat lon grid
+// 
+// Output variables:
+// surfDep   - (malloc'd) pointer to structure containing the surface data
+// */
+//{
+//    char *fileName = "Data/Canterbury_Basin/Pre_Quaternary/BasementTop.in";
+//    surfDepValues *surfDep;
+//    surfDep = determineSurfaceDepths(location, fileName);
+//
+//    return surfDep;
+//    
+//}

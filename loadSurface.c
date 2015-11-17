@@ -15,7 +15,7 @@
 #include "structs.h"
 #include "functions.h"
 
-surfRead *loadSurface(char *fileName)
+global_surf_read *loadGlobalSurface(char *fileName)
 /*
  Purpose:   load a surface into memory
  
@@ -35,29 +35,29 @@ surfRead *loadSurface(char *fileName)
     if (file == NULL) {
     	perror("Error");
     }
-    surfRead *surfData;
-    surfData = malloc(sizeof(surfRead));
+    global_surf_read *GLOBAL_SURF_READ;
+    GLOBAL_SURF_READ = malloc(sizeof(global_surf_read));
     
     int nLat, nLon;
     // read and assign the number of latitude and longitude values
     fscanf(file, "%d %d", &nLat, &nLon);
-    surfData->nLat = nLat;
-    surfData->nLon = nLon;
+    GLOBAL_SURF_READ->nLat = nLat;
+    GLOBAL_SURF_READ->nLon = nLon;
     
     // assure the preallocation of the surface struct is not exceeded
-    assert(nLat<=SURF_IN_DIM_MAX);
-    assert(nLon<=SURF_IN_DIM_MAX);
+    assert(nLat<=GLOBAL_SURF_IN_DIM_MAX);
+    assert(nLon<=GLOBAL_SURF_IN_DIM_MAX);
     
     // read lat values
     for(int i = 0; i < nLat; i++)
     {
-        fscanf(file, "%lf",&surfData->lati[i]);
+        fscanf(file, "%lf",&GLOBAL_SURF_READ->lati[i]);
     }
     
     // read lon values
     for(int i = 0; i < nLon; i++)
     {
-        fscanf(file, "%lf",&surfData->loni[i]);
+        fscanf(file, "%lf",&GLOBAL_SURF_READ->loni[i]);
     }
     
     // read in the surface raster data
@@ -65,50 +65,50 @@ surfRead *loadSurface(char *fileName)
     {
         for(int j = 0; j < nLon; j++)
         {
-            fscanf(file, "%lf",&surfData->raster[j][i]);
+            fscanf(file, "%lf",&GLOBAL_SURF_READ->raster[j][i]);
         }
     }
     
     fclose(file);
     
-    firstLat = surfData->lati[0];
-    lastLat = surfData->lati[surfData->nLat-1];
+    firstLat = GLOBAL_SURF_READ->lati[0];
+    lastLat = GLOBAL_SURF_READ->lati[GLOBAL_SURF_READ->nLat-1];
     
     if (firstLat >= lastLat)
     {
-        surfData->maxLat = firstLat;
-        surfData->minLat = lastLat;
+        GLOBAL_SURF_READ->maxLat = firstLat;
+        GLOBAL_SURF_READ->minLat = lastLat;
     }
     else if (lastLat >= firstLat)
     {
-        surfData->maxLat = lastLat;
-        surfData->minLat = firstLat;
+        GLOBAL_SURF_READ->maxLat = lastLat;
+        GLOBAL_SURF_READ->minLat = firstLat;
     }
     else
     {
         printf("Error.\n");
     }
     
-    firstLon = surfData->loni[0];
-    lastLon = surfData->loni[surfData->nLon-1];
+    firstLon = GLOBAL_SURF_READ->loni[0];
+    lastLon = GLOBAL_SURF_READ->loni[GLOBAL_SURF_READ->nLon-1];
 
     if (firstLon >= lastLon)
     {
-        surfData->maxLon = firstLon;
-        surfData->minLon = lastLon;
+        GLOBAL_SURF_READ->maxLon = firstLon;
+        GLOBAL_SURF_READ->minLon = lastLon;
     }
     else if (lastLon >= firstLon)
     {
-        surfData->maxLon = lastLon;
-        surfData->minLon = firstLon;
+        GLOBAL_SURF_READ->maxLon = lastLon;
+        GLOBAL_SURF_READ->minLon = firstLon;
     }
     else
     {
         printf("Error.\n");
     }
-//    printf("%lf %lf\n",surfData->minLon,surfData->maxLon);
-//    printf("%lf %lf\n",surfData->minLat,surfData->maxLat);
-    
-    return surfData;
+
+    return GLOBAL_SURF_READ;
     
 }
+
+
