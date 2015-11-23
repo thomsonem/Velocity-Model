@@ -72,14 +72,14 @@ typedef struct{
     double raster[GLOBAL_SURF_IN_DIM_MAX][GLOBAL_SURF_IN_DIM_MAX];
 }global_surf_read;
 
-//typedef struct{
-//    int nLat;
-//    int nLon;
-//    double maxLat, minLat, maxLon, minLon;
-//    double lati[BASIN_SURF_IN_DIM_MAX];
-//    double loni[BASIN_SURF_IN_DIM_MAX];
-//    double raster[BASIN_SURF_IN_DIM_MAX][BASIN_SURF_IN_DIM_MAX];
-//}basin_surf_read;
+typedef struct{
+    int nLat;
+    int nLon;
+    double maxLat, minLat, maxLon, minLon;
+    double lati[BASIN_SURF_IN_DIM_MAX];
+    double loni[BASIN_SURF_IN_DIM_MAX];
+    double raster[BASIN_SURF_IN_DIM_MAX][BASIN_SURF_IN_DIM_MAX];
+}basin_surf_read;
 
 //typedef struct{
 //    int nLat[NUM_SURF_DIM_MAX][3];
@@ -142,36 +142,7 @@ typedef struct{
 }sliceExtent;
 
 
-// struct to house interpolated Vs Vp and Rho for a given lat lon
-typedef struct{
-    double deps[NUM_SURF_DIM_MAX];
-    double Vs[NUM_SURF_DIM_MAX][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX];
-    double Vp[NUM_SURF_DIM_MAX][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX];
-    double Rho[NUM_SURF_DIM_MAX][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX];
-    int numSurf;
-}depInterpVals;
 
-// surface filenames
-typedef struct{
-    char *surf[MAX_NUM_GLOBAL_SURFACES];
-    int nSurf;
-    char *globalSurfFilenames[MAX_NUM_GLOBAL_SURFACES];
-    char *veloSubMod[MAX_NUM_GLOBAL_SURFACES];
-    int nVeloSubMod;
-    char *veloMod1dFileName[MAX_NUM_1D_VELOCITY_MODELS];
-    
-    // basin related parameters
-    int nBasins;
-    char *basin[MAX_NUM_BASINS];
-    char *basinSurfaceFilenames[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-    char *basinSurfaceNames[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-    int nBasinSurfaces[MAX_NUM_BASINS];
-    int nBasinBoundaries[MAX_NUM_BASINS];
-    char *basinBoundaryFilenames[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
-    char *basinBoundaryNames[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
-    int basinBoundaryNumber[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-    char *basinSubModelNames[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-}global_model_parameters;
 
 // assign values
 typedef struct{
@@ -220,30 +191,62 @@ typedef struct{
     double Y;
 }singleGridPoint;
 
+// surface filenames
+typedef struct{
+    char *surf[MAX_NUM_GLOBAL_SURFACES];
+    int nSurf;
+    char *globalSurfFilenames[MAX_NUM_GLOBAL_SURFACES];
+    char *veloSubMod[MAX_NUM_GLOBAL_SURFACES];
+    int nVeloSubMod;
+    char *veloMod1dFileName[MAX_NUM_1D_VELOCITY_MODELS];
+    
+    // basin related parameters
+    int nBasins;
+    char *basin[MAX_NUM_BASINS];
+    char *basinSurfaceFilenames[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+    char *basinSurfaceNames[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+    int nBasinSurfaces[MAX_NUM_BASINS];
+    int nBasinBoundaries[MAX_NUM_BASINS];
+    char *basinBoundaryFilenames[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
+    char *basinBoundaryNames[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
+    int basinBoundaryNumber[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+    char *basinSubModelNames[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+}global_model_parameters;
+
 
 // basin data
 typedef struct{
-    char *surf[MAX_NUM_BASINS][MAX_NUM_BASIN_SURF];
-    int boundaryType[MAX_NUM_BASINS][MAX_NUM_BASIN_SURF];
-    int nBoundaries[MAX_NUM_BASINS];
-    char *boundaryFileName[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES];
-    double boundaryLat[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES][MAX_DIM_BOUNDARY_FILE];
-    double boundaryLon[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES][MAX_DIM_BOUNDARY_FILE];
-    double minLon[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES];
-    double maxLon[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES];
-    double minLat[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES];
-    double maxLat[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES];
-    int boundaryNumPoints[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES];
+//    char *surf[MAX_NUM_BASINS][MAX_NUM_BASIN_SURF];
+//    int boundaryType[MAX_NUM_BASINS][MAX_NUM_BASIN_SURF];
+//    int nBoundaries[MAX_NUM_BASINS];
+//    char *boundaryFileName[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES];
+//    double boundaryLat[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES][MAX_DIM_BOUNDARY_FILE];
+//    double boundaryLon[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES][MAX_DIM_BOUNDARY_FILE];
+//    double minLon[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES];
+//    double maxLon[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES];
+//    double minLat[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES];
+//    double maxLat[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES];
+//    int boundaryNumPoints[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES];
+//    int nSurf[MAX_NUM_BASINS];
+//    char *basinSubMod[MAX_NUM_BASINS][NUM_SURF_DIM_MAX];
+//    int nBasinSubMod[MAX_NUM_BASINS];
+//    int inBasinLatLon[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX];
+//    int inBasinDep[MAX_NUM_BASINS][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX][DEP_GRID_DIM_MAX];
+//    double surfVals[MAX_NUM_BASINS][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX][NUM_SURF_DIM_MAX];
+
     int nSurf[MAX_NUM_BASINS];
-    char *basinSubMod[MAX_NUM_BASINS][NUM_SURF_DIM_MAX];
-    int nBasinSubMod[MAX_NUM_BASINS];
-    int inBasinLatLon[MAX_NUM_BASINS][MAX_NUM_BOUNDARIES][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX];
-    int inBasinDep[MAX_NUM_BASINS][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX][DEP_GRID_DIM_MAX];
-    double surfVals[MAX_NUM_BASINS][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX][NUM_SURF_DIM_MAX];
-    double Vp[MAX_NUM_BASINS][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX][DEP_GRID_DIM_MAX];
-    double Vs[MAX_NUM_BASINS][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX][DEP_GRID_DIM_MAX];
-    double Rho[MAX_NUM_BASINS][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX][DEP_GRID_DIM_MAX];
-}globalBasinData;
+    double surfDeps[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+    int nLat[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+    int nLon[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+    double maxLat[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+    double minLat[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+    double maxLon[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+    double minLon[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+    double lati[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES][BASIN_SURF_IN_DIM_MAX];
+    double loni[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES][BASIN_SURF_IN_DIM_MAX];
+    double dep[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES][BASIN_SURF_IN_DIM_MAX][BASIN_SURF_IN_DIM_MAX];
+    
+}basin_data;
 
 
 // lat lon vector housing for slice extraction

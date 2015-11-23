@@ -10,7 +10,7 @@
 #define constants_h
 
 #define GLOBAL_SURF_IN_DIM_MAX 1022 // maximum dimension of global surface input files
-//#define BASIN_SURF_IN_DIM_MAX 1000 // maximum dimension of basin surface input files
+#define BASIN_SURF_IN_DIM_MAX 1000 // maximum dimension of basin surface input files
 #define LON_GRID_DIM_MAX 1401 // X
 #define LAT_GRID_DIM_MAX 1201 // Y
 #define DEP_GRID_DIM_MAX 561 // Z

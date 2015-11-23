@@ -15,124 +15,57 @@
 #include "structs.h"
 #include "functions.h"
 
-void loadBasinData(int basinNum, globalBasinData *basinData)
+basin_data *loadBasinData(global_model_parameters *GLOBAL_MODEL_PARAMETERS)
 {
-    assert(basinData->nBasinSubMod[basinNum]<=MAX_NUM_VELOSUBMOD);
-    assert(basinData->nSurf[basinNum]<=MAX_NUM_VELOSUBMOD);
+    basin_data *BASIN_DATA;
+    BASIN_DATA = malloc(sizeof(basin_data));
     
-    loadBoundary(basinData, basinNum);
+    for( int i = 0; i < GLOBAL_MODEL_PARAMETERS->nBasins; i++)
+    {
+        loadAllBasinSurfaces(i, BASIN_DATA, GLOBAL_MODEL_PARAMETERS);
+    }
+    loadBoundaries(basinData, basinNum);
     loadAllBasinSurfaces(basinNum, basinData);
     
 }
 
-void loadAllBasinSurfaces(int basinNum, globalBasinData *basinData)
+void loadAllBasinSurfaces(int basinNum, basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS)
 {
-    // load and and store all basin surfaces
-
-    char *fileName = NULL;
-    for(int i = 0; i < basinData->nSurf[basinNum]; i++)
+    for(int i = 0; i < GLOBAL_MODEL_PARAMETERS->nBasinSurfaces[basinNum]; i++)
     {
-        if(strcmp(basinData->surf[basinNum][i], "DEM")==0)
-        {
-            fileName = "Data/DEM/DEM.in";
-        }
-        else if(strcmp(basinData->surf[basinNum][i], "DEM_1D")==0)
-        {
-            fileName = "Data/DEM/DEM.in";
-        }
-        else if(strcmp(basinData->surf[basinNum][i], "RiccartonTop")==0)
-        {
-            fileName = "Data/Canterbury_Basin/Quaternary/RiccartonTop.in";
-        }
-        else if(strcmp(basinData->surf[basinNum][i], "BromleyTop") == 0)
-        {
-            fileName = "Data/Canterbury_Basin/Quaternary/BromleyTop.in";
-        }
-        else if(strcmp(basinData->surf[basinNum][i], "LinwoodTop") == 0)
-        {
-            fileName = "Data/Canterbury_Basin/Quaternary/LinwoodTop.in";
-        }
-        else if(strcmp(basinData->surf[basinNum][i], "HeathcoteTop") == 0)
-        {
-            fileName = "Data/Canterbury_Basin/Quaternary/HeathcoteTop.in";
-        }
-        else if(strcmp(basinData->surf[basinNum][i], "BurwoodTop") == 0)
-        {
-            fileName = "Data/Canterbury_Basin/Quaternary/BurwoodTop.in";
-        }
-        else if(strcmp(basinData->surf[basinNum][i], "ShirleyTop") == 0)
-        {
-            fileName = "Data/Canterbury_Basin/Quaternary/ShirleyTop.in";
-        }
-        else if(strcmp(basinData->surf[basinNum][i], "WainoniTop") == 0)
-        {
-            fileName = "Data/Canterbury_Basin/Quaternary/WainoniTop.in";
-        }
-        else if(strcmp(basinData->surf[basinNum][i], "PlioceneTop") == 0)
-        {
-            fileName = "Data/Canterbury_Basin/Pre_Quaternary/PlioceneTop.in";
-        }
-        else if(strcmp(basinData->surf[basinNum][i], "MioceneTop") == 0)
-        {
-            fileName = "Data/Canterbury_Basin/Pre_Quaternary/MioceneTop.in";
-        }
-        else if(strcmp(basinData->surf[basinNum][i], "PaleogeneTop") == 0)
-        {
-            fileName = "Data/Canterbury_Basin/Pre_Quaternary/PaleogeneTop.in";
-        }
-        else if(strcmp(basinData->surf[basinNum][i], "BasementTop") == 0)
-        {
-            fileName = "Data/Canterbury_Basin/Pre_Quaternary/BasementTop.in";
-        }
-        else if(strcmp(basinData->surf[basinNum][i], "BPVTop") == 0)
-        {
-            fileName = "Data/Canterbury_Basin/BPV/BPVTop.in";
-        }
-        else if(strcmp(basinData->surf[basinNum][i], "BPVTopWheathered") == 0)
-        {
-            fileName = "Data/Canterbury_Basin/BPV/BPVTop.in";
-        }
-        else
-        {
-            printf("Error.\n");
-        }
-    
-        // write individual surface depths into the global file
         // load surface and transfer data into global struct
-        surfRead *tempSurf = NULL;
-        tempSurf = loadSurface(fileName);
+        basin_surf_read *BASIN_SURF_READ;
+        BASIN_SURF_READ = loadBasinSurface(GLOBAL_MODEL_PARAMETERS->basinSurfaceNames[basinNum][i]);
         
         // place in surfGlob struct
-        surfGlob->nLat[i] =  tempSurf->nLat;
-        surfGlob->nLon[i] =  tempSurf->nLon;
-        surfGlob->maxLat[i] =  tempSurf->maxLat;
-        surfGlob->minLat[i] =  tempSurf->minLat;
-        surfGlob->maxLon[i] =  tempSurf->maxLon;
-        surfGlob->minLon[i] =  tempSurf->minLon;
+        BASIN_DATA->nLat[basinNum][i] =  BASIN_SURF_READ->nLat;
+        BASIN_DATA->nLon[basinNum][i] =  BASIN_SURF_READ->nLon;
+        BASIN_DATA->maxLat[basinNum][i] =  BASIN_SURF_READ->maxLat;
+        BASIN_DATA->minLat[basinNum][i] =  BASIN_SURF_READ->minLat;
+        BASIN_DATA->maxLon[basinNum][i] =  BASIN_SURF_READ->maxLon;
+        BASIN_DATA->minLon[basinNum][i] =  BASIN_SURF_READ->minLon;
         
         // latitude
-        for( int nLat = 0; nLat < tempSurf->nLat; nLat++)
+        for( int nLat = 0; nLat < BASIN_SURF_READ->nLat; nLat++)
         {
-            surfGlob->lati[i][nLat] = tempSurf->lati[nLat];
+            BASIN_DATA->lati[basinNum][i][nLat] = BASIN_SURF_READ->lati[nLat];
         }
         
         // longitude
-        for( int nLon = 0; nLon < tempSurf->nLon; nLon++)
+        for( int nLon = 0; nLon < BASIN_SURF_READ->nLon; nLon++)
         {
-            surfGlob->loni[i][nLon] = tempSurf->loni[nLon];
+            BASIN_DATA->loni[basinNum][i][nLon] = BASIN_SURF_READ->loni[nLon];
         }
         
         // depth
-        for( int nnLat = 0; nnLat < tempSurf->nLat; nnLat++)
+        for( int nnLat = 0; nnLat < BASIN_SURF_READ->nLat; nnLat++)
         {
-            for( int nnLon = 0; nnLon < tempSurf->nLon; nnLon++)
+            for( int nnLon = 0; nnLon < BASIN_SURF_READ->nLon; nnLon++)
             {
-                surfGlob->dep[i][nnLon][nnLat] =  tempSurf->raster[nnLon][nnLat];
+                BASIN_DATA->dep[basinNum][i][nnLon][nnLat] =  BASIN_SURF_READ->raster[nnLon][nnLat];
             }
         }
     }
-    
-    printf("Basin surfaces successfully loaded.\n");
 }
 
 

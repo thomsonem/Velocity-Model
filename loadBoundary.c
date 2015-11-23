@@ -15,7 +15,7 @@
 #include "structs.h"
 #include "functions.h"
 
-void loadBoundary(globalBasinData *basinData, int basinNum)
+void loadBasinBoundary(int basinNum, basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS)
 /*
  Purpose:   load a boundary file into memory
  

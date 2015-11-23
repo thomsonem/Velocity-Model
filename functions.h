@@ -31,6 +31,13 @@ extern global_qualitites *assignQualities(model_extent MODEL_EXTENT, global_mode
 extern void writeGlobalQualities(partial_global_mesh *PARTIAL_GLOBAL_MESH, global_qualitites *GLOBAL_QUALITIES, calculation_log *CALCULATION_LOG, int latInd);
 extern gridStruct *generateLatLonForPlotting(modOrigin modelOrigin, modExtent modelExtent, double latPts[], double lonPts[], int nPts);
 extern global_surfaces *loadGlobalSurfaceData(global_model_parameters *GLOBAL_MODEL_PARAMETERS);
+extern global_surf_read *loadGlobalSurface(char *fileName);
+extern basin_surf_read *loadBasinSurface(char *fileName);
+void loadBasinBoundary(int basinNum, basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS)
+
+
+
+
 
 
 extern void writeLatLonData(gridStruct *location, globalDataValues *globDataVals, char *outputDirectory);
@@ -43,7 +50,6 @@ extern void writeGridPoints(gridStruct *location, char *outputDirectory);
 extern void writeVeloModInputsLogFile(int argc, char *argv[]);
 extern void writeVeloModLogFile(int argc, char *argv[],calculationLogStruct *logStruct);
 extern void writeSliceParametersLogFile(sliceParams *sliceParameters, modVersion modelVersion, gridStruct *location, char *outputDirectory, char *type);
-extern surfRead *loadSurface(char *fileName);
 extern indexStruct calculateSurfaceLatLonIndex(surfRead currentSurface, double x, double y);
 extern double IDW(surfVec *depVec, double x, double y, double power, double radius);
 extern double linearInterpolation(double p1, double p2, double v1, double v2, double p3);
@@ -53,7 +59,6 @@ extern int findSubVeloModelInd(gridStruct *location, int lonInd, int latInd, int
 
 
 //extern depInterpVals generateSurfaceValuesAllDepths(surfVecGlobal *vector, gridStruct location, int elev[], int nElev, double power, double radius);
-extern void loadBoundary(globalBasinData *basinData, int basinNum);
 extern int pointInPoly(globalBasinData *basinData, int basinNum, int boundaryNum, double xLoc, double yLoc);
 extern void plotExtracts(void);
 extern adjacentPointsStruct *findAdjacentPoints(surfRead *surface, double lat, double lon);
@@ -124,11 +129,11 @@ extern void loadBPVWheatheredBasinData(int basinNum, globalBasinData *basinData)
 
 
 
-extern void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd, int yInd, int zInd, gridStruct *location, velo1D *subModel1D);
-extern void loadAllBasinSurfaces(int basinNum, globalBasinData *basinData);
+extern void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd int yInd, int zInd, gridStruct *location, velo1D *subModel1D);
+extern void loadAllBasinSurfaces(int basinNum, basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS)
 extern void enforceBasinSurfaceDepths(gridStruct *location, int basinNum, globalBasinData *basinData);
 extern void assignBasinProperties(gridStruct *location, int basinNum, globalBasinData *basinData);
-extern void loadBasinData(int basinNum, globalBasinData *basinData);
+extern basin_data *loadBasinData(global_model_parameters *GLOBAL_MODEL_PARAMETERS);
 
 // math functions
 extern double LatLonToDistance(double locationLatLon[], double originLat, double originLon);
