@@ -16,7 +16,7 @@
 #include "functions.h"
 
 
-//surfDepValues *determineSurfaceDepths(gridStruct *location, char *fileName)
+partial_global_surface_depths *interpolateGlobalSurfaceDepths(global_surfaces *GLOBAL_SURFACES, mesh_vector *MESH_VECTOR ,calculation_log *CALCULATION_LOG)
 /*
  Purpose:   obtain the depths for all lat lon points for a given surface file
  
@@ -28,6 +28,15 @@
  surfDep   - (malloc'd) pointer to structure containing surface depths for all lat lon points
  */
 {
+    adjacent_points *ADJACENT_POINTS;
+    surface_pointer *SURFACE_POINTER;
+    
+    
+    for(int i = 0; i < GLOBAL_SURFACES->nSurf; i++)
+    {
+        ADJACENT_POINTS = findGlobalAdjacentPoints
+        SURFACE_POINTER = getSurfacePointer(GLOBAL_SURFACES, i);
+    }
     // read in the filename
     surfRead *currentSurface;
     currentSurface = loadSurface(fileName);

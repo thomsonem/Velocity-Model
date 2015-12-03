@@ -17,7 +17,7 @@
 #include "functions.h"
 
 
-global_qualitites *assignQualities(model_extent MODEL_EXTENT, global_model_parameters *GLOBAL_MODEL_PARAMETERS, partial_global_mesh *PARTIAL_GLOBAL_MESH, calculation_log *CALCULATION_LOG, int latInd)
+qualities_vector *assignQualities(global_model_parameters *GLOBAL_MODEL_PARAMETERS, velo_mod_1d_data *VELO_MOD_1D_DATA, nz_tomography_data *NZ_TOMOGRAPHY_DATA, global_surfaces *GLOBAL_SURFACES, basin_data *BASIN_DATA, mesh_vector *MESH_VECTOR,calculation_log *CALCULATION_LOG)
 /*
  Purpose:   obtain vp vs and rho for all points within the model grid
  
@@ -32,39 +32,19 @@ global_qualitites *assignQualities(model_extent MODEL_EXTENT, global_model_param
 {
 
     
-    if( latInd == 0 ) // if first time, read all data required into memory
+    interpolateGlobalSurfaceDepths(GLOBAL_SURFACES, MESH_VECTOR, CALCULATION_LOG);
+    
+    for( int j = 0; j < PARTIAL_GLOBAL_MESH->nX; j++)
     {
-        velo_mod_1d_data *VELO_MOD_1D_DATA;
-        VELO_MOD_1D_DATA = NULL;
-        nz_tomography_data *NZ_TOMOGRAPHY_DATA;
-        NZ_TOMOGRAPHY_DATA = NULL;
-        global_surfaces *GLOBAL_SURFACES;
-        GLOBAL_SURFACES = NULL;
-        basin_data *BASIN_DATA;
-        BASIN_DATA = NULL;
-        
-        // read in sub velocity models
-        for( int i = 0; i < GLOBAL_MODEL_PARAMETERS->nVeloSubMod; i++)
+        for (int k = 0; k < PARTIAL_GLOBAL_MESH->nZ; k++)
         {
-            if(strcmp(GLOBAL_MODEL_PARAMETERS->veloSubMod[i], "v1DsubMod") == 0)
-            {
-                VELO_MOD_1D_DATA = load1dVeloSubModel(GLOBAL_MODEL_PARAMETERS->veloMod1dFileName[0]);
-            }
-            else if(strcmp(GLOBAL_MODEL_PARAMETERS->veloSubMod[i], "EPtomo2010subMod") == 0)
-            {
-                 NZ_TOMOGRAPHY_DATA = loadEPtomoSurfaceData();
-            }
-            else if(strcmp(GLOBAL_MODEL_PARAMETERS->veloSubMod[i], "NaNsubMod") == 0)
-            {
-                // no data required for NaN velocity sub model
-            }
+            
         }
-        // read in global surfaces
-        GLOBAL_SURFACES = loadGlobalSurfaceData(GLOBAL_MODEL_PARAMETERS);
+        //interpolate golbal surfaces
         
-        // read in basin surfaces and boundaries
-        BASIN_DATA = loadBasinData(GLOBAL_MODEL_PARAMETERS);
+        // determine which sub velocity model
         
+        // assign values from that sub model
     }
     
     

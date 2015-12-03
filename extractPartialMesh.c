@@ -28,7 +28,7 @@ partial_global_mesh *extractPartialMesh(global_mesh *GLOBAL_MESH, int latInd)
     int i;
     
     PARTIAL_GLOBAL_MESH->nX = GLOBAL_MESH->nX;
-    PARTIAL_GLOBAL_MESH->nY = GLOBAL_MESH->nY;
+    PARTIAL_GLOBAL_MESH->nY = 1;//GLOBAL_MESH->nY;
     PARTIAL_GLOBAL_MESH->nZ = GLOBAL_MESH->nZ;
     PARTIAL_GLOBAL_MESH->Y = GLOBAL_MESH->Y[latInd];
 
@@ -44,3 +44,58 @@ partial_global_mesh *extractPartialMesh(global_mesh *GLOBAL_MESH, int latInd)
     }
     return PARTIAL_GLOBAL_MESH;
 }
+
+mesh_vector *extractMeshVector(partial_global_mesh *PARTIAL_GLOBAL_MESH, int lonInd)
+{
+    mesh_vector *MESH_VECTOR;
+    MESH_VECTOR = malloc(sizeof(mesh_vector));
+    
+    MESH_VECTOR->Lat = &PARTIAL_GLOBAL_MESH->Lat[lonInd];
+    MESH_VECTOR->Lon = &PARTIAL_GLOBAL_MESH->Lon[lonInd];
+    
+    for(int i = 0; i < PARTIAL_GLOBAL_MESH->nZ; i++)
+    {
+        MESH_VECTOR->Z[i] = &PARTIAL_GLOBAL_MESH->Z[i];
+    }
+    MESH_VECTOR->nZ = &PARTIAL_GLOBAL_MESH->nZ;
+    
+    return MESH_VECTOR;
+}
+
+surface_pointer *getSurfacePointer(global_surfaces *GLOBAL_SURFACES, int surfaceNumber)
+{
+    surface_pointer *SURFACE_POINTER;
+    SURFACE_POINTER = malloc(sizeof(surface_pointer));
+    
+    for(int i = 0; i < GLOBAL_SURFACES->nLon[surfaceNumber]; i++)
+    {
+        for(int j = 0; j < GLOBAL_SURFACES->nLat[surfaceNumber]; j++)
+        {
+            SURFACE_POINTER->dep[i][j] = &GLOBAL_SURFACES->dep[surfaceNumber][i][j];
+        }
+    }
+    
+    for(int j = 0; j < GLOBAL_SURFACES->nLat[surfaceNumber]; j++)
+    {
+        SURFACE_POINTER->lati[j] = &GLOBAL_SURFACES->lati[surfaceNumber][j];
+    }
+    for(int i = 0; i < GLOBAL_SURFACES->nLon[surfaceNumber]; i++)
+    {
+        SURFACE_POINTER->loni[i] = &GLOBAL_SURFACES->loni[surfaceNumber][i];
+    }
+    
+    SURFACE_POINTER->nLat = &GLOBAL_SURFACES->nLat[surfaceNumber];
+    SURFACE_POINTER->nLon = &GLOBAL_SURFACES->nLon[surfaceNumber];
+    SURFACE_POINTER->maxLat = &GLOBAL_SURFACES->maxLat[surfaceNumber];
+    SURFACE_POINTER->maxLon = &GLOBAL_SURFACES->maxLon[surfaceNumber];
+    SURFACE_POINTER->minLat = &GLOBAL_SURFACES->minLat[surfaceNumber];
+    SURFACE_POINTER->minLon = &GLOBAL_SURFACES->minLon[surfaceNumber];
+
+    
+    return SURFACE_POINTER;
+}
+
+
+
+
+

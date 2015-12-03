@@ -26,14 +26,17 @@ extern globalDataValues* loadCvmDataAll(gridStruct *location, char *outputDirect
 // primary functions
 extern global_model_parameters *getGlobalModelParameters(double modelVersion);
 extern surfaceDepthsGlobal *getSurfaceValues(surfNames *surfSubModNames);
+extern void loadAllGlobalData(global_model_parameters *GLOBAL_MODEL_PARAMETERS,calculation_log *CALCULATION_LOG, velo_mod_1d_data *VELO_MOD_1D_DATA, nz_tomography_data *NZ_TOMOGRAPHY_DATA, global_surfaces *GLOBAL_SURFACES, basin_data *BASIN_DATA);
 extern global_mesh *generateFullModelGrid(model_extent MODEL_EXTENT);
-extern global_qualitites *assignQualities(model_extent MODEL_EXTENT, global_model_parameters *GLOBAL_MODEL_PARAMETERS, partial_global_mesh *PARTIAL_GLOBAL_MESH, calculation_log *CALCULATION_LOG, int latInd);
+extern qualities_vector *assignQualities(global_model_parameters *GLOBAL_MODEL_PARAMETERS, velo_mod_1d_data *VELO_MOD_1D_DATA, nz_tomography_data *NZ_TOMOGRAPHY_DATA, global_surfaces *GLOBAL_SURFACES, basin_data *BASIN_DATA, mesh_vector *MESH_VECTOR,calculation_log *CALCULATION_LOG);
+extern mesh_vector *extractMeshVector(partial_global_mesh *PARTIAL_GLOBAL_MESH, int lonInd);
+extern surface_pointer *getSurfacePointer(global_surfaces *GLOBAL_SURFACES, int surfaceNumber);
 extern void writeGlobalQualities(partial_global_mesh *PARTIAL_GLOBAL_MESH, global_qualitites *GLOBAL_QUALITIES, calculation_log *CALCULATION_LOG, int latInd);
 extern gridStruct *generateLatLonForPlotting(modOrigin modelOrigin, modExtent modelExtent, double latPts[], double lonPts[], int nPts);
 extern global_surfaces *loadGlobalSurfaceData(global_model_parameters *GLOBAL_MODEL_PARAMETERS);
 extern global_surf_read *loadGlobalSurface(char *fileName);
 extern basin_surf_read *loadBasinSurface(char *fileName);
-void loadBasinBoundary(int basinNum, basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS)
+void loadBasinBoundaries(int basinNum, basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS)
 
 
 

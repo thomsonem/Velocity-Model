@@ -141,18 +141,38 @@ int main(void)//(int argc, char *argv[])
         CALCULATION_LOG->outputDirectory = argv[2];
         
         partial_global_mesh *PARTIAL_GLOBAL_MESH;
-        global_qualitites *GLOBAL_QUALITIES;
+        mesh_vector *MESH_VECTOR;
+        qualities_vector *QUALITIES_VECTOR;
+        partial_global_qualities *PARTIAL_GLOBAL_QUALITIES;
         
         // read in velocity model data (surfaces, 1D models, tomography etc)
+        velo_mod_1d_data *VELO_MOD_1D_DATA;
+        VELO_MOD_1D_DATA = NULL;
+        nz_tomography_data *NZ_TOMOGRAPHY_DATA;
+        NZ_TOMOGRAPHY_DATA = NULL;
+        global_surfaces *GLOBAL_SURFACES;
+        GLOBAL_SURFACES = NULL;
+        basin_data *BASIN_DATA;
+        BASIN_DATA = NULL;
+        loadAllGlobalData(GLOBAL_MODEL_PARAMETERS, CALCULATION_LOG, VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA);
+
+        
         for(int j = 0; j < GLOBAL_MESH->nY; j++)
         {
             PARTIAL_GLOBAL_MESH = extractPartialMesh(GLOBAL_MESH, j);
-            GLOBAL_QUALITIES = assignQualities(MODEL_EXTENT, GLOBAL_MODEL_PARAMETERS, PARTIAL_GLOBAL_MESH, CALCULATION_LOG, j);
+            PARTIAL_GLOBAL_QUALITIES = malloc(sizeof(partial_global_qualities));
+            
+            for(int k = 0; k < PARTIAL_GLOBAL_MESH->nX; k++)
+            {
+                MESH_VECTOR = extractMeshVector(PARTIAL_GLOBAL_MESH, k);
+                QUALITIES_VECTOR = assignQualities(GLOBAL_MODEL_PARAMETERS, VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA, MESH_VECTOR, CALCULATION_LOG);
 
-            writeGlobalQualities(PARTIAL_GLOBAL_MESH, GLOBAL_QUALITIES, CALCULATION_LOG, j);
+            }
+
+            writeGlobalQualities(PARTIAL_GLOBAL_MESH, PARTIAL_GLOBAL_QUALITIES, CALCULATION_LOG, j);
 
             free(PARTIAL_GLOBAL_MESH);
-            free(GLOBAL_QUALITIES);
+            free(PARTIAL_GLOBAL_QUALITIES);
         }
         
         

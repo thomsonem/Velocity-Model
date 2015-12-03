@@ -186,7 +186,7 @@ basin_surf_read *loadBasinSurface(char *fileName)
     }
     
     firstLon = BASIN_SURF_READ->loni[0];
-    lastLon = BASIN_SURF_READ->loni[GLOBAL_SURF_READ->nLon-1];
+    lastLon = BASIN_SURF_READ->loni[BASIN_SURF_READ->nLon-1];
     
     if (firstLon >= lastLon)
     {
@@ -227,6 +227,8 @@ global_surfaces *loadGlobalSurfaceData(global_model_parameters *GLOBAL_MODEL_PAR
     global_surf_read *GLOBAL_SURF_READ;
     GLOBAL_SURF_READ = NULL;
     
+    GLOBAL_SURFACES->nSurf = GLOBAL_MODEL_PARAMETERS->nSurf;
+    
     for(int i = 0; i < GLOBAL_MODEL_PARAMETERS->nSurf; i++)
     {
         // load surface and transfer data into global struct
@@ -260,6 +262,7 @@ global_surfaces *loadGlobalSurfaceData(global_model_parameters *GLOBAL_MODEL_PAR
                 GLOBAL_SURFACES->dep[i][nnLon][nnLat] =  GLOBAL_SURF_READ->raster[nnLon][nnLat];
             }
         }
+        free (GLOBAL_SURF_READ);
         
     }
     return GLOBAL_SURFACES;

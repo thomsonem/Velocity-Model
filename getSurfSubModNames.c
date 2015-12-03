@@ -29,31 +29,6 @@ global_model_parameters *getGlobalModelParameters(double modelVersion)
     global_model_parameters *GLOBAL_MODEL_PARAMETERS;
     GLOBAL_MODEL_PARAMETERS = malloc(sizeof(global_model_parameters));
 
-    
-//    fileName = "Data/Global_Surfaces/posInf.in";
-//}
-//else if(strcmp(GLOBAL_MODEL_PARAMETERS->surf[i], "negInfSurf") == 0)
-//{
-//    fileName = "Data/Global_Surfaces/negInf.in";
-//}
-//else if(strcmp(GLOBAL_MODEL_PARAMETERS->surf[i], "basementRockSurf") == 0)
-//{
-//    fileName ="Data/Canterbury_Basin/Pre_Quaternary/BasementTop.in";
-//}
-//else if(strcmp(GLOBAL_MODEL_PARAMETERS->surf[i], "demSurf") == 0)
-//{
-//    fileName = "Data/DEM/DEM.in";
-//}
-//else
-
-//    char *basin[MAX_NUM_BASINS];
-//    char *basinSurfFilenames[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-//    char *basinSurfaceNames[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-//    int nBasinSurfaces[MAX_NUM_BASINS];
-//    int nBasinBoundaries[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
-//    char *basinBoundaryFilenames[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
-//    char *basinBoundaryNames[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
-//    int nBasin;
 
     // Model Version 0.1, 1D velocity sub Model
     if(modelVersion == 0.1)
@@ -588,12 +563,14 @@ global_model_parameters *getGlobalModelParameters(double modelVersion)
         printf("Invalid velocity model version number.\n");
     }
     
+    // Assertions
     assert(GLOBAL_MODEL_PARAMETERS->nSurf==(GLOBAL_MODEL_PARAMETERS->nVeloSubMod+1));
     assert(GLOBAL_MODEL_PARAMETERS->nSurf<=(MAX_NUM_GLOBAL_SURFACES));
     assert(GLOBAL_MODEL_PARAMETERS->nBasins<=(MAX_NUM_BASINS));
     for (int i = 0; i < GLOBAL_MODEL_PARAMETERS->nBasins; i++)
     {
         assert(GLOBAL_MODEL_PARAMETERS->nBasinSurfaces[i]<=(MAX_NUM_BASIN_SURFACES));
+        assert(GLOBAL_MODEL_PARAMETERS->nBasinBoundaries[i] <=(MAX_NUM_BASIN_BOUNDARIES)) ;
     }
     printf("Global Model Parameters Obtained.\n");
     return GLOBAL_MODEL_PARAMETERS;
