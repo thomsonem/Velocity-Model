@@ -12,8 +12,11 @@
 // log struct
 typedef struct{
     int nPointsExceedingMinVelo;
-    int nPointsInGlobalSurfaceExtensionZone;
+    int nPointsInGlobalLatSurfaceExtensionZone;
+    int nPointsInGlobalLonSurfaceExtensionZone;
+    int nPointsInGlobalCornerSurfaceExtensionZone;
     int nPointsInBasinSurfaceExtensionZone;
+    int nPointsGlobalSurfacesEnforced;
     double minVs;
     char *outputDirectory;
 }calculation_log;
@@ -160,6 +163,7 @@ typedef struct{
 
 typedef struct{
     double dep[MAX_NUM_GLOBAL_SURFACES];
+    int nSurfDep;
 }partial_global_surface_depths;
 
 // get surface values
@@ -169,7 +173,7 @@ typedef struct{
 
 typedef struct{
     int nSurf;
-    double surfDeps[MAX_NUM_GLOBAL_SURFACES];
+//    double surfDeps[MAX_NUM_GLOBAL_SURFACES];
     int nLat[MAX_NUM_GLOBAL_SURFACES];
     int nLon[MAX_NUM_GLOBAL_SURFACES];
     double maxLat[MAX_NUM_GLOBAL_SURFACES], minLat[MAX_NUM_GLOBAL_SURFACES], maxLon[MAX_NUM_GLOBAL_SURFACES], minLon[MAX_NUM_GLOBAL_SURFACES];
@@ -223,6 +227,7 @@ typedef struct{
     char *veloSubMod[MAX_NUM_GLOBAL_SURFACES];
     int nVeloSubMod;
     char *veloMod1dFileName[MAX_NUM_1D_VELOCITY_MODELS];
+    char *tomographyName;
     
     // basin related parameters
     int nBasins;

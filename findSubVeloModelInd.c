@@ -15,17 +15,10 @@
 #include "structs.h"
 #include "functions.h"
 
-int findSubVeloModelInd(gridStruct *location, int lonInd, int latInd, int depInd, int nVeloSubMod, surfaceDepthsGlobal *surfDepsGlob)
+int findGlobalSubVeloModelInd(double depth, partial_global_surface_depths *PARTIAL_GLOBAL_SURFACE_DEPTHS)
 /*
  Purpose:   divide the depths at a given lat lon point into processing by the various velocity sub-functions
  
- Input variables:
- location         - pointer to structure containing lat lon and dep gridpoints
- lonInd           - the indice of the longitude point
- latInd           - the indice of the latitude point
- depInd           - the indice of the depth point
- nVeloSubMod      - the number of velocity submodeld
- surfDepsGlob     - data structure containing the depths of the surfaces that divide the velocity submodels
  
  Output variables:
  nVeloInd   - the indice of the sub velocity model the point lies within
@@ -33,10 +26,9 @@ int findSubVeloModelInd(gridStruct *location, int lonInd, int latInd, int depInd
 {
     int nVeloInd = 1e6; // large value, sub model inds should be <10
     
-    for(int j = 0; j < nVeloSubMod; j++)
+    for(int j = 0; j < PARTIAL_GLOBAL_SURFACE_DEPTHS->nSurfDep-1; j++)
     {
-        if((location->Z[depInd] < surfDepsGlob->dep[j][lonInd][latInd]) && (location->Z[depInd] > surfDepsGlob->dep[j+1][lonInd][latInd])) // if point lies between adjacent
-        {
+        if((depth < PARTIAL_GLOBAL_SURFACE_DEPTHS->dep[j]) && (depth > PARTIAL_GLOBAL_SURFACE_DEPTHS->dep[j+1]))        {
             nVeloInd = j;
             break;
         }

@@ -28,7 +28,7 @@ int main(void)//(int argc, char *argv[])
      int argc = 14;
      char *argv[20];
      argv[1] = "GENERATE_VELOCITY_MOD";
-     argv[2] = "1.01";
+     argv[2] = "0.1";
      argv[3] = "v1.01";
      argv[4] = "-43.6";
      argv[5] = "170.75";
@@ -136,9 +136,10 @@ int main(void)//(int argc, char *argv[])
         
         // generate the log file struct
         calculation_log *CALCULATION_LOG;
-        CALCULATION_LOG = malloc(sizeof(calculation_log));
-        CALCULATION_LOG->minVs = atof(argv[13]);
-        CALCULATION_LOG->outputDirectory = argv[2];
+        
+        CALCULATION_LOG = initializeCalculationLog(argc, argv);
+
+        
         
         partial_global_mesh *PARTIAL_GLOBAL_MESH;
         mesh_vector *MESH_VECTOR;
@@ -166,6 +167,14 @@ int main(void)//(int argc, char *argv[])
             {
                 MESH_VECTOR = extractMeshVector(PARTIAL_GLOBAL_MESH, k);
                 QUALITIES_VECTOR = assignQualities(GLOBAL_MODEL_PARAMETERS, VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA, MESH_VECTOR, CALCULATION_LOG);
+                for(int i = 0; i < PARTIAL_GLOBAL_MESH->nZ; i++)
+                {
+                    PARTIAL_GLOBAL_QUALITIES->Rho[k][i] = QUALITIES_VECTOR->Rho[i];
+                    PARTIAL_GLOBAL_QUALITIES->Vp[k][i] = QUALITIES_VECTOR->Vp[i];
+                    PARTIAL_GLOBAL_QUALITIES->Vs[k][i] = QUALITIES_VECTOR->Vs[i];
+
+                }
+                
 
             }
 
@@ -178,8 +187,8 @@ int main(void)//(int argc, char *argv[])
         
         
         // create output directory and the velocity model
-        mkdir(outputDirectory, 0700);
-        printf("Output directory created.\n");
+//        mkdir(outputDirectory, 0700);
+//        printf("Output directory created.\n");
         
 
         
@@ -200,20 +209,20 @@ int main(void)//(int argc, char *argv[])
 
         
         // create directory to output files to
-        outputDirectory = argv[3];
-        struct stat st = {0};
-        if (stat(outputDirectory, &st) == -1)
-        {
-        }
-        else
-        {
-            // if the output directory exists assume velocity model exists
-            printf("Output directory already exists.\n");
-
-        }
-        
-        free(globDataVals);
-        free(location);
+//        outputDirectory = argv[3];
+//        struct stat st = {0};
+//        if (stat(outputDirectory, &st) == -1)
+//        {
+//        }
+//        else
+//        {
+//            // if the output directory exists assume velocity model exists
+//            printf("Output directory already exists.\n");
+//
+//        }
+//        
+//        free(globDataVals);
+//        free(location);
 
         
 //        if (strcmp(generateType,"EXTRACT_VELOCITY_SLICES") == 0)

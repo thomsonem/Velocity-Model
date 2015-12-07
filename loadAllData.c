@@ -28,7 +28,7 @@ void loadAllGlobalData(global_model_parameters *GLOBAL_MODEL_PARAMETERS,calculat
             }
             else if(strcmp(GLOBAL_MODEL_PARAMETERS->veloSubMod[i], "EPtomo2010subMod") == 0)
             {
-                NZ_TOMOGRAPHY_DATA = loadEPtomoSurfaceData();
+                NZ_TOMOGRAPHY_DATA = loadEPtomoSurfaceData(GLOBAL_MODEL_PARAMETERS->tomographyName);
             }
             else if(strcmp(GLOBAL_MODEL_PARAMETERS->veloSubMod[i], "NaNsubMod") == 0)
             {
@@ -40,6 +40,7 @@ void loadAllGlobalData(global_model_parameters *GLOBAL_MODEL_PARAMETERS,calculat
         
         // read in basin surfaces and boundaries
         BASIN_DATA = loadBasinData(GLOBAL_MODEL_PARAMETERS);
+    
     
     
 //    // read in basin data

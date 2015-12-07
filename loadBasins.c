@@ -22,8 +22,8 @@ basin_data *loadBasinData(global_model_parameters *GLOBAL_MODEL_PARAMETERS)
     
     for( int i = 0; i < GLOBAL_MODEL_PARAMETERS->nBasins; i++)
     {
-        loadAllBasinSurfaces(i, BASIN_DATA, GLOBAL_MODEL_PARAMETERS);
-        loadBasinBoundaries(i, BASIN_DATA, GLOBAL_MODEL_PARAMETERS);
+//        loadAllBasinSurfaces(i, BASIN_DATA, GLOBAL_MODEL_PARAMETERS);
+//        loadBasinBoundaries(i, BASIN_DATA, GLOBAL_MODEL_PARAMETERS);
     }
     
     return BASIN_DATA;

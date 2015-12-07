@@ -15,7 +15,7 @@
 #include "structs.h"
 #include "functions.h"
 
-void NaNsubMod(int xInd, int yInd, int zInd, globalDataValues *golbalValues)
+void NaNsubMod(int zInd, qualities_vector *QUALITIES_VECTOR)
 /*
  Purpose:   set all points above the ground surface to NaNs
  
@@ -28,8 +28,8 @@ void NaNsubMod(int xInd, int yInd, int zInd, globalDataValues *golbalValues)
  
  */
 {
-    golbalValues->Rho[xInd][yInd][zInd] = NAN;
-    golbalValues->Vp[xInd][yInd][zInd] = NAN;
-    golbalValues->Vs[xInd][yInd][zInd] = NAN;
+    QUALITIES_VECTOR->Rho[zInd] = NAN;
+    QUALITIES_VECTOR->Vp[zInd] = NAN;
+    QUALITIES_VECTOR->Vs[zInd] = NAN;
 }
 

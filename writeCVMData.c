@@ -18,7 +18,8 @@
 #include "structs.h"
 #include "functions.h"
 
-void writeGlobalQualities(partial_global_mesh *PARTIAL_GLOBAL_MESH, partial_global_qualities *PARTIAL_GLOBAL_QUALITIES, calculation_log *CALCULATION_LOG, int firstWrite)
+void writeGlobalQualities(partial_global_mesh *PARTIAL_GLOBAL_MESH, partial_global_qualities *PARTIAL_GLOBAL_QUALITIES, calculation_log *CALCULATION_LOG, int latInd)
+
 /*
  Purpose:   write the full velocity model to file
  
@@ -55,7 +56,7 @@ void writeGlobalQualities(partial_global_mesh *PARTIAL_GLOBAL_MESH, partial_glob
     int bsize, ip;
     
     
-    if( firstWrite == 0) // if first time, generate binary files
+    if( latInd == 0) // if first time, generate binary files
     {
         struct stat st = {0};
         if (stat(veloModDir, &st) == -1)

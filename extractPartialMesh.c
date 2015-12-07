@@ -62,7 +62,7 @@ mesh_vector *extractMeshVector(partial_global_mesh *PARTIAL_GLOBAL_MESH, int lon
     return MESH_VECTOR;
 }
 
-surface_pointer *getSurfacePointer(global_surfaces *GLOBAL_SURFACES, int surfaceNumber)
+surface_pointer *getGlobalSurfacePointer(global_surfaces *GLOBAL_SURFACES, int surfaceNumber)
 {
     surface_pointer *SURFACE_POINTER;
     SURFACE_POINTER = malloc(sizeof(surface_pointer));
@@ -91,6 +91,52 @@ surface_pointer *getSurfacePointer(global_surfaces *GLOBAL_SURFACES, int surface
     SURFACE_POINTER->minLat = &GLOBAL_SURFACES->minLat[surfaceNumber];
     SURFACE_POINTER->minLon = &GLOBAL_SURFACES->minLon[surfaceNumber];
 
+    
+    return SURFACE_POINTER;
+}
+
+surface_pointer *getTomographySurfacePointer(nz_tomography_data *NZ_TOMOGRAPHY_DATA, int surfaceNumber, char *quality)
+{
+    surface_pointer *SURFACE_POINTER;
+    SURFACE_POINTER = malloc(sizeof(surface_pointer));
+    
+    for(int i = 0; i < NZ_TOMOGRAPHY_DATA->nLon[surfaceNumber]; i++)
+    {
+        for(int j = 0; j < NZ_TOMOGRAPHY_DATA->nLat[surfaceNumber]; j++)
+        {
+            if (strcmp(quality, "Vp") == 0)
+            {
+                SURFACE_POINTER->dep[i][j] = &NZ_TOMOGRAPHY_DATA->Vp[surfaceNumber][i][j];
+
+            }
+            else if (strcmp(quality, "Vs") == 0)
+            {
+                SURFACE_POINTER->dep[i][j] = &NZ_TOMOGRAPHY_DATA->Vs[surfaceNumber][i][j];
+
+            }
+            else if (strcmp(quality, "Rho") == 0)
+            {
+                SURFACE_POINTER->dep[i][j] = &NZ_TOMOGRAPHY_DATA->Rho[surfaceNumber][i][j];
+            }
+        }
+    }
+    
+    for(int j = 0; j < NZ_TOMOGRAPHY_DATA->nLat[surfaceNumber]; j++)
+    {
+        SURFACE_POINTER->lati[j] = &NZ_TOMOGRAPHY_DATA->lati[surfaceNumber][j];
+    }
+    for(int i = 0; i < NZ_TOMOGRAPHY_DATA->nLon[surfaceNumber]; i++)
+    {
+        SURFACE_POINTER->loni[i] = &NZ_TOMOGRAPHY_DATA->loni[surfaceNumber][i];
+    }
+    
+    SURFACE_POINTER->nLat = &NZ_TOMOGRAPHY_DATA->nLat[surfaceNumber];
+    SURFACE_POINTER->nLon = &NZ_TOMOGRAPHY_DATA->nLon[surfaceNumber];
+    SURFACE_POINTER->maxLat = &NZ_TOMOGRAPHY_DATA->maxLat[surfaceNumber];
+    SURFACE_POINTER->maxLon = &NZ_TOMOGRAPHY_DATA->maxLon[surfaceNumber];
+    SURFACE_POINTER->minLat = &NZ_TOMOGRAPHY_DATA->minLat[surfaceNumber];
+    SURFACE_POINTER->minLon = &NZ_TOMOGRAPHY_DATA->minLon[surfaceNumber];
+    
     
     return SURFACE_POINTER;
 }
