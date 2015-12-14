@@ -23,7 +23,7 @@ calculation_log *initializeCalculationLog(int argc, char *argv[])
     calculation_log *CALCULATION_LOG;
     CALCULATION_LOG = malloc(sizeof(calculation_log));
     CALCULATION_LOG->minVs = atof(argv[13]);
-    CALCULATION_LOG->outputDirectory = argv[2];
+    CALCULATION_LOG->outputDirectory = argv[3];
     
     CALCULATION_LOG->nPointsInGlobalCornerSurfaceExtensionZone = 0;
     CALCULATION_LOG->nPointsInGlobalLatSurfaceExtensionZone = 0;

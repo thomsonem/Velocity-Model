@@ -50,7 +50,7 @@ void v1DsubMod(int zInd, double dep, qualities_vector *QUALITIES_VECTOR, velo_mo
 
 
 
-velo_mod_1d_data *load1dVeloSubModel(char *fileName)
+void load1dVeloSubModel(char *fileName, velo_mod_1d_data *VELO_MOD_1D_DATA)
 /*
  Purpose:   load a 1D velocity submodel into memory
  
@@ -61,10 +61,16 @@ velo_mod_1d_data *load1dVeloSubModel(char *fileName)
  velo1D     - (malloc'd) pointer to the velocity sub-model
  */
 {
-    velo_mod_1d_data *VELO_MOD_1D_DATA = NULL;
-    VELO_MOD_1D_DATA = malloc(sizeof(velo_mod_1d_data));
     FILE *file;
-    file = fopen(fileName, "r");
+    
+    char fNameDir[128];
+    sprintf(fNameDir,"Data/1D_Velocity_Model/%s",fileName);
+    
+    file = fopen(fNameDir, "r");
+    if (file == NULL)
+    {
+        perror("Error");
+    }
     char tempA[10], tempB[10];
     fscanf(file, "%s %s", tempA, tempB); // header line (discard)
     int i = 0;
@@ -75,7 +81,7 @@ velo_mod_1d_data *load1dVeloSubModel(char *fileName)
     }
     VELO_MOD_1D_DATA->nDep = i;
     fclose(file);
-    return VELO_MOD_1D_DATA;
+
 }
 
 

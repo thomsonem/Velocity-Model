@@ -30,7 +30,50 @@ global_model_parameters *getGlobalModelParameters(double modelVersion)
     GLOBAL_MODEL_PARAMETERS = malloc(sizeof(global_model_parameters));
 
 
-    if(modelVersion == 0.1)
+    if(modelVersion == 0.01)
+    {
+        // define the number of surfaces and sub models
+        GLOBAL_MODEL_PARAMETERS->nSurf = 2;
+        GLOBAL_MODEL_PARAMETERS->nVeloSubMod = 1;
+        
+        // insert surface surface keywords and filenames
+        GLOBAL_MODEL_PARAMETERS->surf[0] = "posInfSurf";
+        GLOBAL_MODEL_PARAMETERS->globalSurfFilenames[0] = "Data/Global_Surfaces/posInf.in";
+        GLOBAL_MODEL_PARAMETERS->surf[1] = "negInfSurf";
+        GLOBAL_MODEL_PARAMETERS->globalSurfFilenames[1] = "Data/Global_Surfaces/negInf.in";
+
+        
+        // insert velocity submodel keywords and filenames (if necessary)
+        GLOBAL_MODEL_PARAMETERS->veloSubMod[0] = "v1DsubMod";
+        GLOBAL_MODEL_PARAMETERS->veloMod1dFileName[0] = "Cant1D_v1.fd_modfile";
+
+        
+        GLOBAL_MODEL_PARAMETERS->nBasins = 0;
+
+    }
+    else if(modelVersion == 0.02)
+    {
+        // define the number of surfaces and sub models
+        GLOBAL_MODEL_PARAMETERS->nSurf = 2;
+        GLOBAL_MODEL_PARAMETERS->nVeloSubMod = 1;
+        
+        // insert surface surface keywords and filenames
+        GLOBAL_MODEL_PARAMETERS->surf[0] = "posInfSurf";
+        GLOBAL_MODEL_PARAMETERS->globalSurfFilenames[0] = "Data/Global_Surfaces/posInf.in";
+        GLOBAL_MODEL_PARAMETERS->surf[1] = "negInfSurf";
+        GLOBAL_MODEL_PARAMETERS->globalSurfFilenames[1] = "Data/Global_Surfaces/negInf.in";
+        
+        
+        // insert velocity submodel keywords and filenames (if necessary)
+        GLOBAL_MODEL_PARAMETERS->veloSubMod[0] = "EPtomo2010subMod";
+        GLOBAL_MODEL_PARAMETERS->tomographyName = "2010_Full_South_Island";
+        
+        
+        
+        GLOBAL_MODEL_PARAMETERS->nBasins = 0;
+        
+    }
+    else if(modelVersion == 0.022)
     {
         // define the number of surfaces and sub models
         GLOBAL_MODEL_PARAMETERS->nSurf = 3;
@@ -43,18 +86,18 @@ global_model_parameters *getGlobalModelParameters(double modelVersion)
         GLOBAL_MODEL_PARAMETERS->globalSurfFilenames[1] = "Data/Global_Surfaces/BasementTop.in";
         GLOBAL_MODEL_PARAMETERS->surf[2] = "negInfSurf";
         GLOBAL_MODEL_PARAMETERS->globalSurfFilenames[2] = "Data/Global_Surfaces/negInf.in";
-
+        
         
         // insert velocity submodel keywords and filenames (if necessary)
         GLOBAL_MODEL_PARAMETERS->veloSubMod[0] = "v1DsubMod";
         GLOBAL_MODEL_PARAMETERS->veloMod1dFileName[0] = "Cant1D_v1.fd_modfile";
         GLOBAL_MODEL_PARAMETERS->veloSubMod[1] = "EPtomo2010subMod";
         GLOBAL_MODEL_PARAMETERS->tomographyName = "2010_Full_South_Island";
-
+        
         
         
         GLOBAL_MODEL_PARAMETERS->nBasins = 0;
-
+        
     }
     // Model Version 0.1, 1D velocity sub Model
     else if(modelVersion == 0.11)
@@ -163,7 +206,7 @@ global_model_parameters *getGlobalModelParameters(double modelVersion)
         
     }
     // Model Version 0.2, EP Tomography
-    if(modelVersion == 0.2)
+    else if(modelVersion == 0.2)
     {
         // define the number of surfaces and sub models
         GLOBAL_MODEL_PARAMETERS->nSurf = 2;

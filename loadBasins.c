@@ -15,10 +15,8 @@
 #include "structs.h"
 #include "functions.h"
 
-basin_data *loadBasinData(global_model_parameters *GLOBAL_MODEL_PARAMETERS)
+void loadBasinData(basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS)
 {
-    basin_data *BASIN_DATA;
-    BASIN_DATA = malloc(sizeof(basin_data));
     
     for( int i = 0; i < GLOBAL_MODEL_PARAMETERS->nBasins; i++)
     {
@@ -26,7 +24,6 @@ basin_data *loadBasinData(global_model_parameters *GLOBAL_MODEL_PARAMETERS)
 //        loadBasinBoundaries(i, BASIN_DATA, GLOBAL_MODEL_PARAMETERS);
     }
     
-    return BASIN_DATA;
     
 }
 

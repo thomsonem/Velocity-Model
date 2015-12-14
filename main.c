@@ -28,19 +28,19 @@ int main(void)//(int argc, char *argv[])
      int argc = 14;
      char *argv[20];
      argv[1] = "GENERATE_VELOCITY_MOD";
-     argv[2] = "0.1";
-     argv[3] = "v1.01";
+     argv[2] = "0.01";
+     argv[3] = "New";
      argv[4] = "-43.6";
-     argv[5] = "170.75";
-     argv[6] = "-50.00";
-     argv[7] = "1";
-     argv[8] = "1";
-     argv[9] = "1";
+     argv[5] = "173.2";
+     argv[6] = "-10";
+     argv[7] = "70";
+     argv[8] = "60";
+     argv[9] = "46";
      argv[10] = "0";
-     argv[11] = "0.5";
+     argv[11] = "0.1";
      argv[12] = "1";
      argv[13] = "0.5";
-     //*/
+     //*/ -43.6 172.3 -10 70 60 46 0 0.1 0.1
     
     
     /*
@@ -111,8 +111,24 @@ int main(void)//(int argc, char *argv[])
         char *tempPointA;
         MODEL_EXTENT.version = strtod(argv[2],&tempPointA);
         printf("========================================\n");
-        printf("Generating velocity model version %f.2\n", MODEL_EXTENT.version);
+        printf("Generating velocity model version %f\n", MODEL_EXTENT.version);
         printf("========================================\n");
+        
+        
+        // generate the log file struct
+        calculation_log *CALCULATION_LOG;
+        
+        CALCULATION_LOG = initializeCalculationLog(argc, argv);
+        
+        // create directory to output files to
+        struct stat st = {0};
+        if (stat(CALCULATION_LOG->outputDirectory, &st) == -1)
+        {
+            // create output directory
+            mkdir(CALCULATION_LOG->outputDirectory, 0700);
+            printf("Output directory created.\n");
+        }
+        
 
         // Model origin paremeters
         MODEL_EXTENT.originLat = atof(argv[4]);
@@ -133,13 +149,7 @@ int main(void)//(int argc, char *argv[])
         // obtain surface filenames based off version number
         global_model_parameters *GLOBAL_MODEL_PARAMETERS;
         GLOBAL_MODEL_PARAMETERS = getGlobalModelParameters(MODEL_EXTENT.version);
-        
-        // generate the log file struct
-        calculation_log *CALCULATION_LOG;
-        
-        CALCULATION_LOG = initializeCalculationLog(argc, argv);
-
-        
+    
         
         partial_global_mesh *PARTIAL_GLOBAL_MESH;
         mesh_vector *MESH_VECTOR;
@@ -148,13 +158,14 @@ int main(void)//(int argc, char *argv[])
         
         // read in velocity model data (surfaces, 1D models, tomography etc)
         velo_mod_1d_data *VELO_MOD_1D_DATA;
-        VELO_MOD_1D_DATA = NULL;
+        VELO_MOD_1D_DATA = malloc(sizeof(velo_mod_1d_data));
         nz_tomography_data *NZ_TOMOGRAPHY_DATA;
-        NZ_TOMOGRAPHY_DATA = NULL;
+        NZ_TOMOGRAPHY_DATA = malloc(sizeof(nz_tomography_data));
+        
         global_surfaces *GLOBAL_SURFACES;
-        GLOBAL_SURFACES = NULL;
+        GLOBAL_SURFACES = malloc(sizeof(global_surfaces));
         basin_data *BASIN_DATA;
-        BASIN_DATA = NULL;
+        BASIN_DATA = malloc(sizeof(basin_data));
         loadAllGlobalData(GLOBAL_MODEL_PARAMETERS, CALCULATION_LOG, VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA);
 
         
@@ -162,10 +173,14 @@ int main(void)//(int argc, char *argv[])
         {
             PARTIAL_GLOBAL_MESH = extractPartialMesh(GLOBAL_MESH, j);
             PARTIAL_GLOBAL_QUALITIES = malloc(sizeof(partial_global_qualities));
+            printf("Slice %i of %i\n",j,GLOBAL_MESH->nY);
             
             for(int k = 0; k < PARTIAL_GLOBAL_MESH->nX; k++)
             {
+                printf("Vec %i of %i\n",k,GLOBAL_MESH->nX);
+
                 MESH_VECTOR = extractMeshVector(PARTIAL_GLOBAL_MESH, k);
+
                 QUALITIES_VECTOR = assignQualities(GLOBAL_MODEL_PARAMETERS, VELO_MOD_1D_DATA, NZ_TOMOGRAPHY_DATA, GLOBAL_SURFACES, BASIN_DATA, MESH_VECTOR, CALCULATION_LOG);
                 for(int i = 0; i < PARTIAL_GLOBAL_MESH->nZ; i++)
                 {
@@ -174,6 +189,8 @@ int main(void)//(int argc, char *argv[])
                     PARTIAL_GLOBAL_QUALITIES->Vs[k][i] = QUALITIES_VECTOR->Vs[i];
 
                 }
+                free(MESH_VECTOR);
+                free(QUALITIES_VECTOR);
                 
 
             }
@@ -183,6 +200,8 @@ int main(void)//(int argc, char *argv[])
             free(PARTIAL_GLOBAL_MESH);
             free(PARTIAL_GLOBAL_QUALITIES);
         }
+        
+        
         
         
         
@@ -403,6 +422,9 @@ int main(void)//(int argc, char *argv[])
 //
 //
 //    }
+    
+    printf("Complete.\n");
+
 }
 
 

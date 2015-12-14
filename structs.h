@@ -174,22 +174,23 @@ typedef struct{
 typedef struct{
     int nSurf;
 //    double surfDeps[MAX_NUM_GLOBAL_SURFACES];
-    int nLat[MAX_NUM_GLOBAL_SURFACES];
-    int nLon[MAX_NUM_GLOBAL_SURFACES];
-    double maxLat[MAX_NUM_GLOBAL_SURFACES], minLat[MAX_NUM_GLOBAL_SURFACES], maxLon[MAX_NUM_GLOBAL_SURFACES], minLon[MAX_NUM_GLOBAL_SURFACES];
-    double lati[MAX_NUM_GLOBAL_SURFACES][GLOBAL_SURF_IN_DIM_MAX];
-    double loni[MAX_NUM_GLOBAL_SURFACES][GLOBAL_SURF_IN_DIM_MAX];
-    double dep[MAX_NUM_GLOBAL_SURFACES][GLOBAL_SURF_IN_DIM_MAX][GLOBAL_SURF_IN_DIM_MAX];
+//    int nLat[MAX_NUM_GLOBAL_SURFACES];
+//    int nLon[MAX_NUM_GLOBAL_SURFACES];
+//    double maxLat[MAX_NUM_GLOBAL_SURFACES], minLat[MAX_NUM_GLOBAL_SURFACES], maxLon[MAX_NUM_GLOBAL_SURFACES], minLon[MAX_NUM_GLOBAL_SURFACES];
+//    double lati[MAX_NUM_GLOBAL_SURFACES][GLOBAL_SURF_IN_DIM_MAX];
+//    double loni[MAX_NUM_GLOBAL_SURFACES][GLOBAL_SURF_IN_DIM_MAX];
+//    double dep[MAX_NUM_GLOBAL_SURFACES][GLOBAL_SURF_IN_DIM_MAX][GLOBAL_SURF_IN_DIM_MAX];
+    global_surf_read *surf[MAX_NUM_GLOBAL_SURFACES];
 }global_surfaces;
 
-typedef struct{
-    int *nLat;
-    int *nLon;
-    double *maxLat, *minLat, *maxLon, *minLon;
-    double *lati[GLOBAL_SURF_IN_DIM_MAX];
-    double *loni[GLOBAL_SURF_IN_DIM_MAX];
-    double *dep[GLOBAL_SURF_IN_DIM_MAX][GLOBAL_SURF_IN_DIM_MAX];
-}surface_pointer;
+//typedef struct{
+//    int *nLat;
+//    int *nLon;
+//    double *maxLat, *minLat, *maxLon, *minLon;
+//    double *lati[GLOBAL_SURF_IN_DIM_MAX];
+//    double *loni[GLOBAL_SURF_IN_DIM_MAX];
+//    double *dep[GLOBAL_SURF_IN_DIM_MAX][GLOBAL_SURF_IN_DIM_MAX];
+//}surface_pointer;
 
 
 
@@ -337,14 +338,18 @@ typedef struct{
 typedef struct{
     int nSurf;
     double surfDeps[MAX_NUM_TOMO_SURFACES];
-    int nLat[MAX_NUM_TOMO_SURFACES];
-    int nLon[MAX_NUM_TOMO_SURFACES];
-    double maxLat[MAX_NUM_TOMO_SURFACES], minLat[MAX_NUM_TOMO_SURFACES], maxLon[MAX_NUM_TOMO_SURFACES], minLon[MAX_NUM_TOMO_SURFACES];
-    double lati[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX_TOMO];
-    double loni[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX_TOMO];
-    double Vp[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX_TOMO][SURF_IN_DIM_MAX_TOMO];
-    double Vs[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX_TOMO][SURF_IN_DIM_MAX_TOMO];
-    double Rho[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX_TOMO][SURF_IN_DIM_MAX_TOMO];
+    global_surf_read *surf[3][MAX_NUM_TOMO_SURFACES]; // 3 for Vp Vs and Rho
+
+    
+//    
+//    int nLat[MAX_NUM_TOMO_SURFACES];
+//    int nLon[MAX_NUM_TOMO_SURFACES];
+//    double maxLat[MAX_NUM_TOMO_SURFACES], minLat[MAX_NUM_TOMO_SURFACES], maxLon[MAX_NUM_TOMO_SURFACES], minLon[MAX_NUM_TOMO_SURFACES];
+//    double lati[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX_TOMO];
+//    double loni[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX_TOMO];
+//    double Vp[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX_TOMO][SURF_IN_DIM_MAX_TOMO];
+//    double Vs[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX_TOMO][SURF_IN_DIM_MAX_TOMO];
+//    double Rho[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX_TOMO][SURF_IN_DIM_MAX_TOMO];
 }nz_tomography_data;
 
 

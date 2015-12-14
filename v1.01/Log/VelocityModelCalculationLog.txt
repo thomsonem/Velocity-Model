@@ -1,3 +1,0 @@
-Sub routine name	EXTRACT_VELOCITY_SLICES
-MODEL_VERSION	1.01
-nPointsExceedingMinVelo	100800

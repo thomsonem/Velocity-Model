@@ -24,11 +24,11 @@ void loadAllGlobalData(global_model_parameters *GLOBAL_MODEL_PARAMETERS,calculat
         {
             if(strcmp(GLOBAL_MODEL_PARAMETERS->veloSubMod[i], "v1DsubMod") == 0)
             {
-                VELO_MOD_1D_DATA = load1dVeloSubModel(GLOBAL_MODEL_PARAMETERS->veloMod1dFileName[0]);
+                load1dVeloSubModel(GLOBAL_MODEL_PARAMETERS->veloMod1dFileName[0], VELO_MOD_1D_DATA);
             }
             else if(strcmp(GLOBAL_MODEL_PARAMETERS->veloSubMod[i], "EPtomo2010subMod") == 0)
             {
-                NZ_TOMOGRAPHY_DATA = loadEPtomoSurfaceData(GLOBAL_MODEL_PARAMETERS->tomographyName);
+                loadEPtomoSurfaceData(GLOBAL_MODEL_PARAMETERS->tomographyName, NZ_TOMOGRAPHY_DATA );
             }
             else if(strcmp(GLOBAL_MODEL_PARAMETERS->veloSubMod[i], "NaNsubMod") == 0)
             {
@@ -36,11 +36,13 @@ void loadAllGlobalData(global_model_parameters *GLOBAL_MODEL_PARAMETERS,calculat
             }
         }
         // read in global surfaces
-        GLOBAL_SURFACES = loadGlobalSurfaceData(GLOBAL_MODEL_PARAMETERS);
-        
+        loadGlobalSurfaceData(GLOBAL_SURFACES, GLOBAL_MODEL_PARAMETERS);
+
         // read in basin surfaces and boundaries
-        BASIN_DATA = loadBasinData(GLOBAL_MODEL_PARAMETERS);
+        loadBasinData(BASIN_DATA, GLOBAL_MODEL_PARAMETERS);
     
+    printf("All data loaded.\n");
+
     
     
 //    // read in basin data
