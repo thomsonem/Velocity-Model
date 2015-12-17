@@ -55,6 +55,7 @@ void EPtomo2010subMod(int zInd, double dep, mesh_vector *MESH_VECTOR, qualities_
     double valAbove, valBelow;
     double depAbove, depBelow;
     double val;
+    
     // find the adjscent points for interpolatin from the first surface (assume all surfaces utilise the same grid)
     ADJACENT_POINTS = findGlobalAdjacentPoints(NZ_TOMOGRAPHY_DATA->surf[0][0], *MESH_VECTOR->Lat, *MESH_VECTOR->Lon);
 
@@ -78,28 +79,27 @@ void EPtomo2010subMod(int zInd, double dep, mesh_vector *MESH_VECTOR, qualities_
         SURFACE_POINTER_ABOVE = NZ_TOMOGRAPHY_DATA->surf[i][indAbove];
         
         SURFACE_POINTER_BELOW = NZ_TOMOGRAPHY_DATA->surf[i][indBelow];
-        ADJACENT_POINTS_BELOW = findGlobalAdjacentPoints(SURFACE_POINTER_BELOW, *MESH_VECTOR->Lat, *MESH_VECTOR->Lon);
         
-        X1b = SURFACE_POINTER_BELOW->loni[ADJACENT_POINTS_BELOW->lonInd[0]];
-        X2b = SURFACE_POINTER_BELOW->loni[ADJACENT_POINTS_BELOW->lonInd[1]];
-        Y1b = SURFACE_POINTER_BELOW->lati[ADJACENT_POINTS_BELOW->latInd[0]];
-        Y2b = SURFACE_POINTER_BELOW->lati[ADJACENT_POINTS_BELOW->latInd[1]];
-        Q11b = SURFACE_POINTER_BELOW->raster[ADJACENT_POINTS_BELOW->lonInd[0]][ADJACENT_POINTS_BELOW->latInd[0]];
-        Q12b = SURFACE_POINTER_BELOW->raster[ADJACENT_POINTS_BELOW->lonInd[0]][ADJACENT_POINTS_BELOW->latInd[1]];
-        Q21b = SURFACE_POINTER_BELOW->raster[ADJACENT_POINTS_BELOW->lonInd[1]][ADJACENT_POINTS_BELOW->latInd[0]];
-        Q22b = SURFACE_POINTER_BELOW->raster[ADJACENT_POINTS_BELOW->lonInd[1]][ADJACENT_POINTS_BELOW->latInd[1]];
+        X1b = SURFACE_POINTER_BELOW->loni[ADJACENT_POINTS->lonInd[0]];
+        X2b = SURFACE_POINTER_BELOW->loni[ADJACENT_POINTS->lonInd[1]];
+        Y1b = SURFACE_POINTER_BELOW->lati[ADJACENT_POINTS->latInd[0]];
+        Y2b = SURFACE_POINTER_BELOW->lati[ADJACENT_POINTS->latInd[1]];
+        Q11b = SURFACE_POINTER_BELOW->raster[ADJACENT_POINTS->lonInd[0]][ADJACENT_POINTS->latInd[0]];
+        Q12b = SURFACE_POINTER_BELOW->raster[ADJACENT_POINTS->lonInd[0]][ADJACENT_POINTS->latInd[1]];
+        Q21b = SURFACE_POINTER_BELOW->raster[ADJACENT_POINTS->lonInd[1]][ADJACENT_POINTS->latInd[0]];
+        Q22b = SURFACE_POINTER_BELOW->raster[ADJACENT_POINTS->lonInd[1]][ADJACENT_POINTS->latInd[1]];
         X = *MESH_VECTOR->Lon;
         Y = *MESH_VECTOR->Lat;
         
         
-        X1a = SURFACE_POINTER_ABOVE->loni[ADJACENT_POINTS_ABOVE->lonInd[0]];
-        X2a = SURFACE_POINTER_ABOVE->loni[ADJACENT_POINTS_ABOVE->lonInd[1]];
-        Y1a = SURFACE_POINTER_ABOVE->lati[ADJACENT_POINTS_ABOVE->latInd[0]];
-        Y2a = SURFACE_POINTER_ABOVE->lati[ADJACENT_POINTS_ABOVE->latInd[1]];
-        Q11a = SURFACE_POINTER_ABOVE->raster[ADJACENT_POINTS_ABOVE->lonInd[0]][ADJACENT_POINTS_ABOVE->latInd[0]];
-        Q12a = SURFACE_POINTER_ABOVE->raster[ADJACENT_POINTS_ABOVE->lonInd[0]][ADJACENT_POINTS_ABOVE->latInd[1]];
-        Q21a = SURFACE_POINTER_ABOVE->raster[ADJACENT_POINTS_ABOVE->lonInd[1]][ADJACENT_POINTS_ABOVE->latInd[0]];
-        Q22a = SURFACE_POINTER_ABOVE->raster[ADJACENT_POINTS_ABOVE->lonInd[1]][ADJACENT_POINTS_ABOVE->latInd[1]];
+        X1a = SURFACE_POINTER_ABOVE->loni[ADJACENT_POINTS->lonInd[0]];
+        X2a = SURFACE_POINTER_ABOVE->loni[ADJACENT_POINTS->lonInd[1]];
+        Y1a = SURFACE_POINTER_ABOVE->lati[ADJACENT_POINTS->latInd[0]];
+        Y2a = SURFACE_POINTER_ABOVE->lati[ADJACENT_POINTS->latInd[1]];
+        Q11a = SURFACE_POINTER_ABOVE->raster[ADJACENT_POINTS->lonInd[0]][ADJACENT_POINTS->latInd[0]];
+        Q12a = SURFACE_POINTER_ABOVE->raster[ADJACENT_POINTS->lonInd[0]][ADJACENT_POINTS->latInd[1]];
+        Q21a = SURFACE_POINTER_ABOVE->raster[ADJACENT_POINTS->lonInd[1]][ADJACENT_POINTS->latInd[0]];
+        Q22a = SURFACE_POINTER_ABOVE->raster[ADJACENT_POINTS->lonInd[1]][ADJACENT_POINTS->latInd[1]];
         
         valAbove = biLinearInterpolation(X1a, X2a, Y1a, Y2a, Q11a, Q12a, Q21a, Q22a, X, Y);
         valBelow = biLinearInterpolation(X1b, X2b, Y1b, Y2b, Q11b, Q12b, Q21b, Q22b, X, Y);
@@ -123,8 +123,6 @@ void EPtomo2010subMod(int zInd, double dep, mesh_vector *MESH_VECTOR, qualities_
             QUALITIES_VECTOR->Rho[zInd] = val;
             
         }
-        free(SURFACE_POINTER_ABOVE);
-        free(SURFACE_POINTER_BELOW);
         
     }
     
@@ -186,8 +184,6 @@ void loadEPtomoSurfaceData(char *tomoType, nz_tomography_data *NZ_TOMOGRAPHY_DAT
     NZ_TOMOGRAPHY_DATA->nSurf = nElev;
     assert(NZ_TOMOGRAPHY_DATA->nSurf<=MAX_NUM_TOMO_SURFACES);
     
-    global_surf_read *TOMO_TEMP_SURF;
-
     for(int i = 0; i < nElev; i++)
     {
         NZ_TOMOGRAPHY_DATA->surfDeps[i] = elev[i]; // depth in km

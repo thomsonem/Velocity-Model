@@ -32,12 +32,15 @@ qualities_vector *assignQualities(global_model_parameters *GLOBAL_MODEL_PARAMETE
 {
     qualities_vector *QUALITIES_VECTOR;
     QUALITIES_VECTOR = malloc(sizeof(qualities_vector));
+    in_basin *IN_BASIN;
+    IN_BASIN = malloc(sizeof(in_basin));
     int nVeloModInd;
     
     partial_global_surface_depths *PARTIAL_GLOBAL_SURFACE_DEPTHS;
 
     
         PARTIAL_GLOBAL_SURFACE_DEPTHS = interpolateGlobalSurfaceDepths(GLOBAL_SURFACES, MESH_VECTOR, CALCULATION_LOG);
+    
         for (int k = 0; k < *MESH_VECTOR->nZ; k++)
         {
             // determine which sub velocity model the point lies within

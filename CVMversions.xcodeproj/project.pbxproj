@@ -12,7 +12,6 @@
 		8C30C0FA1AE71DCE0008C943 /* basementRockSurf.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0D91AE71DCE0008C943 /* basementRockSurf.c */; };
 		8C30C0FB1AE71DCE0008C943 /* basinSubModels.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0DA1AE71DCE0008C943 /* basinSubModels.c */; };
 		8C30C0FC1AE71DCE0008C943 /* calculateSurfaceLatLonIndex.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0DB1AE71DCE0008C943 /* calculateSurfaceLatLonIndex.c */; };
-		8C30C0FD1AE71DCE0008C943 /* determineIfWithinBasinLatLon.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0DC1AE71DCE0008C943 /* determineIfWithinBasinLatLon.c */; };
 		8C30C0FE1AE71DCE0008C943 /* determineSurfaceDepths.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0DD1AE71DCE0008C943 /* determineSurfaceDepths.c */; };
 		8C30C0FF1AE71DCE0008C943 /* enforceSurfaceDepths.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0DE1AE71DCE0008C943 /* enforceSurfaceDepths.c */; };
 		8C30C1001AE71DCE0008C943 /* EPtomo2010subMod.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0DF1AE71DCE0008C943 /* EPtomo2010subMod.c */; };
@@ -67,7 +66,6 @@
 		8C30C0D91AE71DCE0008C943 /* basementRockSurf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = basementRockSurf.c; sourceTree = "<group>"; };
 		8C30C0DA1AE71DCE0008C943 /* basinSubModels.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = basinSubModels.c; sourceTree = "<group>"; };
 		8C30C0DB1AE71DCE0008C943 /* calculateSurfaceLatLonIndex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = calculateSurfaceLatLonIndex.c; sourceTree = "<group>"; };
-		8C30C0DC1AE71DCE0008C943 /* determineIfWithinBasinLatLon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = determineIfWithinBasinLatLon.c; sourceTree = "<group>"; };
 		8C30C0DD1AE71DCE0008C943 /* determineSurfaceDepths.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = determineSurfaceDepths.c; sourceTree = "<group>"; };
 		8C30C0DE1AE71DCE0008C943 /* enforceSurfaceDepths.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = enforceSurfaceDepths.c; sourceTree = "<group>"; };
 		8C30C0DF1AE71DCE0008C943 /* EPtomo2010subMod.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = EPtomo2010subMod.c; sourceTree = "<group>"; };
@@ -196,7 +194,6 @@
 			children = (
 				8C30C0EA1AE71DCE0008C943 /* loadBasins.c */,
 				8C30C0EC1AE71DCE0008C943 /* loadCanterburyBasin.c */,
-				8C30C0DC1AE71DCE0008C943 /* determineIfWithinBasinLatLon.c */,
 				8C30C0DA1AE71DCE0008C943 /* basinSubModels.c */,
 			);
 			name = "Canterbury Basin";
@@ -302,7 +299,6 @@
 				8C30C1181AE71DCE0008C943 /* writeCVMData.c in Sources */,
 				8C30C1161AE71DCE0008C943 /* sliceFunctions.c in Sources */,
 				8C30C1081AE71DCE0008C943 /* getSurfSubModNames.c in Sources */,
-				8C30C0FD1AE71DCE0008C943 /* determineIfWithinBasinLatLon.c in Sources */,
 				8C30C1261AE8C6FC0008C943 /* BrocherCorrelations.c in Sources */,
 				8C30C1171AE71DCE0008C943 /* v1DsubMod.c in Sources */,
 				8C30C0FA1AE71DCE0008C943 /* basementRockSurf.c in Sources */,

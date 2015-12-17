@@ -264,17 +264,19 @@ typedef struct{
 //    int inBasinDep[MAX_NUM_BASINS][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX][DEP_GRID_DIM_MAX];
 //    double surfVals[MAX_NUM_BASINS][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX][NUM_SURF_DIM_MAX];
 
-    int nSurf[MAX_NUM_BASINS];
-    double surfDeps[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-    int nLat[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-    int nLon[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-    double maxLat[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-    double minLat[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-    double maxLon[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-    double minLon[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-    double lati[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES][BASIN_SURF_IN_DIM_MAX];
-    double loni[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES][BASIN_SURF_IN_DIM_MAX];
-    double dep[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES][BASIN_SURF_IN_DIM_MAX][BASIN_SURF_IN_DIM_MAX];
+//    int nSurf[MAX_NUM_BASINS];
+//    double surfDeps[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+//    int nLat[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+//    int nLon[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+//    double maxLat[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+//    double minLat[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+//    double maxLon[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+//    double minLon[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+//    double lati[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES][BASIN_SURF_IN_DIM_MAX];
+//    double loni[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES][BASIN_SURF_IN_DIM_MAX];
+//    double dep[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES][BASIN_SURF_IN_DIM_MAX][BASIN_SURF_IN_DIM_MAX];
+    
+    basin_surf_read *surf[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
     
     // Boundaries
     int boundaryNumPoints[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
@@ -287,6 +289,18 @@ typedef struct{
     
     
 }basin_data;
+
+typedef struct{
+    int inBasinLatLon[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
+    int inBasinDep[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES][DEP_GRID_DIM_MAX];
+}in_basin;
+
+typedef struct{
+    int dep[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+    
+}partial_basin_surface_depths;
+
+
 
 
 // lat lon vector housing for slice extraction

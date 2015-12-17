@@ -20,11 +20,241 @@ void loadBasinData(basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL
     
     for( int i = 0; i < GLOBAL_MODEL_PARAMETERS->nBasins; i++)
     {
-//        loadAllBasinSurfaces(i, BASIN_DATA, GLOBAL_MODEL_PARAMETERS);
-//        loadBasinBoundaries(i, BASIN_DATA, GLOBAL_MODEL_PARAMETERS);
+        loadAllBasinSurfaces(i, BASIN_DATA, GLOBAL_MODEL_PARAMETERS);
+        loadBasinBoundaries(i, BASIN_DATA, GLOBAL_MODEL_PARAMETERS);
     }
     
     
+}
+
+void interpolateBasinSurfaceDepths(basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS, in_basin *IN_BASIN, partial_basin_surface_depths *PARTIAL_BASIN_SURFACE_DEPTHS, mesh_vector *MESH_VECTOR)
+{
+    determineIfWithinBasinLatLon(BASIN_DATA, GLOBAL_MODEL_PARAMETERS, IN_BASIN, *MESH_VECTOR->Lat, *MESH_VECTOR->Lon);
+    determineBasinSurfaceDepths(BASIN_DATA, GLOBAL_MODEL_PARAMETERS, IN_BASIN, PARTIAL_BASIN_SURFACE_DEPTHS, *MESH_VECTOR->Lat, *MESH_VECTOR->Lon);
+    
+    
+    
+}
+
+void enforceBasinSurfaceDepths(gridStruct *location, int basinNum, globalBasinData *basinData)
+{
+    // enforce basin surface depths for all points in the within the lat lon poly (ignore others)
+    double topLim, botLim;
+    for(int i = 0; i < location->nX; i++)
+    {
+        for(int j = 0; j < location->nY; j++)
+        {
+            if(basinData->inBasinLatLon[basinNum][basinData->nBoundaries[basinNum]-1][i][j] == 1)
+                // enforce depths based on the larger (or final) boundary
+            {
+                // enforce
+                enforceSurfaceDepths(basinData, i, j, basinNum);
+
+                // check if depth is within the top and bottom basin layers
+                topLim = basinData->surfVals[basinNum][i][j][0];
+                botLim = basinData->surfVals[basinNum][i][j][basinData->nSurf[basinNum]-1];
+                for(int k  = 0; k < location->nZ; k++)
+                {
+                    if(location->Z[k] > topLim)
+                    {
+                        basinData->inBasinDep[basinNum][i][j][k] = 0;
+                    }
+                    else if (location->Z[k] < botLim)
+                    {
+                        basinData->inBasinDep[basinNum][i][j][k] = 0;
+                    }
+                    else
+                    {
+                        basinData->inBasinDep[basinNum][i][j][k] = 1; // in the basin Z limits
+                    }
+                }
+            }
+        }
+    }
+    printf("Basin surfaces depths enforced.\n");
+}
+
+
+
+void determineBasinSurfaceDepths(basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS, in_basin *IN_BASIN, partial_basin_surface_depths *PARTIAL_BASIN_SURFACE_DEPTHS, double Lat, double Lon)
+{
+    /*
+     Purpose:   obtain the depths for all lat lon points within the  for a given surface file
+     
+     Input variables:
+     location  - structure containing lat lon grid
+     fileName  - filename of the surface file for reading
+     
+     Output variables:
+     surfDep   - (malloc'd) pointer to structure containing surface depths for all lat lon points
+     */
+    
+    adjacent_points *ADJACENT_POINTS;
+
+    for(int i = 0; i < GLOBAL_MODEL_PARAMETERS->nBasins; i++)
+    {
+        for(int j = 0; j < GLOBAL_MODEL_PARAMETERS->nBasinSurfaces[i]; j++)
+        {
+            if(IN_BASIN->inBasinLatLon[i][i] == 1)
+            {
+                // find adjacent points
+                ADJACENT_POINTS = findBasinAdjacentPoints(BASIN_DATA->surf[i][j], Lat, Lon);
+                if (ADJACENT_POINTS->inSurfaceBounds == 1)
+                {
+                    // interpolate
+                    PARTIAL_BASIN_SURFACE_DEPTHS->dep[i][j] = biLinearInterpolation( BASIN_DATA->surf[i][j]->loni[ADJACENT_POINTS->lonInd[0]], BASIN_DATA->surf[i][j]->loni[ADJACENT_POINTS->lonInd[1]], BASIN_DATA->surf[i][j]->lati[ADJACENT_POINTS->latInd[0]], BASIN_DATA->surf[i][j]->lati[ADJACENT_POINTS->latInd[1]], BASIN_DATA->surf[i][j]->raster[ADJACENT_POINTS->lonInd[0]][ADJACENT_POINTS->latInd[0]], BASIN_DATA->surf[i][j]->raster[ADJACENT_POINTS->lonInd[0]][ADJACENT_POINTS->latInd[1]], BASIN_DATA->surf[i][j]->raster[ADJACENT_POINTS->lonInd[1]][ADJACENT_POINTS->latInd[0]], BASIN_DATA->surf[i][j]->raster[ADJACENT_POINTS->lonInd[1]][ADJACENT_POINTS->latInd[1]], Lon, Lat);
+                    free(ADJACENT_POINTS);
+                }
+                else
+                {
+                    printf("Error, point lies outside basin surface domain.\n");
+                }
+            }
+            else
+            {
+                PARTIAL_BASIN_SURFACE_DEPTHS->dep[i][j] = NAN; // define as NAN if surface is outside of the boundary
+            }
+        }
+    }
+}
+
+adjacent_points *findBasinAdjacentPoints(basin_surf_read *BASIN_SURF_READ, double lat, double lon)
+{
+    adjacent_points *ADJACENT_POINTS;
+    ADJACENT_POINTS = malloc(sizeof(adjacent_points));
+    
+    int latAssignedFlag = 0;
+    int lonAssignedFlag = 0;
+    ADJACENT_POINTS->inSurfaceBounds = 0;
+    
+    for( int i = 0; i < BASIN_SURF_READ->nLat; i++)
+    {
+        if(BASIN_SURF_READ->lati[i] >= lat)
+        {
+            if (i==0)
+            {
+                break;
+            }
+            ADJACENT_POINTS->latInd[0]= i-1;
+            ADJACENT_POINTS->latInd[1] = i;
+            latAssignedFlag = 1;
+            break;
+            
+        }
+    }
+    if(latAssignedFlag == 0) // to account for some surface file vectors of lat long being ascending not descending
+    {
+        for(int i = BASIN_SURF_READ->nLat-1; i >= 0; i--)
+        {
+            if(BASIN_SURF_READ->lati[i] >= lat)
+            {
+                if (i==BASIN_SURF_READ->nLat-1)
+                {
+                    break;
+                }
+                ADJACENT_POINTS->latInd[0]= i;
+                ADJACENT_POINTS->latInd[1] = i+1;
+                latAssignedFlag = 1;
+                break;
+                
+            }
+        }
+    }
+    for( int j = 0; j < BASIN_SURF_READ->nLon; j++)
+    {
+        if(BASIN_SURF_READ->loni[j] >= lon)
+        {
+            if (j==0)
+            {
+                break;
+            }
+            ADJACENT_POINTS->lonInd[0] = j-1;
+            ADJACENT_POINTS->lonInd[1] = j;
+            lonAssignedFlag = 1;
+            break;
+        }
+    }
+    if (lonAssignedFlag == 0)
+    {
+        for( int j = BASIN_SURF_READ->nLon-1; j >= 0; j--)
+        {
+            if(BASIN_SURF_READ->loni[j] >= lon)
+            {
+                if (j==BASIN_SURF_READ->nLon-1)
+                {
+                    break;
+                }
+                ADJACENT_POINTS->lonInd[0] = j;
+                ADJACENT_POINTS->lonInd[1] = j+1;
+                lonAssignedFlag = 1;
+                break;
+            }
+        }
+    }
+    
+    if((latAssignedFlag != 1)||(lonAssignedFlag !=1)) // if any indicies are unassigned
+    {
+        printf("Error, basin point lies outside of the extent of the basin surface.\n");
+    }
+    else
+    {
+        ADJACENT_POINTS->inSurfaceBounds = 1;
+    }
+    
+    return ADJACENT_POINTS;
+}
+
+
+void determineIfWithinBasinLatLon(basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS, in_basin *IN_BASIN, double Lat, double Lon)
+{
+    int basinFlag = 0;
+    int inPoly;
+    
+    for( int i = 0; i < GLOBAL_MODEL_PARAMETERS->nBasins; i++)
+    {
+        for( int j = 0; j < GLOBAL_MODEL_PARAMETERS->nBasinBoundaries[i]; j++)
+        {
+            if(Lon >= BASIN_DATA->maxLonBoundary[i][j])
+            {
+                basinFlag = 0;
+            }
+            else if(Lon <= BASIN_DATA->minLonBoundary[i][j])
+            {
+                basinFlag = 0;
+            }
+            else if(Lat >= BASIN_DATA->maxLatBoundary[i][j])
+            {
+                basinFlag = 0;
+            }
+            else if(Lat <= BASIN_DATA->minLatBoundary[i][j])
+            {
+                basinFlag = 0;
+            }
+            else
+            {
+                basinFlag = 1; // possibly in basin
+            }
+    
+            // assign flag to indicate if point is inside(1) or outside(0) basin
+            if(basinFlag == 0)
+            {
+                IN_BASIN->inBasinLatLon[i][j] = 0; // not in rectangle
+            }
+            else if(basinFlag == 1)
+            {
+                inPoly = pointInPoly(BASIN_DATA, i, j, Lon, Lat); // check if in poly
+                if(inPoly == 1) // inside poly, check depth points at a later stage
+                {
+                    IN_BASIN->inBasinLatLon[i][j] = 1; // in lat lon poly
+                }
+                else if(inPoly == 0) // outside poly
+                {
+                    IN_BASIN->inBasinLatLon[i][j] = 1;
+                }
+                basinFlag = 0;
+            }
+        }
+    }
 }
 
 void loadAllBasinSurfaces(int basinNum, basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS)
@@ -32,40 +262,9 @@ void loadAllBasinSurfaces(int basinNum, basin_data *BASIN_DATA, global_model_par
     for(int i = 0; i < GLOBAL_MODEL_PARAMETERS->nBasinSurfaces[basinNum]; i++)
     {
         // load surface and transfer data into global struct
-        basin_surf_read *BASIN_SURF_READ;
-        BASIN_SURF_READ = loadBasinSurface(GLOBAL_MODEL_PARAMETERS->basinSurfaceNames[basinNum][i]);
-        
-        // place in surfGlob struct
-        BASIN_DATA->nLat[basinNum][i] =  BASIN_SURF_READ->nLat;
-        BASIN_DATA->nLon[basinNum][i] =  BASIN_SURF_READ->nLon;
-        BASIN_DATA->maxLat[basinNum][i] =  BASIN_SURF_READ->maxLat;
-        BASIN_DATA->minLat[basinNum][i] =  BASIN_SURF_READ->minLat;
-        BASIN_DATA->maxLon[basinNum][i] =  BASIN_SURF_READ->maxLon;
-        BASIN_DATA->minLon[basinNum][i] =  BASIN_SURF_READ->minLon;
-        
-        // latitude
-        for( int nLat = 0; nLat < BASIN_SURF_READ->nLat; nLat++)
-        {
-            BASIN_DATA->lati[basinNum][i][nLat] = BASIN_SURF_READ->lati[nLat];
-        }
-        
-        // longitude
-        for( int nLon = 0; nLon < BASIN_SURF_READ->nLon; nLon++)
-        {
-            BASIN_DATA->loni[basinNum][i][nLon] = BASIN_SURF_READ->loni[nLon];
-        }
-        
-        // depth
-        for( int nnLat = 0; nnLat < BASIN_SURF_READ->nLat; nnLat++)
-        {
-            for( int nnLon = 0; nnLon < BASIN_SURF_READ->nLon; nnLon++)
-            {
-                BASIN_DATA->dep[basinNum][i][nnLon][nnLat] =  BASIN_SURF_READ->raster[nnLon][nnLat];
-            }
-        }
-        free(BASIN_SURF_READ);
+        BASIN_DATA->surf[basinNum][i] = loadBasinSurface(GLOBAL_MODEL_PARAMETERS->basinSurfaceNames[basinNum][i]);
     }
-}
+ }
 
 
 void loadBasinBoundaries(int basinNum, basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS)
@@ -89,11 +288,11 @@ void loadBasinBoundaries(int basinNum, basin_data *BASIN_DATA, global_model_para
         {
             fscanf(file, "%lf %lf", &BASIN_DATA->boundaryLon[basinNum][i][count], &BASIN_DATA->boundaryLat[basinNum][i][count]);
             
-            BASIN_DATA->minLon[basinNum][i] = fmin(BASIN_DATA->minLonBoundary[basinNum][i],BASIN_DATA->boundaryLon[basinNum][i][count]);
-            BASIN_DATA->minLat[basinNum][i] = fmin(BASIN_DATA->minLatBoundary[basinNum][i],BASIN_DATA->boundaryLat[basinNum][i][count]);
+            BASIN_DATA->minLonBoundary[basinNum][i] = fmin(BASIN_DATA->minLonBoundary[basinNum][i],BASIN_DATA->boundaryLon[basinNum][i][count]);
+            BASIN_DATA->minLatBoundary[basinNum][i] = fmin(BASIN_DATA->minLatBoundary[basinNum][i],BASIN_DATA->boundaryLat[basinNum][i][count]);
             
-            BASIN_DATA->maxLon[basinNum][i] = fmax(BASIN_DATA->maxLonBoundary[basinNum][i],BASIN_DATA->boundaryLon[basinNum][i][count]);
-            BASIN_DATA->maxLat[basinNum][i] = fmax(BASIN_DATA->maxLatBoundary[basinNum][i],BASIN_DATA->boundaryLat[basinNum][i][count]);
+            BASIN_DATA->maxLonBoundary[basinNum][i] = fmax(BASIN_DATA->maxLonBoundary[basinNum][i],BASIN_DATA->boundaryLon[basinNum][i][count]);
+            BASIN_DATA->maxLatBoundary[basinNum][i] = fmax(BASIN_DATA->maxLatBoundary[basinNum][i],BASIN_DATA->boundaryLat[basinNum][i][count]);
             
             count += 1;
         }
@@ -104,6 +303,11 @@ void loadBasinBoundaries(int basinNum, basin_data *BASIN_DATA, global_model_para
         assert(BASIN_DATA->boundaryLon[basinNum][i][count] == BASIN_DATA->boundaryLon[basinNum][i][0]);
         assert(BASIN_DATA->boundaryLat[basinNum][i][count] == BASIN_DATA->boundaryLat[basinNum][i][0]);
     }
+}
+
+void determineBasinProperties(void)
+{
+    
 }
 
 
@@ -256,43 +460,6 @@ void loadBasinBoundaries(int basinNum, basin_data *BASIN_DATA, global_model_para
 //}
 //
 //
-//void enforceBasinSurfaceDepths(gridStruct *location, int basinNum, globalBasinData *basinData)
-//{
-//    // enforce basin surface depths for all points in the within the lat lon poly (ignore others)
-//    double topLim, botLim;
-//    for(int i = 0; i < location->nX; i++)
-//    {
-//        for(int j = 0; j < location->nY; j++)
-//        {
-//            if(basinData->inBasinLatLon[basinNum][basinData->nBoundaries[basinNum]-1][i][j] == 1)
-//                // enforce depths based on the larger (or final) boundary
-//            {
-//                // enforce
-//                enforceSurfaceDepths(basinData, i, j, basinNum);
-//                
-//                // check if depth is within the top and bottom basin layers
-//                topLim = basinData->surfVals[basinNum][i][j][0];
-//                botLim = basinData->surfVals[basinNum][i][j][basinData->nSurf[basinNum]-1];
-//                for(int k  = 0; k < location->nZ; k++)
-//                {
-//                    if(location->Z[k] > topLim)
-//                    {
-//                        basinData->inBasinDep[basinNum][i][j][k] = 0;
-//                    }
-//                    else if (location->Z[k] < botLim)
-//                    {
-//                        basinData->inBasinDep[basinNum][i][j][k] = 0;
-//                    }
-//                    else
-//                    {
-//                        basinData->inBasinDep[basinNum][i][j][k] = 1; // in the basin Z limits
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    printf("Basin surfaces depths enforced.\n");
-//}
 //
 //
 //

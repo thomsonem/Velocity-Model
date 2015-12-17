@@ -15,21 +15,21 @@
 #include "structs.h"
 #include "functions.h"
 
-//int pointInPoly(globalBasinData *basinData, int basinNum, int boundaryNum, double xLoc, double yLoc)
-//{
-//    int i, j, c = 0;
-//    for (i = 0, j = basinData->boundaryNumPoints[basinNum][boundaryNum]-1; i < basinData->boundaryNumPoints[basinNum][boundaryNum]; j = i++)
-//    {
-//        if ( ((basinData->boundaryLat[basinNum][boundaryNum][i]>yLoc) != (basinData->boundaryLat[basinNum][boundaryNum][j]>yLoc)) &&
-//            (xLoc < (basinData->boundaryLon[basinNum][boundaryNum][j]-basinData->boundaryLon[basinNum][boundaryNum][i]) * (yLoc-basinData->boundaryLat[basinNum][boundaryNum][i]) / (basinData->boundaryLat[basinNum][boundaryNum][j]-basinData->boundaryLat[basinNum][boundaryNum][i]) + basinData->boundaryLon[basinNum][boundaryNum][i]) )
-//            c = !c;
-//    }
-//    return c;
-//}
-//
-//// probably best to rewrite this function!
-//
-///*
+int pointInPoly(basin_data *BASIN_DATA, int basinNum, int boundaryNum, double xLoc, double yLoc)
+{
+    int i, j, c = 0;
+    for (i = 0, j = BASIN_DATA->boundaryNumPoints[basinNum][boundaryNum]-1; i < BASIN_DATA->boundaryNumPoints[basinNum][boundaryNum]; j = i++)
+    {
+        if ( ((BASIN_DATA->boundaryLat[basinNum][boundaryNum][i]>yLoc) != (BASIN_DATA->boundaryLat[basinNum][boundaryNum][j]>yLoc)) &&
+            (xLoc < (BASIN_DATA->boundaryLon[basinNum][boundaryNum][j]-BASIN_DATA->boundaryLon[basinNum][boundaryNum][i]) * (yLoc-BASIN_DATA->boundaryLat[basinNum][boundaryNum][i]) / (BASIN_DATA->boundaryLat[basinNum][boundaryNum][j]-BASIN_DATA->boundaryLat[basinNum][boundaryNum][i]) + BASIN_DATA->boundaryLon[basinNum][boundaryNum][i]) )
+            c = !c;
+    }
+    return c;
+}
+
+// probably best to rewrite this function!
+
+/*
 //adapted from
 //http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
 //License to Use

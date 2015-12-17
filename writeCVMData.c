@@ -112,9 +112,9 @@ void writeGlobalQualities(partial_global_mesh *PARTIAL_GLOBAL_MESH, partial_glob
                     rhoWrite = rhoTemp;
                 }
 
-                fwrite(&vpWrite,sizeof(vpWrite),1,fvp);
-                fwrite(&vsWrite,sizeof(vsWrite),1,fvs);
-                fwrite(&rhoWrite,sizeof(rhoWrite),1,frho);
+                fwrite(&vpWrite,sizeof(float),1,fvp);
+                fwrite(&vsWrite,sizeof(float),1,fvs);
+                fwrite(&rhoWrite,sizeof(float),1,frho);
 			}
 		}
     

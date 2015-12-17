@@ -28,7 +28,7 @@ int main(void)//(int argc, char *argv[])
      int argc = 14;
      char *argv[20];
      argv[1] = "GENERATE_VELOCITY_MOD";
-     argv[2] = "0.01";
+     argv[2] = "0.03";
      argv[3] = "New";
      argv[4] = "-43.6";
      argv[5] = "173.2";
@@ -177,7 +177,7 @@ int main(void)//(int argc, char *argv[])
             
             for(int k = 0; k < PARTIAL_GLOBAL_MESH->nX; k++)
             {
-                printf("Vec %i of %i\n",k,GLOBAL_MESH->nX);
+//                printf("Vec %i of %i\n",k,GLOBAL_MESH->nX);
 
                 MESH_VECTOR = extractMeshVector(PARTIAL_GLOBAL_MESH, k);
 

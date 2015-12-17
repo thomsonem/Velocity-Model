@@ -73,7 +73,7 @@ global_model_parameters *getGlobalModelParameters(double modelVersion)
         GLOBAL_MODEL_PARAMETERS->nBasins = 0;
         
     }
-    else if(modelVersion == 0.022)
+    else if(modelVersion == 0.03)
     {
         // define the number of surfaces and sub models
         GLOBAL_MODEL_PARAMETERS->nSurf = 3;
@@ -128,7 +128,7 @@ global_model_parameters *getGlobalModelParameters(double modelVersion)
         
         GLOBAL_MODEL_PARAMETERS->basinSurfaceNames[0][0] = "DEM";
         GLOBAL_MODEL_PARAMETERS->basinSurfaceFilenames[0][0] = "Data/DEM/DEM.in";
-        GLOBAL_MODEL_PARAMETERS->basinBoundaryNumber[0][0] = 0;
+        GLOBAL_MODEL_PARAMETERS->basinBoundaryNumber[0][0] = 1;
         GLOBAL_MODEL_PARAMETERS->basinSubModelNames[0][0] = "Above_RIC";
         
         GLOBAL_MODEL_PARAMETERS->basinSurfaceNames[0][1] = "RiccartonTop";
@@ -168,7 +168,7 @@ global_model_parameters *getGlobalModelParameters(double modelVersion)
         
         GLOBAL_MODEL_PARAMETERS->basinSurfaceNames[0][8] = "PlioceneTop";
         GLOBAL_MODEL_PARAMETERS->basinSurfaceFilenames[0][8] = "Data/Canterbury_Basin/Pre_Quaternary/PlioceneTop.in";
-        GLOBAL_MODEL_PARAMETERS->basinBoundaryNumber[0][8] = 8;
+        GLOBAL_MODEL_PARAMETERS->basinBoundaryNumber[0][8] = 1;
         GLOBAL_MODEL_PARAMETERS->basinSubModelNames[0][8] = "Pliocene";
         
         GLOBAL_MODEL_PARAMETERS->basinSurfaceNames[0][9] = "MioceneTop";

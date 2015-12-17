@@ -35,9 +35,9 @@ extern void writeGlobalQualities(partial_global_mesh *PARTIAL_GLOBAL_MESH, parti
 extern void loadGlobalSurfaceData(global_surfaces *GLOBAL_SURFACES, global_model_parameters *GLOBAL_MODEL_PARAMETERS);
 extern global_surf_read *loadGlobalSurface(char *fileName);
 extern basin_surf_read *loadBasinSurface(char *fileName);
-//void loadBasinBoundaries(int basinNum, basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS)
+void loadBasinBoundaries(int basinNum, basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS);
 extern partial_global_surface_depths *interpolateGlobalSurfaceDepths(global_surfaces *GLOBAL_SURFACES, mesh_vector *MESH_VECTOR ,calculation_log *CALCULATION_LOG);
-
+extern void determineIfWithinBasinLatLon(basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS, in_basin *IN_BASIN, double Lat, double Lon);
 
 
 
@@ -57,17 +57,17 @@ extern void writeVeloModInputsLogFile(int argc, char *argv[]);
 extern double linearInterpolation(double p1, double p2, double v1, double v2, double p3);
 extern double biLinearInterpolation(double X1, double X2, double Y1, double Y2, double Q11, double Q12, double Q21, double Q22, double X, double Y);
 extern int findGlobalSubVeloModelInd(double depth, partial_global_surface_depths *PARTIAL_GLOBAL_SURFACE_DEPTHS);
-
+extern adjacent_points *findBasinAdjacentPoints(basin_surf_read *BASIN_SURF_READ, double lat, double lon);
+extern void determineBasinSurfaceDepths(basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS, in_basin *IN_BASIN, partial_basin_surface_depths *PARTIAL_BASIN_SURFACE_DEPTHS, double Lat, double Lon);
 
 
 //extern depInterpVals generateSurfaceValuesAllDepths(surfVecGlobal *vector, gridStruct location, int elev[], int nElev, double power, double radius);
-//extern int pointInPoly(globalBasinData *basinData, int basinNum, int boundaryNum, double xLoc, double yLoc);
+extern int pointInPoly(basin_data *BASIN_DATA, int basinNum, int boundaryNum, double xLoc, double yLoc);
 extern void plotExtracts(void);
 extern adjacent_points *findGlobalAdjacentPoints(global_surf_read *GLOBAL_SURF_READ, double lat, double lon);
 extern void findCornerInds(global_surf_read *GLOBAL_SURF_READ, double latPt, double lonPt, adjacent_points *ADJACENT_POINTS);
 extern void findEdgeInds(global_surf_read *GLOBAL_SURF_READ, adjacent_points *ADJACENT_POINTS, int edgeType);
 //extern void writeAllSurfaceDepths(gridStruct *location, surfDepValues *surfDep, char *outputDirectory);
-//extern void determineIfWithinBasinLatLon(gridStruct *location, int basinNum, globalBasinData *basinData);
 extern sliceParams *readExtractedSliceParametersFile(char *sliceParametersDirectory);
 extern sliceParams *readGeneratedSliceParametersFile(char *sliceParametersDirectory);
 //extern void writeGlobalSurfaceDepths(surfaceDepthsGlobal *surfDepGlob, gridStruct *location, surfNames *surfSubModNames, char *outputDirectory);
@@ -133,7 +133,7 @@ extern void loadBasinData(basin_data *BASIN_DATA, global_model_parameters *GLOBA
 
 
 //extern void determineBasinProperties(globalBasinData *basinData, int basinNum, int xInd int yInd, int zInd, gridStruct *location, velo1D *subModel1D);
-//extern void loadAllBasinSurfaces(int basinNum, basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS)
+extern void loadAllBasinSurfaces(int basinNum, basin_data *BASIN_DATA, global_model_parameters *GLOBAL_MODEL_PARAMETERS);
 //extern void enforceBasinSurfaceDepths(gridStruct *location, int basinNum, globalBasinData *basinData);
 //extern void assignBasinProperties(gridStruct *location, int basinNum, globalBasinData *basinData);
 //extern basin_data *loadBasinData(global_model_parameters *GLOBAL_MODEL_PARAMETERS);
