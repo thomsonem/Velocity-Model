@@ -18,7 +18,8 @@
 #include "structs.h"
 #include "functions.h"
 
-void writeGlobalQualities(partial_global_mesh *PARTIAL_GLOBAL_MESH, global_qualitites *GLOBAL_QUALITIES, calculation_log *CALCULATION_LOG, int latInd)
+void writeGlobalQualities(partial_global_mesh *PARTIAL_GLOBAL_MESH, partial_global_qualities *PARTIAL_GLOBAL_QUALITIES, calculation_log *CALCULATION_LOG, int latInd)
+
 /*
  Purpose:   write the full velocity model to file
  
@@ -85,17 +86,17 @@ void writeGlobalQualities(partial_global_mesh *PARTIAL_GLOBAL_MESH, global_quali
 			for (int ix = 0; ix < PARTIAL_GLOBAL_MESH->nX; ix++)
             {
 				ip = ix + iz * PARTIAL_GLOBAL_MESH->nX;  //index counter
-                if (GLOBAL_QUALITIES->Vs[ix][iz] < CALCULATION_LOG->minVs) // enforce min Vs
+                if (PARTIAL_GLOBAL_QUALITIES->Vs[ix][iz] < CALCULATION_LOG->minVs) // enforce min Vs
                 {
                     vsTemp = CALCULATION_LOG->minVs;
                     CALCULATION_LOG->nPointsExceedingMinVelo += 1;
                 }
                 else
                 {
-                    vsTemp = GLOBAL_QUALITIES->Vs[ix][iz]; // else assign from global structure
+                    vsTemp = PARTIAL_GLOBAL_QUALITIES->Vs[ix][iz]; // else assign from global structure
                 }
-                vpTemp = GLOBAL_QUALITIES->Vp[ix][iz];
-                rhoTemp = GLOBAL_QUALITIES->Rho[ix][iz];
+                vpTemp = PARTIAL_GLOBAL_QUALITIES->Vp[ix][iz];
+                rhoTemp = PARTIAL_GLOBAL_QUALITIES->Rho[ix][iz];
                 
                 
                 if (endianInt == 1) // big endian
@@ -111,9 +112,9 @@ void writeGlobalQualities(partial_global_mesh *PARTIAL_GLOBAL_MESH, global_quali
                     rhoWrite = rhoTemp;
                 }
 
-                fwrite(&vpWrite,sizeof(vpWrite),1,fvp);
-                fwrite(&vsWrite,sizeof(vsWrite),1,fvs);
-                fwrite(&rhoWrite,sizeof(rhoWrite),1,frho);
+                fwrite(&vpWrite,sizeof(float),1,fvp);
+                fwrite(&vsWrite,sizeof(float),1,fvs);
+                fwrite(&rhoWrite,sizeof(float),1,frho);
 			}
 		}
     

@@ -12,8 +12,11 @@
 // log struct
 typedef struct{
     int nPointsExceedingMinVelo;
-    int nPointsInGlobalSurfaceExtensionZone;
+    int nPointsInGlobalLatSurfaceExtensionZone;
+    int nPointsInGlobalLonSurfaceExtensionZone;
+    int nPointsInGlobalCornerSurfaceExtensionZone;
     int nPointsInBasinSurfaceExtensionZone;
+    int nPointsGlobalSurfacesEnforced;
     double minVs;
     char *outputDirectory;
 }calculation_log;
@@ -39,12 +42,28 @@ typedef struct{
     int nX, nY, nZ;
 }partial_global_mesh;
 
+// individual point v
+typedef struct{
+    double *Lon;
+    double *Lat;
+    double *Z[DEP_GRID_DIM_MAX];
+    int *nZ;
+}mesh_vector;
+
+
+
 // global values
+typedef struct{
+    double Vp[DEP_GRID_DIM_MAX];
+    double Vs[DEP_GRID_DIM_MAX];
+    double Rho[DEP_GRID_DIM_MAX];
+}qualities_vector;
+
 typedef struct{
     double Vp[LON_GRID_DIM_MAX][DEP_GRID_DIM_MAX];
     double Vs[LON_GRID_DIM_MAX][DEP_GRID_DIM_MAX];
     double Rho[LON_GRID_DIM_MAX][DEP_GRID_DIM_MAX];
-}global_qualitites;
+}partial_global_qualities;
 
 //typedef struct{
 //    double Z[DEP_GRID_DIM_MAX];
@@ -142,12 +161,10 @@ typedef struct{
 }sliceExtent;
 
 
-
-
-// assign values
 typedef struct{
-    double dep[LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX];
-}surfDepValues;
+    double dep[MAX_NUM_GLOBAL_SURFACES];
+    int nSurfDep;
+}partial_global_surface_depths;
 
 // get surface values
 //typedef struct{
@@ -156,14 +173,26 @@ typedef struct{
 
 typedef struct{
     int nSurf;
-    double surfDeps[MAX_NUM_GLOBAL_SURFACES];
-    int nLat[MAX_NUM_GLOBAL_SURFACES];
-    int nLon[MAX_NUM_GLOBAL_SURFACES];
-    double maxLat[MAX_NUM_GLOBAL_SURFACES], minLat[MAX_NUM_GLOBAL_SURFACES], maxLon[MAX_NUM_GLOBAL_SURFACES], minLon[MAX_NUM_GLOBAL_SURFACES];
-    double lati[MAX_NUM_GLOBAL_SURFACES][GLOBAL_SURF_IN_DIM_MAX];
-    double loni[MAX_NUM_GLOBAL_SURFACES][GLOBAL_SURF_IN_DIM_MAX];
-    double dep[MAX_NUM_GLOBAL_SURFACES][GLOBAL_SURF_IN_DIM_MAX][GLOBAL_SURF_IN_DIM_MAX];
+//    double surfDeps[MAX_NUM_GLOBAL_SURFACES];
+//    int nLat[MAX_NUM_GLOBAL_SURFACES];
+//    int nLon[MAX_NUM_GLOBAL_SURFACES];
+//    double maxLat[MAX_NUM_GLOBAL_SURFACES], minLat[MAX_NUM_GLOBAL_SURFACES], maxLon[MAX_NUM_GLOBAL_SURFACES], minLon[MAX_NUM_GLOBAL_SURFACES];
+//    double lati[MAX_NUM_GLOBAL_SURFACES][GLOBAL_SURF_IN_DIM_MAX];
+//    double loni[MAX_NUM_GLOBAL_SURFACES][GLOBAL_SURF_IN_DIM_MAX];
+//    double dep[MAX_NUM_GLOBAL_SURFACES][GLOBAL_SURF_IN_DIM_MAX][GLOBAL_SURF_IN_DIM_MAX];
+    global_surf_read *surf[MAX_NUM_GLOBAL_SURFACES];
 }global_surfaces;
+
+//typedef struct{
+//    int *nLat;
+//    int *nLon;
+//    double *maxLat, *minLat, *maxLon, *minLon;
+//    double *lati[GLOBAL_SURF_IN_DIM_MAX];
+//    double *loni[GLOBAL_SURF_IN_DIM_MAX];
+//    double *dep[GLOBAL_SURF_IN_DIM_MAX][GLOBAL_SURF_IN_DIM_MAX];
+//}surface_pointer;
+
+
 
 
 
@@ -199,6 +228,7 @@ typedef struct{
     char *veloSubMod[MAX_NUM_GLOBAL_SURFACES];
     int nVeloSubMod;
     char *veloMod1dFileName[MAX_NUM_1D_VELOCITY_MODELS];
+    char *tomographyName;
     
     // basin related parameters
     int nBasins;
@@ -234,19 +264,43 @@ typedef struct{
 //    int inBasinDep[MAX_NUM_BASINS][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX][DEP_GRID_DIM_MAX];
 //    double surfVals[MAX_NUM_BASINS][LON_GRID_DIM_MAX][LAT_GRID_DIM_MAX][NUM_SURF_DIM_MAX];
 
-    int nSurf[MAX_NUM_BASINS];
-    double surfDeps[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-    int nLat[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-    int nLon[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-    double maxLat[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-    double minLat[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-    double maxLon[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-    double minLon[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-    double lati[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES][BASIN_SURF_IN_DIM_MAX];
-    double loni[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES][BASIN_SURF_IN_DIM_MAX];
-    double dep[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES][BASIN_SURF_IN_DIM_MAX][BASIN_SURF_IN_DIM_MAX];
+//    int nSurf[MAX_NUM_BASINS];
+//    double surfDeps[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+//    int nLat[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+//    int nLon[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+//    double maxLat[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+//    double minLat[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+//    double maxLon[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+//    double minLon[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+//    double lati[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES][BASIN_SURF_IN_DIM_MAX];
+//    double loni[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES][BASIN_SURF_IN_DIM_MAX];
+//    double dep[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES][BASIN_SURF_IN_DIM_MAX][BASIN_SURF_IN_DIM_MAX];
+    
+    basin_surf_read *surf[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+    
+    // Boundaries
+    int boundaryNumPoints[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
+    double boundaryLat[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES][MAX_DIM_BOUNDARY_FILE];
+    double boundaryLon[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES][MAX_DIM_BOUNDARY_FILE];
+    double minLonBoundary[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
+    double maxLonBoundary[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
+    double minLatBoundary[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
+    double maxLatBoundary[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
+    
     
 }basin_data;
+
+typedef struct{
+    int inBasinLatLon[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
+    int inBasinDep[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES][DEP_GRID_DIM_MAX];
+}in_basin;
+
+typedef struct{
+    int dep[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
+    
+}partial_basin_surface_depths;
+
+
 
 
 // lat lon vector housing for slice extraction
@@ -278,7 +332,9 @@ typedef struct{
     int inCornerZone;
     int cornerLatInd;
     int cornerLonInd;
-}adjacentPointsStruct;
+}adjacent_points;
+
+
 
 // struct to hold slice parameters
 typedef struct{
@@ -296,14 +352,18 @@ typedef struct{
 typedef struct{
     int nSurf;
     double surfDeps[MAX_NUM_TOMO_SURFACES];
-    int nLat[MAX_NUM_TOMO_SURFACES];
-    int nLon[MAX_NUM_TOMO_SURFACES];
-    double maxLat[MAX_NUM_TOMO_SURFACES], minLat[MAX_NUM_TOMO_SURFACES], maxLon[MAX_NUM_TOMO_SURFACES], minLon[MAX_NUM_TOMO_SURFACES];
-    double lati[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX];
-    double loni[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX];
-    double Vp[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX][SURF_IN_DIM_MAX];
-    double Vs[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX][SURF_IN_DIM_MAX];
-    double Rho[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX][SURF_IN_DIM_MAX];
+    global_surf_read *surf[3][MAX_NUM_TOMO_SURFACES]; // 3 for Vp Vs and Rho
+
+    
+//    
+//    int nLat[MAX_NUM_TOMO_SURFACES];
+//    int nLon[MAX_NUM_TOMO_SURFACES];
+//    double maxLat[MAX_NUM_TOMO_SURFACES], minLat[MAX_NUM_TOMO_SURFACES], maxLon[MAX_NUM_TOMO_SURFACES], minLon[MAX_NUM_TOMO_SURFACES];
+//    double lati[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX_TOMO];
+//    double loni[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX_TOMO];
+//    double Vp[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX_TOMO][SURF_IN_DIM_MAX_TOMO];
+//    double Vs[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX_TOMO][SURF_IN_DIM_MAX_TOMO];
+//    double Rho[MAX_NUM_TOMO_SURFACES][SURF_IN_DIM_MAX_TOMO][SURF_IN_DIM_MAX_TOMO];
 }nz_tomography_data;
 
 

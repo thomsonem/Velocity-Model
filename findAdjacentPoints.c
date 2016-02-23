@@ -15,24 +15,25 @@
 #include "structs.h"
 #include "functions.h"
 
-adjacentPointsStruct *findAdjacentPoints(surfRead *surface, double lat, double lon)
+adjacent_points *findGlobalAdjacentPoints(global_surf_read *GLOBAL_SURF_READ, double lat, double lon)
 {
-    adjacentPointsStruct *points;
-    points = malloc(sizeof(adjacentPointsStruct));
+    adjacent_points *ADJACENT_POINTS;
+    ADJACENT_POINTS = malloc(sizeof(adjacent_points));
     
     int latAssignedFlag = 0;
     int lonAssignedFlag = 0;
-    points->inSurfaceBounds = 0;
-    for( int i = 0; i < surface->nLat; i++)
+    ADJACENT_POINTS->inSurfaceBounds = 0;
+        
+    for( int i = 0; i < GLOBAL_SURF_READ->nLat; i++)
     {
-        if(surface->lati[i] >= lat)
+        if(GLOBAL_SURF_READ->lati[i] >= lat)
         {
             if (i==0)
             {
                 break;
             }
-            points->latInd[0]= i-1;
-            points->latInd[1] = i;
+            ADJACENT_POINTS->latInd[0]= i-1;
+            ADJACENT_POINTS->latInd[1] = i;
             latAssignedFlag = 1;
             break;
             
@@ -40,48 +41,48 @@ adjacentPointsStruct *findAdjacentPoints(surfRead *surface, double lat, double l
     }
     if(latAssignedFlag == 0) // to account for some surface file vectors of lat long being ascending not descending
     {
-        for(int i = surface->nLat-1; i > 0; i--)
+        for(int i = GLOBAL_SURF_READ->nLat-1; i >= 0; i--)
         {
-            if(surface->lati[i] >= lat)
+            if(GLOBAL_SURF_READ->lati[i] >= lat)
             {
-                if (i==surface->nLat-1)
+                if (i==GLOBAL_SURF_READ->nLat-1)
                 {
                     break;
                 }
-                points->latInd[0]= i;
-                points->latInd[1] = i+1;
+                ADJACENT_POINTS->latInd[0]= i;
+                ADJACENT_POINTS->latInd[1] = i+1;
                 latAssignedFlag = 1;
                 break;
                 
             }
         }
     }
-    for( int j = 0; j < surface->nLon; j++)
+    for( int j = 0; j < GLOBAL_SURF_READ->nLon; j++)
     {
-        if(surface->loni[j] >= lon)
+        if(GLOBAL_SURF_READ->loni[j] >= lon)
         {
             if (j==0)
             {
                 break;
             }
-            points->lonInd[0] = j-1;
-            points->lonInd[1] = j;
+            ADJACENT_POINTS->lonInd[0] = j-1;
+            ADJACENT_POINTS->lonInd[1] = j;
             lonAssignedFlag = 1;
             break;
         }
     }
     if (lonAssignedFlag == 0)
     {
-        for( int j = surface->nLon-1; j > 0; j--)
+        for( int j = GLOBAL_SURF_READ->nLon-1; j >= 0; j--)
         {
-            if(surface->loni[j] >= lon)
+            if(GLOBAL_SURF_READ->loni[j] >= lon)
             {
-                if (j==surface->nLon-1)
+                if (j==GLOBAL_SURF_READ->nLon-1)
                 {
                     break;
                 }
-                points->lonInd[0] = j;
-                points->lonInd[1] = j+1;
+                ADJACENT_POINTS->lonInd[0] = j;
+                ADJACENT_POINTS->lonInd[1] = j+1;
                 lonAssignedFlag = 1;
                 break;
             }
@@ -90,68 +91,173 @@ adjacentPointsStruct *findAdjacentPoints(surfRead *surface, double lat, double l
     
     if((latAssignedFlag != 1)||(lonAssignedFlag !=1)) // if any indicies are unassigned
     {
-        points->inLatExtensionZone = 0;
-        points->inLonExtensionZone = 0;
-        points->inCornerZone = 0;
+        ADJACENT_POINTS->inLatExtensionZone = 0;
+        ADJACENT_POINTS->inLonExtensionZone = 0;
+        ADJACENT_POINTS->inCornerZone = 0;
         if((lonAssignedFlag == 1) && (latAssignedFlag == 0)) // longitude assigned
         {
             // check if point is within extended latitude limits
-            if((lat - surface->maxLat) <= MAX_LAT_SURFACE_EXTENSION && (lat >= surface->maxLat))
+            if((lat - GLOBAL_SURF_READ->maxLat) <= MAX_LAT_SURFACE_EXTENSION && (lat >= GLOBAL_SURF_READ->maxLat))
             {
-                points->inLatExtensionZone = 1;
-                findEdgeInds(surface, points,1);
+                ADJACENT_POINTS->inLatExtensionZone = 1;
+                findEdgeInds(GLOBAL_SURF_READ, ADJACENT_POINTS,1);
             }
-            else if((surface->minLat - lat) <= MAX_LAT_SURFACE_EXTENSION && (lat <= surface->minLat))
+            else if((GLOBAL_SURF_READ->minLat - lat) <= MAX_LAT_SURFACE_EXTENSION && (lat <= GLOBAL_SURF_READ->minLat))
             {
-                points->inLatExtensionZone = 1;
-                findEdgeInds(surface, points,3);
+                ADJACENT_POINTS->inLatExtensionZone = 1;
+                findEdgeInds(GLOBAL_SURF_READ, ADJACENT_POINTS,3);
             }
         }
         
         if((latAssignedFlag == 1) && (lonAssignedFlag == 0)) // latitude assigned
         {
             // check if the point is within extended longitude limits
-            if((surface->minLon - lon) <= MAX_LON_SURFACE_EXTENSION && (lon <= surface->minLon))
+            if((GLOBAL_SURF_READ->minLon - lon) <= MAX_LON_SURFACE_EXTENSION && (lon <= GLOBAL_SURF_READ->minLon))
             {
-                points->inLonExtensionZone = 1;
-                findEdgeInds(surface, points,4);
+                ADJACENT_POINTS->inLonExtensionZone = 1;
+                findEdgeInds(GLOBAL_SURF_READ, ADJACENT_POINTS,4);
 
             }
-            else if((lon - surface->maxLon) <= MAX_LON_SURFACE_EXTENSION && (lon >=surface->maxLon))
+            else if((lon - GLOBAL_SURF_READ->maxLon) <= MAX_LON_SURFACE_EXTENSION && (lon >=GLOBAL_SURF_READ->maxLon))
             {
-                points->inLonExtensionZone = 1;
-                findEdgeInds(surface, points,2);
+                ADJACENT_POINTS->inLonExtensionZone = 1;
+                findEdgeInds(GLOBAL_SURF_READ, ADJACENT_POINTS,2);
 
             }
         }
         
         // four cases for corner zones
-        if(((lat - surface->maxLat) <= MAX_LAT_SURFACE_EXTENSION) && ((surface->minLon - lon) <= MAX_LON_SURFACE_EXTENSION) && (lon <= surface->minLon) && (lat >= surface->maxLat))
+        if(((lat - GLOBAL_SURF_READ->maxLat) <= MAX_LAT_SURFACE_EXTENSION) && ((GLOBAL_SURF_READ->minLon - lon) <= MAX_LON_SURFACE_EXTENSION) && (lon <= GLOBAL_SURF_READ->minLon) && (lat >= GLOBAL_SURF_READ->maxLat))
         {
             // top left
-            findCornerInds(surface, surface->maxLat, surface->minLon, points);
+            findCornerInds(GLOBAL_SURF_READ, GLOBAL_SURF_READ->maxLat, GLOBAL_SURF_READ->minLon, ADJACENT_POINTS);
         }
-        else if (((lat - surface->maxLat) <= MAX_LAT_SURFACE_EXTENSION) && ((lon - surface->maxLon) <= MAX_LON_SURFACE_EXTENSION) && (lon >= surface->maxLon) && (lat >= surface->maxLat) )
+        else if (((lat - GLOBAL_SURF_READ->maxLat) <= MAX_LAT_SURFACE_EXTENSION) && ((lon - GLOBAL_SURF_READ->maxLon) <= MAX_LON_SURFACE_EXTENSION) && (lon >= GLOBAL_SURF_READ->maxLon) && (lat >= GLOBAL_SURF_READ->maxLat) )
         {
             // top right
-            findCornerInds(surface, surface->maxLat, surface->maxLon, points);
+            findCornerInds(GLOBAL_SURF_READ, GLOBAL_SURF_READ->maxLat, GLOBAL_SURF_READ->maxLon, ADJACENT_POINTS);
         }
-        else if (((surface->minLat - lat) <= MAX_LAT_SURFACE_EXTENSION) && ((surface->minLon - lon) <= MAX_LON_SURFACE_EXTENSION) && (lon <= surface->minLon) && (lat <= surface->minLat))
+        else if (((GLOBAL_SURF_READ->minLat - lat) <= MAX_LAT_SURFACE_EXTENSION) && ((GLOBAL_SURF_READ->minLon - lon) <= MAX_LON_SURFACE_EXTENSION) && (lon <= GLOBAL_SURF_READ->minLon) && (lat <= GLOBAL_SURF_READ->minLat))
         {
             // bottom left
-            findCornerInds(surface, surface->minLat, surface->minLon, points);
+            findCornerInds(GLOBAL_SURF_READ, GLOBAL_SURF_READ->minLat, GLOBAL_SURF_READ->minLon, ADJACENT_POINTS);
         }
-        else if (((surface->minLat - lat) <= MAX_LAT_SURFACE_EXTENSION) && ((lon - surface->maxLon) <= MAX_LON_SURFACE_EXTENSION) && (lon >= surface->maxLon) && (lat <= surface->minLat))
+        else if (((GLOBAL_SURF_READ->minLat - lat) <= MAX_LAT_SURFACE_EXTENSION) && ((lon - GLOBAL_SURF_READ->maxLon) <= MAX_LON_SURFACE_EXTENSION) && (lon >= GLOBAL_SURF_READ->maxLon) && (lat <= GLOBAL_SURF_READ->minLat))
         {
             // bottom right
-            findCornerInds(surface, surface->minLat, surface->maxLon, points);
+            findCornerInds(GLOBAL_SURF_READ, GLOBAL_SURF_READ->minLat, GLOBAL_SURF_READ->maxLon, ADJACENT_POINTS);
         }
     }
     else
     {
-        points->inSurfaceBounds = 1;
+        ADJACENT_POINTS->inSurfaceBounds = 1;
     }
     
-    return points;
+    return ADJACENT_POINTS;
 }
+
+
+
+
+void findEdgeInds(global_surf_read *GLOBAL_SURF_READ, adjacent_points *ADJACENT_POINTS, int edgeType)
+{
+    if (edgeType == 1)
+    {
+        if(GLOBAL_SURF_READ->maxLat == GLOBAL_SURF_READ->lati[0])
+        {
+            ADJACENT_POINTS->latEdgeInd = 0;
+        }
+        else if (GLOBAL_SURF_READ->maxLat == GLOBAL_SURF_READ->lati[GLOBAL_SURF_READ->nLat-1])
+        {
+            ADJACENT_POINTS->latEdgeInd = GLOBAL_SURF_READ->nLat-1;
+        }
+        else
+        {
+            printf("Error.\n");
+        }
+    }
+    else if (edgeType == 3)
+    {
+        if(GLOBAL_SURF_READ->minLat == GLOBAL_SURF_READ->lati[0])
+        {
+            ADJACENT_POINTS->latEdgeInd = 0;
+        }
+        else if (GLOBAL_SURF_READ->minLat == GLOBAL_SURF_READ->lati[GLOBAL_SURF_READ->nLat-1])
+        {
+            ADJACENT_POINTS->latEdgeInd = GLOBAL_SURF_READ->nLat-1;
+        }
+        else
+        {
+            printf("Error.\n");
+        }
+    }
+    else if (edgeType == 2)
+    {
+        if(GLOBAL_SURF_READ->maxLon == GLOBAL_SURF_READ->loni[0])
+        {
+            ADJACENT_POINTS->lonEdgeInd = 0;
+        }
+        else if (GLOBAL_SURF_READ->maxLon == GLOBAL_SURF_READ->loni[GLOBAL_SURF_READ->nLon-1])
+        {
+            ADJACENT_POINTS->lonEdgeInd = GLOBAL_SURF_READ->nLon-1;
+        }
+        else
+        {
+            printf("Error.\n");
+        }
+    }
+    else if (edgeType == 4)
+    {
+        if(GLOBAL_SURF_READ->minLon == GLOBAL_SURF_READ->loni[0])
+        {
+            ADJACENT_POINTS->lonEdgeInd = 0;
+        }
+        else if (GLOBAL_SURF_READ->minLon == GLOBAL_SURF_READ->loni[GLOBAL_SURF_READ->nLon-1])
+        {
+            ADJACENT_POINTS->lonEdgeInd = GLOBAL_SURF_READ->nLon-1;
+        }
+        else
+        {
+            printf("Error.\n");
+        }
+    }
+    else
+    {
+        printf("Error.\n");
+    }
+    
+}
+
+void findCornerInds(global_surf_read *GLOBAL_SURF_READ, double latPt, double lonPt, adjacent_points *ADJACENT_POINTS)
+{
+    if(latPt == GLOBAL_SURF_READ->lati[0])
+    {
+        ADJACENT_POINTS->cornerLatInd = 0;
+    }
+    else if (latPt == GLOBAL_SURF_READ->lati[GLOBAL_SURF_READ->nLat-1])
+    {
+        ADJACENT_POINTS->cornerLatInd = GLOBAL_SURF_READ->nLat-1;
+    }
+    else
+    {
+        printf("Error.\n");
+    }
+    
+    if(lonPt == GLOBAL_SURF_READ->loni[0])
+    {
+        ADJACENT_POINTS->cornerLonInd = 0;
+    }
+    else if (lonPt == GLOBAL_SURF_READ->loni[GLOBAL_SURF_READ->nLon-1])
+    {
+        ADJACENT_POINTS->cornerLonInd = GLOBAL_SURF_READ->nLon-1;
+    }
+    else
+    {
+        printf("Error.\n");
+    }
+    
+    ADJACENT_POINTS->inCornerZone = 1;
+    
+}
+
 

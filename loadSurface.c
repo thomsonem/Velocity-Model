@@ -186,7 +186,7 @@ basin_surf_read *loadBasinSurface(char *fileName)
     }
     
     firstLon = BASIN_SURF_READ->loni[0];
-    lastLon = BASIN_SURF_READ->loni[GLOBAL_SURF_READ->nLon-1];
+    lastLon = BASIN_SURF_READ->loni[BASIN_SURF_READ->nLon-1];
     
     if (firstLon >= lastLon)
     {
@@ -208,7 +208,7 @@ basin_surf_read *loadBasinSurface(char *fileName)
 }
 
 
-global_surfaces *loadGlobalSurfaceData(global_model_parameters *GLOBAL_MODEL_PARAMETERS)
+void loadGlobalSurfaceData(global_surfaces *GLOBAL_SURFACES, global_model_parameters *GLOBAL_MODEL_PARAMETERS)
 /*
  Purpose:   obtain the depths for all lat lon points for all desired surfaces
  
@@ -221,48 +221,13 @@ global_surfaces *loadGlobalSurfaceData(global_model_parameters *GLOBAL_MODEL_PAR
  */
 {
     // place global surfaces into struct
-    global_surfaces *GLOBAL_SURFACES;
-    GLOBAL_SURFACES = malloc(sizeof(global_surfaces));
-    
-    global_surf_read *GLOBAL_SURF_READ;
-    GLOBAL_SURF_READ = NULL;
+    GLOBAL_SURFACES->nSurf = GLOBAL_MODEL_PARAMETERS->nSurf;
     
     for(int i = 0; i < GLOBAL_MODEL_PARAMETERS->nSurf; i++)
     {
         // load surface and transfer data into global struct
-        GLOBAL_SURF_READ = loadGlobalSurface(GLOBAL_MODEL_PARAMETERS->globalSurfFilenames[i]);
-        
-        // place in surfGlob struct
-        GLOBAL_SURFACES->nLat[i] =  GLOBAL_SURF_READ->nLat;
-        GLOBAL_SURFACES->nLon[i] =  GLOBAL_SURF_READ->nLon;
-        GLOBAL_SURFACES->maxLat[i] =  GLOBAL_SURF_READ->maxLat;
-        GLOBAL_SURFACES->minLat[i] =  GLOBAL_SURF_READ->minLat;
-        GLOBAL_SURFACES->maxLon[i] =  GLOBAL_SURF_READ->maxLon;
-        GLOBAL_SURFACES->minLon[i] =  GLOBAL_SURF_READ->minLon;
-        
-        // latitude
-        for( int nLat = 0; nLat < GLOBAL_SURF_READ->nLat; nLat++)
-        {
-            GLOBAL_SURFACES->lati[i][nLat] = GLOBAL_SURF_READ->lati[nLat];
-        }
-        
-        // longitude
-        for( int nLon = 0; nLon < GLOBAL_SURF_READ->nLon; nLon++)
-        {
-            GLOBAL_SURFACES->loni[i][nLon] = GLOBAL_SURF_READ->loni[nLon];
-        }
-        
-        // depth
-        for( int nnLat = 0; nnLat < GLOBAL_SURF_READ->nLat; nnLat++)
-        {
-            for( int nnLon = 0; nnLon < GLOBAL_SURF_READ->nLon; nnLon++)
-            {
-                GLOBAL_SURFACES->dep[i][nnLon][nnLat] =  GLOBAL_SURF_READ->raster[nnLon][nnLat];
-            }
-        }
-        
+        GLOBAL_SURFACES->surf[i] = loadGlobalSurface(GLOBAL_MODEL_PARAMETERS->globalSurfFilenames[i]);
     }
-    return GLOBAL_SURFACES;
 }
 
 

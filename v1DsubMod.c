@@ -16,7 +16,7 @@
 #include "functions.h"
 
 
-void v1DsubMod(int xInd, int yInd, int zInd, globalDataValues *globalValues, gridStruct *location, velo1D *subModel1D)
+void v1DsubMod(int zInd, double dep, qualities_vector *QUALITIES_VECTOR, velo_mod_1d_data *VELO_MOD_1D_DATA)
 /*
  Purpose:   calculate the rho vp and vs values at a single lat long point for all the depths within this velocity submodel
  
@@ -32,39 +32,77 @@ void v1DsubMod(int xInd, int yInd, int zInd, globalDataValues *globalValues, gri
  */
 {
     // loop over depth values and assign qualities from the sub-model
-    for(int j = 0; j < subModel1D->nDep; j++)
+    for(int j = 0; j < VELO_MOD_1D_DATA->nDep; j++)
     {
-        if(location->Z[zInd] >= subModel1D->Dep[j]*-1000) // convert to meters, -ve being downwards
+        if(dep >= VELO_MOD_1D_DATA->Dep[j]*-1000) // convert to meters, -ve being downwards
         {
-            globalValues->Rho[xInd][yInd][zInd] = subModel1D->Rho[j];
-            globalValues->Vp[xInd][yInd][zInd] = subModel1D->Vp[j];
-            globalValues->Vs[xInd][yInd][zInd] = subModel1D->Vs[j];
+            QUALITIES_VECTOR->Rho[zInd] = VELO_MOD_1D_DATA->Rho[j];
+            QUALITIES_VECTOR->Vp[zInd] = VELO_MOD_1D_DATA->Vp[j];
+            QUALITIES_VECTOR->Vs[zInd] = VELO_MOD_1D_DATA->Vs[j];
             break;
         }
-        if(j == subModel1D->nDep)
+        if(j == VELO_MOD_1D_DATA->nDep)
         {
             printf("Error: Depth point below the extent represented in the 1D velocity model file.\n");
         }
     }
 }
 
-velo1D *loadv1DsubMod(void)
+
+
+void load1dVeloSubModel(char *fileName, velo_mod_1d_data *VELO_MOD_1D_DATA)
 /*
- Purpose:   read in the 1D velocity model dataset
+ Purpose:   load a 1D velocity submodel into memory
  
  Input variables:
- N.A.
+ *fileName  - pointer to the filename to open and read
  
  Output variables:
- subModel1D - (malloc'd) pointer to the 1D velocity sub-model data
- 
+ velo1D     - (malloc'd) pointer to the velocity sub-model
  */
 {
-    char *fileName;
-    fileName = "Data/1D_Velocity_Model/Cant1D_v1.fd_modfile";
-    velo1D *subModel1D = NULL;
-    subModel1D = load1dVeloSubModel(fileName);
-    printf("Completed Read of 1D Velocity Model Data\n");
-    return subModel1D;
+    FILE *file;
+    
+    char fNameDir[128];
+    sprintf(fNameDir,"Data/1D_Velocity_Model/%s",fileName);
+    
+    file = fopen(fNameDir, "r");
+    if (file == NULL)
+    {
+        perror("Error");
+    }
+    char tempA[10], tempB[10];
+    fscanf(file, "%s %s", tempA, tempB); // header line (discard)
+    int i = 0;
+    while(!feof(file))
+    {
+        fscanf(file, "%lf %lf %lf %s %s %lf", &VELO_MOD_1D_DATA->Vp[i], &VELO_MOD_1D_DATA->Vs[i], &VELO_MOD_1D_DATA->Rho[i], tempA, tempB, &VELO_MOD_1D_DATA->Dep[i]);
+        i += 1;
+    }
+    VELO_MOD_1D_DATA->nDep = i;
+    fclose(file);
+
 }
+
+
+//velo1D *loadv1DsubMod(void)
+///*
+// Purpose:   read in the 1D velocity model dataset
+//
+// Input variables:
+// N.A.
+//
+// Output variables:
+// subModel1D - (malloc'd) pointer to the 1D velocity sub-model data
+//
+// */
+//{
+//    char *fileName;
+//    fileName = "Data/1D_Velocity_Model/Cant1D_v1.fd_modfile";
+//    velo1D *subModel1D = NULL;
+//    subModel1D = load1dVeloSubModel(fileName);
+//    printf("Completed Read of 1D Velocity Model Data\n");
+//    return subModel1D;
+//}
+
 

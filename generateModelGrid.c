@@ -108,7 +108,7 @@ global_mesh *generateFullModelGrid(model_extent MODEL_EXTENT)
         GLOBAL_MESH->Z[iz] = -1000*Z[iz]; // convert to m (below ground is negative)
     }
     printf("Completed Generation of Model Grid.\n");
-    return *GLOBAL_MESH;
+    return GLOBAL_MESH;
 }
 
 

@@ -17,7 +17,7 @@
 #define SUB_MOD_DIM_MAX 50 // maximum number of entries in the 1d sub model arrays
 #define MAX_NUM_BASINS 2 // the maxinum number of basins
 #define MAX_NUM_GLOBAL_SURFACES 4 // the maxinum number of global (Full domain) surfaces
-#define MAX_NUM_BASIN_SURFACES 9 // the maximum number of basin surfaces
+#define MAX_NUM_BASIN_SURFACES 12 // the maximum number of basin surfaces
 #define MAX_NUM_1D_VELOCITY_MODELS 1 // the maximum number of 1D velocity models
 #define MAX_NUM_BASIN_BOUNDARIES 3 // the maximum number of boundaries per velocity model
 
@@ -28,6 +28,7 @@
 #define MAX_NUM_SLICE_GRIDPTS 5000 // the maximum number of grid points for slice extraction
 #define MAX_NUM_SLICE_PIVOTS 4
 #define MAX_NUM_TOMO_SURFACES 21 // the maximun number of Tomography surfaces able to be loaded
+#define SURF_IN_DIM_MAX_TOMO 1200 // maximum dimension of tomography surfaces
 #define MAX_NUM_GLOBAL_SURFACES 4 // the maximum number of full domain (global) surfaces
 #define EARTH_RADIUS_MEAN 6371.0071
 #define MAX_NUM_SLICES 15 // the maximum number of slices

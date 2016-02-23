@@ -29,34 +29,78 @@ global_model_parameters *getGlobalModelParameters(double modelVersion)
     global_model_parameters *GLOBAL_MODEL_PARAMETERS;
     GLOBAL_MODEL_PARAMETERS = malloc(sizeof(global_model_parameters));
 
-    
-//    fileName = "Data/Global_Surfaces/posInf.in";
-//}
-//else if(strcmp(GLOBAL_MODEL_PARAMETERS->surf[i], "negInfSurf") == 0)
-//{
-//    fileName = "Data/Global_Surfaces/negInf.in";
-//}
-//else if(strcmp(GLOBAL_MODEL_PARAMETERS->surf[i], "basementRockSurf") == 0)
-//{
-//    fileName ="Data/Canterbury_Basin/Pre_Quaternary/BasementTop.in";
-//}
-//else if(strcmp(GLOBAL_MODEL_PARAMETERS->surf[i], "demSurf") == 0)
-//{
-//    fileName = "Data/DEM/DEM.in";
-//}
-//else
 
-//    char *basin[MAX_NUM_BASINS];
-//    char *basinSurfFilenames[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-//    char *basinSurfaceNames[MAX_NUM_BASINS][MAX_NUM_BASIN_SURFACES];
-//    int nBasinSurfaces[MAX_NUM_BASINS];
-//    int nBasinBoundaries[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
-//    char *basinBoundaryFilenames[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
-//    char *basinBoundaryNames[MAX_NUM_BASINS][MAX_NUM_BASIN_BOUNDARIES];
-//    int nBasin;
+    if(modelVersion == 0.01)
+    {
+        // define the number of surfaces and sub models
+        GLOBAL_MODEL_PARAMETERS->nSurf = 2;
+        GLOBAL_MODEL_PARAMETERS->nVeloSubMod = 1;
+        
+        // insert surface surface keywords and filenames
+        GLOBAL_MODEL_PARAMETERS->surf[0] = "posInfSurf";
+        GLOBAL_MODEL_PARAMETERS->globalSurfFilenames[0] = "Data/Global_Surfaces/posInf.in";
+        GLOBAL_MODEL_PARAMETERS->surf[1] = "negInfSurf";
+        GLOBAL_MODEL_PARAMETERS->globalSurfFilenames[1] = "Data/Global_Surfaces/negInf.in";
 
+        
+        // insert velocity submodel keywords and filenames (if necessary)
+        GLOBAL_MODEL_PARAMETERS->veloSubMod[0] = "v1DsubMod";
+        GLOBAL_MODEL_PARAMETERS->veloMod1dFileName[0] = "Cant1D_v1.fd_modfile";
+
+        
+        GLOBAL_MODEL_PARAMETERS->nBasins = 0;
+
+    }
+    else if(modelVersion == 0.02)
+    {
+        // define the number of surfaces and sub models
+        GLOBAL_MODEL_PARAMETERS->nSurf = 2;
+        GLOBAL_MODEL_PARAMETERS->nVeloSubMod = 1;
+        
+        // insert surface surface keywords and filenames
+        GLOBAL_MODEL_PARAMETERS->surf[0] = "posInfSurf";
+        GLOBAL_MODEL_PARAMETERS->globalSurfFilenames[0] = "Data/Global_Surfaces/posInf.in";
+        GLOBAL_MODEL_PARAMETERS->surf[1] = "negInfSurf";
+        GLOBAL_MODEL_PARAMETERS->globalSurfFilenames[1] = "Data/Global_Surfaces/negInf.in";
+        
+        
+        // insert velocity submodel keywords and filenames (if necessary)
+        GLOBAL_MODEL_PARAMETERS->veloSubMod[0] = "EPtomo2010subMod";
+        GLOBAL_MODEL_PARAMETERS->tomographyName = "2010_Full_South_Island";
+        
+        
+        
+        GLOBAL_MODEL_PARAMETERS->nBasins = 0;
+        
+    }
+    else if(modelVersion == 0.03)
+    {
+        // define the number of surfaces and sub models
+        GLOBAL_MODEL_PARAMETERS->nSurf = 3;
+        GLOBAL_MODEL_PARAMETERS->nVeloSubMod = 2;
+        
+        // insert surface surface keywords and filenames
+        GLOBAL_MODEL_PARAMETERS->surf[0] = "posInfSurf";
+        GLOBAL_MODEL_PARAMETERS->globalSurfFilenames[0] = "Data/Global_Surfaces/posInf.in";
+        GLOBAL_MODEL_PARAMETERS->surf[1] = "negInfSurf";
+        GLOBAL_MODEL_PARAMETERS->globalSurfFilenames[1] = "Data/Global_Surfaces/BasementTop.in";
+        GLOBAL_MODEL_PARAMETERS->surf[2] = "negInfSurf";
+        GLOBAL_MODEL_PARAMETERS->globalSurfFilenames[2] = "Data/Global_Surfaces/negInf.in";
+        
+        
+        // insert velocity submodel keywords and filenames (if necessary)
+        GLOBAL_MODEL_PARAMETERS->veloSubMod[0] = "v1DsubMod";
+        GLOBAL_MODEL_PARAMETERS->veloMod1dFileName[0] = "Cant1D_v1.fd_modfile";
+        GLOBAL_MODEL_PARAMETERS->veloSubMod[1] = "EPtomo2010subMod";
+        GLOBAL_MODEL_PARAMETERS->tomographyName = "2010_Full_South_Island";
+        
+        
+        
+        GLOBAL_MODEL_PARAMETERS->nBasins = 0;
+        
+    }
     // Model Version 0.1, 1D velocity sub Model
-    if(modelVersion == 0.1)
+    else if(modelVersion == 0.11)
     {
         // define the number of surfaces and sub models
         GLOBAL_MODEL_PARAMETERS->nSurf = 2;
@@ -84,7 +128,7 @@ global_model_parameters *getGlobalModelParameters(double modelVersion)
         
         GLOBAL_MODEL_PARAMETERS->basinSurfaceNames[0][0] = "DEM";
         GLOBAL_MODEL_PARAMETERS->basinSurfaceFilenames[0][0] = "Data/DEM/DEM.in";
-        GLOBAL_MODEL_PARAMETERS->basinBoundaryNumber[0][0] = 0;
+        GLOBAL_MODEL_PARAMETERS->basinBoundaryNumber[0][0] = 1;
         GLOBAL_MODEL_PARAMETERS->basinSubModelNames[0][0] = "Above_RIC";
         
         GLOBAL_MODEL_PARAMETERS->basinSurfaceNames[0][1] = "RiccartonTop";
@@ -124,7 +168,7 @@ global_model_parameters *getGlobalModelParameters(double modelVersion)
         
         GLOBAL_MODEL_PARAMETERS->basinSurfaceNames[0][8] = "PlioceneTop";
         GLOBAL_MODEL_PARAMETERS->basinSurfaceFilenames[0][8] = "Data/Canterbury_Basin/Pre_Quaternary/PlioceneTop.in";
-        GLOBAL_MODEL_PARAMETERS->basinBoundaryNumber[0][8] = 8;
+        GLOBAL_MODEL_PARAMETERS->basinBoundaryNumber[0][8] = 1;
         GLOBAL_MODEL_PARAMETERS->basinSubModelNames[0][8] = "Pliocene";
         
         GLOBAL_MODEL_PARAMETERS->basinSurfaceNames[0][9] = "MioceneTop";
@@ -162,7 +206,7 @@ global_model_parameters *getGlobalModelParameters(double modelVersion)
         
     }
     // Model Version 0.2, EP Tomography
-    if(modelVersion == 0.2)
+    else if(modelVersion == 0.2)
     {
         // define the number of surfaces and sub models
         GLOBAL_MODEL_PARAMETERS->nSurf = 2;
@@ -588,12 +632,14 @@ global_model_parameters *getGlobalModelParameters(double modelVersion)
         printf("Invalid velocity model version number.\n");
     }
     
+    // Assertions
     assert(GLOBAL_MODEL_PARAMETERS->nSurf==(GLOBAL_MODEL_PARAMETERS->nVeloSubMod+1));
     assert(GLOBAL_MODEL_PARAMETERS->nSurf<=(MAX_NUM_GLOBAL_SURFACES));
     assert(GLOBAL_MODEL_PARAMETERS->nBasins<=(MAX_NUM_BASINS));
     for (int i = 0; i < GLOBAL_MODEL_PARAMETERS->nBasins; i++)
     {
         assert(GLOBAL_MODEL_PARAMETERS->nBasinSurfaces[i]<=(MAX_NUM_BASIN_SURFACES));
+        assert(GLOBAL_MODEL_PARAMETERS->nBasinBoundaries[i] <=(MAX_NUM_BASIN_BOUNDARIES)) ;
     }
     printf("Global Model Parameters Obtained.\n");
     return GLOBAL_MODEL_PARAMETERS;

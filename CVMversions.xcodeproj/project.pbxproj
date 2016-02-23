@@ -12,7 +12,6 @@
 		8C30C0FA1AE71DCE0008C943 /* basementRockSurf.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0D91AE71DCE0008C943 /* basementRockSurf.c */; };
 		8C30C0FB1AE71DCE0008C943 /* basinSubModels.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0DA1AE71DCE0008C943 /* basinSubModels.c */; };
 		8C30C0FC1AE71DCE0008C943 /* calculateSurfaceLatLonIndex.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0DB1AE71DCE0008C943 /* calculateSurfaceLatLonIndex.c */; };
-		8C30C0FD1AE71DCE0008C943 /* determineIfWithinBasinLatLon.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0DC1AE71DCE0008C943 /* determineIfWithinBasinLatLon.c */; };
 		8C30C0FE1AE71DCE0008C943 /* determineSurfaceDepths.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0DD1AE71DCE0008C943 /* determineSurfaceDepths.c */; };
 		8C30C0FF1AE71DCE0008C943 /* enforceSurfaceDepths.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0DE1AE71DCE0008C943 /* enforceSurfaceDepths.c */; };
 		8C30C1001AE71DCE0008C943 /* EPtomo2010subMod.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0DF1AE71DCE0008C943 /* EPtomo2010subMod.c */; };
@@ -21,13 +20,10 @@
 		8C30C1031AE71DCE0008C943 /* generateLatLonForPlotting.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0E21AE71DCE0008C943 /* generateLatLonForPlotting.c */; };
 		8C30C1041AE71DCE0008C943 /* generateModelGrid.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0E31AE71DCE0008C943 /* generateModelGrid.c */; };
 		8C30C1051AE71DCE0008C943 /* generateProfile.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0E41AE71DCE0008C943 /* generateProfile.c */; };
-		8C30C1061AE71DCE0008C943 /* generateSurfaceVectors.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0E51AE71DCE0008C943 /* generateSurfaceVectors.c */; };
 		8C30C1071AE71DCE0008C943 /* getSurfaceValues.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0E61AE71DCE0008C943 /* getSurfaceValues.c */; };
 		8C30C1081AE71DCE0008C943 /* getSurfSubModNames.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0E71AE71DCE0008C943 /* getSurfSubModNames.c */; };
 		8C30C1091AE71DCE0008C943 /* linearInterpolation.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0E81AE71DCE0008C943 /* linearInterpolation.c */; };
-		8C30C10A1AE71DCE0008C943 /* load1dVeloSubModel.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0E91AE71DCE0008C943 /* load1dVeloSubModel.c */; };
 		8C30C10B1AE71DCE0008C943 /* loadBasins.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0EA1AE71DCE0008C943 /* loadBasins.c */; };
-		8C30C10C1AE71DCE0008C943 /* loadBoundary.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0EB1AE71DCE0008C943 /* loadBoundary.c */; };
 		8C30C10D1AE71DCE0008C943 /* loadCanterburyBasin.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0EC1AE71DCE0008C943 /* loadCanterburyBasin.c */; };
 		8C30C10E1AE71DCE0008C943 /* loadSurface.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0ED1AE71DCE0008C943 /* loadSurface.c */; };
 		8C30C10F1AE71DCE0008C943 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0EE1AE71DCE0008C943 /* main.c */; };
@@ -42,7 +38,6 @@
 		8C30C1181AE71DCE0008C943 /* writeCVMData.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0F71AE71DCE0008C943 /* writeCVMData.c */; };
 		8C30C1191AE71DCE0008C943 /* writeLatLonData.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C0F81AE71DCE0008C943 /* writeLatLonData.c */; };
 		8C30C1261AE8C6FC0008C943 /* BrocherCorrelations.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C30C1251AE8C6FC0008C943 /* BrocherCorrelations.c */; };
-		8C57A0E51B1D7A0700AB096A /* findClosestPoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C57A0E41B1D7A0700AB096A /* findClosestPoint.c */; };
 		8CC060631B38DCF50008865B /* writeLogFiles.c in Sources */ = {isa = PBXBuildFile; fileRef = 8CC060621B38DCF50008865B /* writeLogFiles.c */; };
 		8CC060651B38F2270008865B /* readSliceParameters.c in Sources */ = {isa = PBXBuildFile; fileRef = 8CC060641B38F2270008865B /* readSliceParameters.c */; };
 		8CCF2F7E1B005DB700ED990E /* writeGridPoints.c in Sources */ = {isa = PBXBuildFile; fileRef = 8CCF2F7D1B005DB700ED990E /* writeGridPoints.c */; };
@@ -71,7 +66,6 @@
 		8C30C0D91AE71DCE0008C943 /* basementRockSurf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = basementRockSurf.c; sourceTree = "<group>"; };
 		8C30C0DA1AE71DCE0008C943 /* basinSubModels.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = basinSubModels.c; sourceTree = "<group>"; };
 		8C30C0DB1AE71DCE0008C943 /* calculateSurfaceLatLonIndex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = calculateSurfaceLatLonIndex.c; sourceTree = "<group>"; };
-		8C30C0DC1AE71DCE0008C943 /* determineIfWithinBasinLatLon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = determineIfWithinBasinLatLon.c; sourceTree = "<group>"; };
 		8C30C0DD1AE71DCE0008C943 /* determineSurfaceDepths.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = determineSurfaceDepths.c; sourceTree = "<group>"; };
 		8C30C0DE1AE71DCE0008C943 /* enforceSurfaceDepths.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = enforceSurfaceDepths.c; sourceTree = "<group>"; };
 		8C30C0DF1AE71DCE0008C943 /* EPtomo2010subMod.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = EPtomo2010subMod.c; sourceTree = "<group>"; };
@@ -80,13 +74,10 @@
 		8C30C0E21AE71DCE0008C943 /* generateLatLonForPlotting.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = generateLatLonForPlotting.c; sourceTree = "<group>"; };
 		8C30C0E31AE71DCE0008C943 /* generateModelGrid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = generateModelGrid.c; sourceTree = "<group>"; };
 		8C30C0E41AE71DCE0008C943 /* generateProfile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = generateProfile.c; sourceTree = "<group>"; };
-		8C30C0E51AE71DCE0008C943 /* generateSurfaceVectors.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = generateSurfaceVectors.c; sourceTree = "<group>"; };
 		8C30C0E61AE71DCE0008C943 /* getSurfaceValues.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = getSurfaceValues.c; sourceTree = "<group>"; };
 		8C30C0E71AE71DCE0008C943 /* getSurfSubModNames.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = getSurfSubModNames.c; sourceTree = "<group>"; };
 		8C30C0E81AE71DCE0008C943 /* linearInterpolation.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = linearInterpolation.c; sourceTree = "<group>"; };
-		8C30C0E91AE71DCE0008C943 /* load1dVeloSubModel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = load1dVeloSubModel.c; sourceTree = "<group>"; };
 		8C30C0EA1AE71DCE0008C943 /* loadBasins.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = loadBasins.c; sourceTree = "<group>"; };
-		8C30C0EB1AE71DCE0008C943 /* loadBoundary.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = loadBoundary.c; sourceTree = "<group>"; };
 		8C30C0EC1AE71DCE0008C943 /* loadCanterburyBasin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = loadCanterburyBasin.c; sourceTree = "<group>"; };
 		8C30C0ED1AE71DCE0008C943 /* loadSurface.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = loadSurface.c; sourceTree = "<group>"; };
 		8C30C0EE1AE71DCE0008C943 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
@@ -104,7 +95,6 @@
 		8C30C1271AE8DE330008C943 /* Holder */ = {isa = PBXFileReference; lastKnownFileType = text; path = Holder; sourceTree = "<group>"; };
 		8C30C1281AE8DE330008C943 /* Make */ = {isa = PBXFileReference; lastKnownFileType = text; path = Make; sourceTree = "<group>"; };
 		8C30C1291AE9B9810008C943 /* Build */ = {isa = PBXFileReference; lastKnownFileType = text; path = Build; sourceTree = "<group>"; };
-		8C57A0E41B1D7A0700AB096A /* findClosestPoint.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = findClosestPoint.c; sourceTree = "<group>"; };
 		8CC060621B38DCF50008865B /* writeLogFiles.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = writeLogFiles.c; sourceTree = "<group>"; };
 		8CC060641B38F2270008865B /* readSliceParameters.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = readSliceParameters.c; sourceTree = "<group>"; };
 		8CCF2F7D1B005DB700ED990E /* writeGridPoints.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = writeGridPoints.c; sourceTree = "<group>"; };
@@ -171,7 +161,6 @@
 		8C30C11F1AE735C30008C943 /* Velocity Sub-Models */ = {
 			isa = PBXGroup;
 			children = (
-				8C30C0E91AE71DCE0008C943 /* load1dVeloSubModel.c */,
 				8C30C0F01AE71DCE0008C943 /* NaNsubMod.c */,
 				8C30C0DF1AE71DCE0008C943 /* EPtomo2010subMod.c */,
 				8C30C0F61AE71DCE0008C943 /* v1DsubMod.c */,
@@ -205,8 +194,6 @@
 			children = (
 				8C30C0EA1AE71DCE0008C943 /* loadBasins.c */,
 				8C30C0EC1AE71DCE0008C943 /* loadCanterburyBasin.c */,
-				8C30C0EB1AE71DCE0008C943 /* loadBoundary.c */,
-				8C30C0DC1AE71DCE0008C943 /* determineIfWithinBasinLatLon.c */,
 				8C30C0DA1AE71DCE0008C943 /* basinSubModels.c */,
 			);
 			name = "Canterbury Basin";
@@ -218,7 +205,6 @@
 				8CC060621B38DCF50008865B /* writeLogFiles.c */,
 				8C30C0E61AE71DCE0008C943 /* getSurfaceValues.c */,
 				8C30C1251AE8C6FC0008C943 /* BrocherCorrelations.c */,
-				8C30C0E51AE71DCE0008C943 /* generateSurfaceVectors.c */,
 				8C30C0E31AE71DCE0008C943 /* generateModelGrid.c */,
 				8C30C0E11AE71DCE0008C943 /* findSubVeloModelInd.c */,
 				8C30C0DE1AE71DCE0008C943 /* enforceSurfaceDepths.c */,
@@ -227,7 +213,6 @@
 				8CC060641B38F2270008865B /* readSliceParameters.c */,
 				8C30C0E01AE71DCE0008C943 /* findAdjacentPoints.c */,
 				8C1739251BF958AE00BBE7DD /* extractPartialMesh.c */,
-				8C57A0E41B1D7A0700AB096A /* findClosestPoint.c */,
 				8C30C0E81AE71DCE0008C943 /* linearInterpolation.c */,
 				8C30C0ED1AE71DCE0008C943 /* loadSurface.c */,
 				8C30C0EF1AE71DCE0008C943 /* mathFunctions.c */,
@@ -273,7 +258,7 @@
 		8C1F225A1952831A00D51835 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Dept. Civil Engineering";
 			};
 			buildConfigurationList = 8C1F225D1952831A00D51835 /* Build configuration list for PBXProject "CVMversions" */;
@@ -302,12 +287,10 @@
 				8CCF2F7E1B005DB700ED990E /* writeGridPoints.c in Sources */,
 				8C30C0F91AE71DCE0008C943 /* assignValues.c in Sources */,
 				8C30C1151AE71DCE0008C943 /* posInfSurf.c in Sources */,
-				8C30C10A1AE71DCE0008C943 /* load1dVeloSubModel.c in Sources */,
 				8C30C1121AE71DCE0008C943 /* negInfSurf.c in Sources */,
 				8C30C1141AE71DCE0008C943 /* pointInPoly.c in Sources */,
 				8C30C0FB1AE71DCE0008C943 /* basinSubModels.c in Sources */,
 				8C30C1101AE71DCE0008C943 /* mathFunctions.c in Sources */,
-				8C30C10C1AE71DCE0008C943 /* loadBoundary.c in Sources */,
 				8C1739261BF958AE00BBE7DD /* extractPartialMesh.c in Sources */,
 				8C30C1191AE71DCE0008C943 /* writeLatLonData.c in Sources */,
 				8C30C10F1AE71DCE0008C943 /* main.c in Sources */,
@@ -316,7 +299,6 @@
 				8C30C1181AE71DCE0008C943 /* writeCVMData.c in Sources */,
 				8C30C1161AE71DCE0008C943 /* sliceFunctions.c in Sources */,
 				8C30C1081AE71DCE0008C943 /* getSurfSubModNames.c in Sources */,
-				8C30C0FD1AE71DCE0008C943 /* determineIfWithinBasinLatLon.c in Sources */,
 				8C30C1261AE8C6FC0008C943 /* BrocherCorrelations.c in Sources */,
 				8C30C1171AE71DCE0008C943 /* v1DsubMod.c in Sources */,
 				8C30C0FA1AE71DCE0008C943 /* basementRockSurf.c in Sources */,
@@ -336,8 +318,6 @@
 				8C30C10D1AE71DCE0008C943 /* loadCanterburyBasin.c in Sources */,
 				8C30C0FE1AE71DCE0008C943 /* determineSurfaceDepths.c in Sources */,
 				8C30C1021AE71DCE0008C943 /* findSubVeloModelInd.c in Sources */,
-				8C57A0E51B1D7A0700AB096A /* findClosestPoint.c in Sources */,
-				8C30C1061AE71DCE0008C943 /* generateSurfaceVectors.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,6 +341,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
